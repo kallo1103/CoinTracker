@@ -38,7 +38,7 @@ export default function PriceChart({ symbol = 'BTC', days = 30, type = 'area' }:
           setError(result.error);
         }
       } catch (err) {
-        setError('Lỗi khi tải dữ liệu');
+        setError('Error loading data');
         console.error(err);
       } finally {
         setLoading(false);

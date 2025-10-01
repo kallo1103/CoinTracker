@@ -9,26 +9,26 @@ export default function DashboardPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  // Redirect về trang chủ nếu chưa đăng nhập
+  // Redirect to home if not authenticated
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/");
     }
   }, [status, router]);
 
-  // Hiển thị loading khi đang kiểm tra session
+  // Show loading while checking session
   if (status === "loading") {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
         <div className="text-center">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600 mb-4"></div>
-          <p className="text-gray-600 font-medium">Đang tải...</p>
+          <p className="text-gray-600 font-medium">Loading...</p>
         </div>
       </div>
     );
   }
 
-  // Không hiển thị gì nếu chưa đăng nhập (sẽ redirect)
+  // Do not render if not authenticated (redirect will occur)
   if (!session) {
     return null;
   }
@@ -36,24 +36,24 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
-        {/* Header với welcome message */}
+        {/* Header with welcome message */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            🎉 Chào mừng đến với Dashboard!
+            🎉 Welcome to the Dashboard!
           </h1>
           <p className="text-gray-600">
-            Bạn đã đăng nhập thành công vào hệ thống
+            You have successfully logged in
           </p>
         </div>
 
-        {/* Card thông tin user */}
+        {/* User info card */}
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
-          {/* Header card với gradient */}
+          {/* Header card with gradient */}
           <div className="bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-6">
-            <h2 className="text-2xl font-bold text-white">Thông tin tài khoản</h2>
+            <h2 className="text-2xl font-bold text-white">Account Information</h2>
           </div>
 
-          {/* Nội dung card */}
+          {/* Card content */}
           <div className="p-8">
             <div className="flex flex-col sm:flex-row items-center gap-6">
               {/* Avatar */}
@@ -78,10 +78,10 @@ export default function DashboardPage() {
                 </div>
               </div>
 
-              {/* Thông tin chi tiết */}
+              {/* Detailed information */}
               <div className="flex-1 text-center sm:text-left">
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                  {session.user?.name || "Người dùng"}
+                  {session.user?.name || "User"}
                 </h3>
                 <p className="text-gray-600 mb-4 flex items-center justify-center sm:justify-start gap-2">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -90,14 +90,14 @@ export default function DashboardPage() {
                   {session.user?.email}
                 </p>
 
-                {/* Stats hoặc info bổ sung */}
+                {/* Additional stats or info */}
                 <div className="flex gap-4 justify-center sm:justify-start">
                   <div className="bg-indigo-50 px-4 py-2 rounded-lg">
-                    <p className="text-xs text-indigo-600 font-medium">Trạng thái</p>
-                    <p className="text-sm font-bold text-indigo-900">Hoạt động</p>
+                    <p className="text-xs text-indigo-600 font-medium">Status</p>
+                    <p className="text-sm font-bold text-indigo-900">Active</p>
                   </div>
                   <div className="bg-purple-50 px-4 py-2 rounded-lg">
-                    <p className="text-xs text-purple-600 font-medium">Loại tài khoản</p>
+                    <p className="text-xs text-purple-600 font-medium">Account Type</p>
                     <p className="text-sm font-bold text-purple-900">Premium</p>
                   </div>
                 </div>
@@ -114,8 +114,8 @@ export default function DashboardPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
             </div>
-            <h3 className="font-bold text-gray-900 mb-1">Hồ sơ</h3>
-            <p className="text-sm text-gray-600">Quản lý thông tin cá nhân</p>
+            <h3 className="font-bold text-gray-900 mb-1">Profile</h3>
+            <p className="text-sm text-gray-600">Manage personal information</p>
           </div>
 
           <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer border-2 border-transparent hover:border-indigo-200">
@@ -125,8 +125,8 @@ export default function DashboardPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
             </div>
-            <h3 className="font-bold text-gray-900 mb-1">Cài đặt</h3>
-            <p className="text-sm text-gray-600">Tùy chỉnh tài khoản</p>
+            <h3 className="font-bold text-gray-900 mb-1">Settings</h3>
+            <p className="text-sm text-gray-600">Customize account</p>
           </div>
 
           <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer border-2 border-transparent hover:border-indigo-200">
@@ -135,8 +135,8 @@ export default function DashboardPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
               </svg>
             </div>
-            <h3 className="font-bold text-gray-900 mb-1">Thống kê</h3>
-            <p className="text-sm text-gray-600">Xem hoạt động của bạn</p>
+            <h3 className="font-bold text-gray-900 mb-1">Statistics</h3>
+            <p className="text-sm text-gray-600">View your activity</p>
           </div>
         </div>
 
@@ -146,18 +146,18 @@ export default function DashboardPage() {
             onClick={() => router.push("/")}
             className="px-8 py-3 bg-white text-indigo-600 rounded-lg font-medium hover:bg-indigo-50 transition-colors shadow-md hover:shadow-lg border-2 border-indigo-200"
           >
-            ← Về trang chủ
+            ← Back to Home
           </button>
           
           <button
             onClick={() => signOut({ callbackUrl: "/" })}
             className="px-8 py-3 bg-gradient-to-r from-red-500 to-pink-500 text-white rounded-lg font-medium hover:from-red-600 hover:to-pink-600 transition-all shadow-md hover:shadow-lg"
           >
-            Đăng xuất →
+            Sign Out →
           </button>
         </div>
 
-        {/* Session Debug Info (chỉ trong development) */}
+        {/* Session Debug Info (development only) */}
         {process.env.NODE_ENV === 'development' && (
           <div className="mt-8 bg-gray-900 rounded-xl p-6 text-white">
             <h3 className="text-sm font-bold mb-2 text-gray-400">DEBUG - Session Data:</h3>

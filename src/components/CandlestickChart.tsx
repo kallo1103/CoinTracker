@@ -37,7 +37,7 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
           setError(result.error);
         }
       } catch (err) {
-        setError('Lỗi khi tải dữ liệu');
+        setError('Error loading data');
         console.error(err);
       } finally {
         setLoading(false);
@@ -309,7 +309,7 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
           </div>
         </div>
         <p className="text-xs text-gray-400">
-          Cập nhật: {new Date().toLocaleString('vi-VN')}
+          Updated: {new Date().toLocaleString('vi-VN')}
         </p>
       </div>
     </div>

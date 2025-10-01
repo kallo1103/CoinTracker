@@ -32,7 +32,7 @@ export default function FearGreedIndex() {
           setError(result.error);
         }
       } catch (err) {
-        setError('Lỗi khi tải dữ liệu');
+        setError('Error loading data');
         console.error(err);
       } finally {
         setLoading(false);
@@ -120,7 +120,7 @@ export default function FearGreedIndex() {
       {/* Description */}
       <div className="mt-4 text-sm text-gray-600 text-center">
         <p className="mb-2">
-          <strong>Ý nghĩa:</strong>
+          <strong>Meaning:</strong>
         </p>
         <div className="flex justify-around text-xs">
           <div>
@@ -148,7 +148,7 @@ export default function FearGreedIndex() {
 
       {/* Update time */}
       <div className="mt-4 text-xs text-gray-400 text-center">
-        Cập nhật: {new Date(parseInt(data.timestamp) * 1000).toLocaleString('vi-VN')}
+        Updated: {new Date(parseInt(data.timestamp) * 1000).toLocaleString('vi-VN')}
       </div>
     </div>
   );

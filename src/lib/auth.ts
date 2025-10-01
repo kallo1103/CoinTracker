@@ -32,14 +32,14 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         try {
           if (!credentials?.address || !credentials?.message || !credentials?.signature) {
-            throw new Error("Thiếu thông tin xác thực");
+            throw new Error("Missing authentication information");
           }
 
           // Xác thực chữ ký
           const recoveredAddress = verifyMessage(credentials.message, credentials.signature);
 
           if (recoveredAddress.toLowerCase() !== credentials.address.toLowerCase()) {
-            throw new Error("Chữ ký không hợp lệ");
+            throw new Error("Invalid signature");
           }
 
           // Tìm hoặc tạo user
@@ -79,7 +79,7 @@ export const authOptions: NextAuthOptions = {
           };
         } catch (error: any) {
           console.error("MetaMask auth error:", error);
-          throw new Error(error.message || "Xác thực thất bại");
+          throw new Error(error.message || "Authentication failed");
         }
       },
     }),

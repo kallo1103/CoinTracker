@@ -29,7 +29,7 @@ export default function FearGreedChart() {
           setError(result.error);
         }
       } catch (err) {
-        setError('Lỗi khi tải dữ liệu');
+        setError('Error loading data');
         console.error(err);
       } finally {
         setLoading(false);

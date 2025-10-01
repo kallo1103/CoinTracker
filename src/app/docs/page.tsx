@@ -6,7 +6,7 @@ export default function DocsPage() {
     <div className="container mx-auto px-4 py-12 max-w-5xl">
       {/* Header */}
       <div className="mb-12">
-        <h1 className="text-5xl font-bold mb-4">📚 Tài Liệu Hướng Dẫn</h1>
+        <h1 className="text-5xl font-bold mb-4">📚 Documentation</h1>
         <p className="text-xl text-gray-600">
           Hướng dẫn chi tiết về cách sử dụng Crypto Tracker để theo dõi thị trường cryptocurrency
         </p>
@@ -14,25 +14,25 @@ export default function DocsPage() {
 
       {/* Navigation */}
       <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg p-6 mb-8">
-        <h2 className="text-2xl font-bold mb-4">📑 Mục Lục</h2>
+        <h2 className="text-2xl font-bold mb-4">📑 Table of Contents</h2>
         <ul className="space-y-2">
-          <li><a href="#gioi-thieu" className="text-blue-600 hover:underline">1. Giới Thiệu</a></li>
-          <li><a href="#tinh-nang" className="text-blue-600 hover:underline">2. Tính Năng Chính</a></li>
-          <li><a href="#dashboard" className="text-blue-600 hover:underline">3. Dashboard & Biểu Đồ</a></li>
-          <li><a href="#fear-greed" className="text-blue-600 hover:underline">4. Chỉ Số Fear & Greed</a></li>
-          <li><a href="#crypto-list" className="text-blue-600 hover:underline">5. Danh Sách Cryptocurrency</a></li>
-          <li><a href="#authentication" className="text-blue-600 hover:underline">6. Đăng Nhập & Tài Khoản</a></li>
+          <li><a href="#gioi-thieu" className="text-blue-600 hover:underline">1. Introduction</a></li>
+          <li><a href="#tinh-nang" className="text-blue-600 hover:underline">2. Key Features</a></li>
+          <li><a href="#dashboard" className="text-blue-600 hover:underline">3. Dashboard & Charts</a></li>
+          <li><a href="#fear-greed" className="text-blue-600 hover:underline">4. Fear & Greed Index</a></li>
+          <li><a href="#crypto-list" className="text-blue-600 hover:underline">5. Cryptocurrency List</a></li>
+          <li><a href="#authentication" className="text-blue-600 hover:underline">6. Authentication & Account</a></li>
           <li><a href="#api" className="text-blue-600 hover:underline">7. API Reference</a></li>
-          <li><a href="#faq" className="text-blue-600 hover:underline">8. Câu Hỏi Thường Gặp</a></li>
+          <li><a href="#faq" className="text-blue-600 hover:underline">8. FAQ</a></li>
         </ul>
       </div>
 
       {/* Nội dung chính */}
       <div className="space-y-12">
         
-        {/* 1. Giới Thiệu */}
+        {/* 1. Introduction */}
         <section id="gioi-thieu">
-          <h2 className="text-3xl font-bold mb-4 border-b-2 border-gray-300 pb-2">1. Giới Thiệu</h2>
+          <h2 className="text-3xl font-bold mb-4 border-b-2 border-gray-300 pb-2">1. Introduction</h2>
           <div className="prose prose-lg max-w-none">
             <p className="text-gray-700 dark:text-gray-300 mb-4">
               <strong>Crypto Tracker</strong> là nền tảng theo dõi giá cryptocurrency thời gian thực, 
@@ -41,7 +41,7 @@ export default function DocsPage() {
               tích hợp dữ liệu từ CoinMarketCap API.
             </p>
             <div className="bg-blue-50 dark:bg-blue-900/30 border-l-4 border-blue-500 p-4 my-4">
-              <p className="font-semibold mb-2">🎯 Mục Tiêu:</p>
+              <p className="font-semibold mb-2">🎯 Objectives:</p>
               <ul className="list-disc ml-6 space-y-1">
                 <li>Cung cấp dữ liệu thị trường crypto chính xác, cập nhật liên tục</li>
                 <li>Giao diện thân thiện, dễ sử dụng cho mọi đối tượng</li>
@@ -52,13 +52,13 @@ export default function DocsPage() {
           </div>
         </section>
 
-        {/* 2. Tính Năng Chính */}
+        {/* 2. Key Features */}
         <section id="tinh-nang">
-          <h2 className="text-3xl font-bold mb-4 border-b-2 border-gray-300 pb-2">2. Tính Năng Chính</h2>
+          <h2 className="text-3xl font-bold mb-4 border-b-2 border-gray-300 pb-2">2. Key Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             
             <div className="border border-gray-300 rounded-lg p-6 hover:shadow-lg transition-shadow">
-              <h3 className="text-xl font-bold mb-3 text-blue-600">📊 Biểu Đồ Thời Gian Thực</h3>
+              <h3 className="text-xl font-bold mb-3 text-blue-600">📊 Real-time Charts</h3>
               <p className="text-gray-700 dark:text-gray-300">
                 Theo dõi biến động giá qua các loại biểu đồ: Area Chart, Line Chart, 
                 và Candlestick Chart. Hỗ trợ nhiều khung thời gian từ 24h đến 1 năm.
@@ -66,7 +66,7 @@ export default function DocsPage() {
             </div>
 
             <div className="border border-gray-300 rounded-lg p-6 hover:shadow-lg transition-shadow">
-              <h3 className="text-xl font-bold mb-3 text-green-600">😨 Chỉ Số Fear & Greed</h3>
+              <h3 className="text-xl font-bold mb-3 text-green-600">😨 Fear & Greed Index</h3>
               <p className="text-gray-700 dark:text-gray-300">
                 Đo lường tâm lý thị trường từ "Extreme Fear" đến "Extreme Greed". 
                 Giúp nhà đầu tư đưa ra quyết định thông minh hơn.
@@ -74,7 +74,7 @@ export default function DocsPage() {
             </div>
 
             <div className="border border-gray-300 rounded-lg p-6 hover:shadow-lg transition-shadow">
-              <h3 className="text-xl font-bold mb-3 text-purple-600">🌍 Thống Kê Toàn Cầu</h3>
+              <h3 className="text-xl font-bold mb-3 text-purple-600">🌍 Global Metrics</h3>
               <p className="text-gray-700 dark:text-gray-300">
                 Tổng giá trị thị trường, khối lượng giao dịch 24h, Bitcoin Dominance, 
                 và số lượng cryptocurrency đang hoạt động.
@@ -107,9 +107,9 @@ export default function DocsPage() {
           </div>
         </section>
 
-        {/* 3. Dashboard & Biểu Đồ */}
+        {/* 3. Dashboard & Charts */}
         <section id="dashboard">
-          <h2 className="text-3xl font-bold mb-4 border-b-2 border-gray-300 pb-2">3. Dashboard & Biểu Đồ</h2>
+          <h2 className="text-3xl font-bold mb-4 border-b-2 border-gray-300 pb-2">3. Dashboard & Charts</h2>
           
           <h3 className="text-2xl font-semibold mb-3 mt-6">3.1. Biểu Đồ Nến (Candlestick Chart)</h3>
           <p className="text-gray-700 dark:text-gray-300 mb-4">
@@ -155,7 +155,7 @@ export default function DocsPage() {
 
         {/* 4. Fear & Greed Index */}
         <section id="fear-greed">
-          <h2 className="text-3xl font-bold mb-4 border-b-2 border-gray-300 pb-2">4. Chỉ Số Fear & Greed</h2>
+          <h2 className="text-3xl font-bold mb-4 border-b-2 border-gray-300 pb-2">4. Fear & Greed Index</h2>
           <p className="text-gray-700 dark:text-gray-300 mb-4">
             Chỉ số Fear & Greed (Sợ hãi & Tham lam) đo lường tâm lý chung của thị trường crypto 
             trên thang điểm từ 0 đến 100. Chỉ số được tính toán dựa trên 5 yếu tố:
@@ -221,7 +221,7 @@ export default function DocsPage() {
 
         {/* 5. Danh Sách Crypto */}
         <section id="crypto-list">
-          <h2 className="text-3xl font-bold mb-4 border-b-2 border-gray-300 pb-2">5. Danh Sách Cryptocurrency</h2>
+          <h2 className="text-3xl font-bold mb-4 border-b-2 border-gray-300 pb-2">5. Cryptocurrency List</h2>
           
           <h3 className="text-2xl font-semibold mb-3">5.1. Thông Tin Hiển Thị</h3>
           <p className="text-gray-700 dark:text-gray-300 mb-4">
@@ -295,7 +295,7 @@ export default function DocsPage() {
 
         {/* 6. Authentication */}
         <section id="authentication">
-          <h2 className="text-3xl font-bold mb-4 border-b-2 border-gray-300 pb-2">6. Đăng Nhập & Tài Khoản</h2>
+          <h2 className="text-3xl font-bold mb-4 border-b-2 border-gray-300 pb-2">6. Authentication & Account</h2>
           
           <h3 className="text-2xl font-semibold mb-3">6.1. Đăng Ký Tài Khoản</h3>
           <ol className="list-decimal ml-6 mb-4 space-y-2 text-gray-700 dark:text-gray-300">
@@ -475,7 +475,7 @@ export default function DocsPage() {
 
         {/* 8. FAQ */}
         <section id="faq">
-          <h2 className="text-3xl font-bold mb-4 border-b-2 border-gray-300 pb-2">8. Câu Hỏi Thường Gặp</h2>
+          <h2 className="text-3xl font-bold mb-4 border-b-2 border-gray-300 pb-2">8. FAQ</h2>
           
           <div className="space-y-4">
             <details className="border border-gray-300 dark:border-gray-700 rounded-lg p-4 bg-gray-50 dark:bg-gray-900">
@@ -599,7 +599,7 @@ export default function DocsPage() {
           <div className="text-center mt-8 text-gray-600 dark:text-gray-400">
             <p>📄 Cập nhật lần cuối: 01/10/2025</p>
             <p className="mt-2">
-              <Link href="/" className="text-blue-600 hover:underline">← Quay lại trang chủ</Link>
+              <Link href="/" className="text-blue-600 hover:underline">← ← Back to Home</Link>
             </p>
           </div>
         </section>

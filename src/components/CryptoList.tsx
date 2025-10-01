@@ -40,7 +40,7 @@ export default function CryptoList({ limit = 10 }: CryptoListProps) {
           setError(result.error);
         }
       } catch (err) {
-        setError('Lỗi khi tải dữ liệu');
+        setError('Error loading data');
         console.error(err);
       } finally {
         setLoading(false);
@@ -82,7 +82,7 @@ export default function CryptoList({ limit = 10 }: CryptoListProps) {
     return (
       <div className="flex justify-center items-center py-12">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-        <span className="ml-3 text-gray-600">Đang tải dữ liệu...</span>
+        <span className="ml-3 text-gray-600">Loading data...</span>
       </div>
     );
   }
