@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150" width="200" height="150" aria-labelledby="titleDesc" role="img">
+  <title id="titleDesc">Crypto Candlestick Chart Icon</title>
+  <desc>Candlestick chart with green and red candles.</desc>
+
+  <!-- Grid lines -->
+  <g stroke="rgba(0,0,0,0.1)" stroke-width="1">
+    <line x1="0" y1="20" x2="200" y2="20"/>
+    <line x1="0" y1="60" x2="200" y2="60"/>
+    <line x1="0" y1="100" x2="200" y2="100"/>
+    <line x1="0" y1="140" x2="200" y2="140"/>
+  </g>
+
+  <!-- Candlesticks -->
+
+  <!-- Candle 1 (green, up) -->
+  <line x1="30" y1="30" x2="30" y2="110" stroke="#00c853" stroke-width="2"/> <!-- wick -->
+  <rect x="25" y="60" width="10" height="40" fill="#00c853" stroke="#00c853"/>
+
+  <!-- Candle 2 (red, down) -->
+  <line x1="60" y1="20" x2="60" y2="100" stroke="#d32f2f" stroke-width="2"/>
+  <rect x="55" y="40" width="10" height="50" fill="#d32f2f" stroke="#d32f2f"/>
+
+  <!-- Candle 3 (green, up) -->
+  <line x1="90" y1="40" x2="90" y2="110" stroke="#00c853" stroke-width="2"/>
+  <rect x="85" y="70" width="10" height="30" fill="#00c853" stroke="#00c853"/>
+
+  <!-- Candle 4 (red, down) -->
+  <line x1="120" y1="30" x2="120" y2="120" stroke="#d32f2f" stroke-width="2"/>
+  <rect x="115" y="50" width="10" height="45" fill="#d32f2f" stroke="#d32f2f"/>
+
+  <!-- Candle 5 (green, up) -->
+  <line x1="150" y1="50" x2="150" y2="110" stroke="#00c853" stroke-width="2"/>
+  <rect x="145" y="80" width="10" height="25" fill="#00c853" stroke="#00c853"/>
+
+</svg>
