@@ -17,7 +17,7 @@ export default function Home() {
         <GlobalMetrics />
       </div>
 
-      {/* Candlestick Charts - Biểu đồ nến */}
+      {/* Candlestick Charts */}
       <div className="grid grid-cols-1 gap-6 mb-12">
         {/* Bitcoin Candlestick Chart */}
         <CandlestickChart symbol="BTC" days={30} />
@@ -46,7 +46,7 @@ export default function Home() {
         <FearGreedChart />
       </div>
 
-      {/* Hiển thị danh sách top cryptocurrencies */}
+      {/* Top Cryptocurrencies List */}
       <div className="mb-12">
         <h2 className="text-2xl font-semibold mb-4">Top 10 Cryptocurrencies</h2>
         <CryptoList limit={10} />

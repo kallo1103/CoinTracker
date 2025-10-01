@@ -21,7 +21,7 @@ export default function AuthButton() {
     );
   }
 
-  // Đã đăng nhập - hiển thị thông tin user
+  // Logged in - show user info
   if (session) {
     return (
       <button
@@ -48,7 +48,7 @@ export default function AuthButton() {
     );
   }
 
-  // Chưa đăng nhập - hiển thị các tùy chọn đăng nhập
+  // Not logged in - show sign in options
   return (
     <div className="relative">
       {!showOptions ? (
@@ -65,7 +65,7 @@ export default function AuthButton() {
         <div className="bg-gray-800 rounded-lg p-4 shadow-xl border border-gray-700 space-y-3 min-w-[250px]">
           {/* Header */}
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-white font-semibold">Chọn phương thức</h3>
+            <h3 className="text-white font-semibold">Choose Method</h3>
             <button
               onClick={() => setShowOptions(false)}
               className="text-gray-400 hover:text-white"
@@ -88,7 +88,7 @@ export default function AuthButton() {
           {/* Divider */}
           <div className="flex items-center gap-2">
             <div className="flex-1 h-px bg-gray-600"></div>
-            <span className="text-gray-400 text-xs">HOẶC</span>
+            <span className="text-gray-400 text-xs">OR</span>
             <div className="flex-1 h-px bg-gray-600"></div>
           </div>
 

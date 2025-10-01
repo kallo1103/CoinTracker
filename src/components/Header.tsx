@@ -13,7 +13,7 @@ export default function Header() {
       isCollapsed ? 'w-16' : 'w-64'
     }`}>
       <div className="p-6">
-        {/* Logo và Toggle Button */}
+        {/* Logo and Toggle Button */}
         <div className="flex items-center justify-between mb-8">
           {!isCollapsed && (
             <div className="text-2xl font-bold text-white">
@@ -23,13 +23,13 @@ export default function Header() {
           <button
             onClick={toggleNavbar}
             className="p-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200"
-            title={isCollapsed ? "Mở rộng navbar" : "Thu gọn navbar"}
+            title={isCollapsed ? "Expand navbar" : "Collapse navbar"}
           >
             {isCollapsed ? '→' : '←'}
           </button>
         </div>
 
-        {/* Navigation Menu dọc */}
+        {/* Navigation Menu */}
         <nav className="space-y-2">
           <Link 
             href="/" 
@@ -76,7 +76,7 @@ export default function Header() {
           </Link>
         </nav>
 
-        {/* Auth Button - Đăng nhập/Đăng xuất */}
+        {/* Auth Button - Sign In/Sign Out */}
         <div className="absolute bottom-6 left-0 right-0 px-6">
           <div className={`${isCollapsed ? 'flex justify-center' : ''}`}>
             {!isCollapsed && <AuthButton />}

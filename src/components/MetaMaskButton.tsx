@@ -12,15 +12,15 @@ export default function MetaMaskButton({ onConnect }: MetaMaskButtonProps) {
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Kiểm tra xem MetaMask có được cài đặt không
+  // Check if MetaMask is installed
   const isMetaMaskInstalled = () => {
     return typeof window !== "undefined" && typeof (window as any).ethereum !== "undefined";
   };
 
-  // Kết nối với MetaMask
+  // Connect to MetaMask
   const connectWallet = async () => {
     if (!isMetaMaskInstalled()) {
-      setError("MetaMask chưa được cài đặt! Vui lòng cài đặt MetaMask extension.");
+      setError("MetaMask is not installed! Please install MetaMask extension.");
       window.open("https://metamask.io/download/", "_blank");
       return;
     }
@@ -29,7 +29,7 @@ export default function MetaMaskButton({ onConnect }: MetaMaskButtonProps) {
       setIsConnecting(true);
       setError(null);
 
-      // Yêu cầu quyền truy cập tài khoản
+      // Request account access
       const provider = new BrowserProvider((window as any).ethereum);
       const accounts = await provider.send("eth_requestAccounts", []);
       
@@ -37,7 +37,7 @@ export default function MetaMaskButton({ onConnect }: MetaMaskButtonProps) {
         const address = accounts[0];
         setAccount(address);
         
-        // Lưu vào localStorage
+        // Save to localStorage
         localStorage.setItem("walletAddress", address);
         
         // Callback
@@ -45,28 +45,28 @@ export default function MetaMaskButton({ onConnect }: MetaMaskButtonProps) {
           onConnect(address);
         }
 
-        // Đăng nhập với NextAuth (custom credentials)
+        // Sign in with NextAuth
         await signInWithWallet(address);
       }
     } catch (err: any) {
-      console.error("Lỗi khi kết nối MetaMask:", err);
-      setError(err.message || "Không thể kết nối với MetaMask");
+      console.error("Error connecting to MetaMask:", err);
+      setError(err.message || "Unable to connect to MetaMask");
     } finally {
       setIsConnecting(false);
     }
   };
 
-  // Đăng nhập với wallet address qua NextAuth
+  // Sign in with wallet address via NextAuth
   const signInWithWallet = async (address: string) => {
     try {
-      // Tạo message để ký
-      const message = `Đăng nhập vào Crypto Tracker\n\nĐịa chỉ: ${address}\nThời gian: ${new Date().toISOString()}`;
+      // Create message to sign
+      const message = `Sign in to Crypto Tracker\n\nAddress: ${address}\nTimestamp: ${new Date().toISOString()}`;
       
       const provider = new BrowserProvider((window as any).ethereum);
       const signer = await provider.getSigner();
       const signature = await signer.signMessage(message);
 
-      // Đăng nhập qua NextAuth với credentials provider
+      // Sign in via NextAuth with credentials provider
       const { signIn } = await import("next-auth/react");
       
       const result = await signIn("metamask", {
@@ -77,24 +77,24 @@ export default function MetaMaskButton({ onConnect }: MetaMaskButtonProps) {
       });
 
       if (result?.ok) {
-        // Redirect về dashboard
+        // Redirect to dashboard
         window.location.href = "/dashboard";
       } else {
-        setError(result?.error || "Xác thực thất bại");
+        setError(result?.error || "Authentication failed");
       }
     } catch (err: any) {
-      console.error("Lỗi khi ký message:", err);
-      setError("Không thể xác thực chữ ký");
+      console.error("Error signing message:", err);
+      setError("Unable to verify signature");
     }
   };
 
-  // Ngắt kết nối
+  // Disconnect wallet
   const disconnectWallet = () => {
     setAccount(null);
     localStorage.removeItem("walletAddress");
   };
 
-  // Rút gọn địa chỉ wallet
+  // Shorten wallet address
   const shortenAddress = (address: string) => {
     return `${address.slice(0, 6)}...${address.slice(-4)}`;
   };
@@ -111,7 +111,7 @@ export default function MetaMaskButton({ onConnect }: MetaMaskButtonProps) {
         <button
           onClick={disconnectWallet}
           className="px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors text-sm"
-          title="Ngắt kết nối"
+          title="Disconnect"
         >
           ✕
         </button>
@@ -129,7 +129,7 @@ export default function MetaMaskButton({ onConnect }: MetaMaskButtonProps) {
         {isConnecting ? (
           <>
             <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-            Đang kết nối...
+            Connecting...
           </>
         ) : (
           <>
@@ -147,7 +147,7 @@ export default function MetaMaskButton({ onConnect }: MetaMaskButtonProps) {
 
       {!isMetaMaskInstalled() && (
         <p className="text-gray-500 text-xs mt-2 text-center">
-          Chưa có MetaMask? <a href="https://metamask.io/download/" target="_blank" rel="noopener noreferrer" className="text-orange-500 hover:underline">Tải về tại đây</a>
+          Don't have MetaMask? <a href="https://metamask.io/download/" target="_blank" rel="noopener noreferrer" className="text-orange-500 hover:underline">Download here</a>
         </p>
       )}
     </div>
