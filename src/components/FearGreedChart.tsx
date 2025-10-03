@@ -40,7 +40,7 @@ export default function FearGreedChart() {
   }, []);
 
   // Custom tooltip
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: Array<{ payload: FearGreedDataPoint }> }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       const date = new Date(parseInt(data.timestamp) * 1000).toLocaleDateString('vi-VN');
@@ -72,15 +72,6 @@ export default function FearGreedChart() {
       );
     }
     return null;
-  };
-
-  // Hàm lấy màu cho area dựa trên giá trị
-  const getAreaColor = (value: number) => {
-    if (value <= 25) return '#ef4444'; // red
-    if (value <= 45) return '#f97316'; // orange
-    if (value <= 55) return '#eab308'; // yellow
-    if (value <= 75) return '#84cc16'; // lime
-    return '#10b981'; // green
   };
 
   if (loading) {

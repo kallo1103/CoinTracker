@@ -1,14 +1,34 @@
 import { NextAuthOptions } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
+import { Adapter } from "next-auth/adapters";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { verifyMessage } from "ethers";
 import { prisma } from "./prisma";
 
+// Mở rộng kiểu User và Session để bao gồm các trường tùy chỉnh
+declare module "next-auth" {
+  interface User {
+    id: string;
+    walletAddress?: string | null;
+  }
+  interface Session {
+    user: User & {
+      id: string;
+    };
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    id: string;
+  }
+}
+
 // Cấu hình NextAuth
 export const authOptions: NextAuthOptions = {
   // Sử dụng Prisma adapter để lưu sessions vào database
-  adapter: PrismaAdapter(prisma) as any,
+  adapter: PrismaAdapter(prisma) as Adapter,
   
   // Cấu hình các providers (nhà cung cấp xác thực)
   providers: [
@@ -61,7 +81,7 @@ export const authOptions: NextAuthOptions = {
             });
           } else {
             // Nếu user tồn tại, ensure walletAddress và image được set
-            const updates: any = {};
+            const updates: { walletAddress?: string; image?: string } = {};
             if (!user.walletAddress) updates.walletAddress = credentials.address.toLowerCase();
             if (!user.image) updates.image = `https://api.dicebear.com/9.x/identicon/svg?seed=${credentials.address}`;
 
@@ -80,9 +100,10 @@ export const authOptions: NextAuthOptions = {
             email: user.email,
             image: user.image,
           };
-        } catch (error: any) {
+        } catch (error) {
           console.error("MetaMask auth error:", error);
-          throw new Error(error.message || "Authentication failed");
+          const errorMessage = error instanceof Error ? error.message : "Authentication failed";
+          throw new Error(errorMessage);
         }
       },
     }),
@@ -96,13 +117,13 @@ export const authOptions: NextAuthOptions = {
   // Callbacks để tùy chỉnh behavior
   callbacks: {
     // Callback khi tạo JWT token
-    async jwt({ token, user, account }) {
+    async jwt({ token, user }) {
       // Khi user lần đầu đăng nhập, copy các trường cần thiết vào token
       if (user) {
-        (token as any).id = user.id;
-        (token as any).name = user.name;
-        (token as any).email = user.email;
-        (token as any).image = user.image;
+        token.id = user.id;
+        token.name = user.name;
+        token.email = user.email;
+        token.picture = user.image;
       }
       return token;
     },
@@ -111,10 +132,10 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       if (session.user) {
         // Đảm bảo session chứa id, name, email và image từ token
-        (session.user as any).id = (token as any).id;
-        (session.user as any).name = (token as any).name || session.user.name;
-        (session.user as any).email = (token as any).email || session.user.email;
-        (session.user as any).image = (token as any).image || session.user.image;
+        session.user.id = token.id;
+        session.user.name = token.name || session.user.name;
+        session.user.email = token.email || session.user.email;
+        session.user.image = token.picture || session.user.image;
       }
       return session;
     },

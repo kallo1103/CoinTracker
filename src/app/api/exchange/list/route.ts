@@ -1,5 +1,23 @@
 import { NextResponse } from 'next/server';
 
+// Định nghĩa kiểu cho dữ liệu Exchange từ CoinGecko API
+interface CoinGeckoExchange {
+  id: string;
+  name: string;
+  year_established?: number | null;
+  country?: string | null;
+  description?: string;
+  url?: string;
+  image?: string;
+  has_trading_incentive?: boolean;
+  trust_score?: number;
+  trust_score_rank?: number;
+  trade_volume_24h_btc?: number;
+  trade_volume_24h_btc_normalized?: number;
+  number_of_markets?: number;
+  [key: string]: unknown;
+}
+
 // API route để fetch danh sách exchanges từ CoinGecko (API miễn phí)
 // Endpoint: /api/exchange/list
 // Trả về danh sách các sàn giao dịch với dữ liệu thị trường mới nhất
@@ -27,10 +45,10 @@ export async function GET(request: Request) {
       throw new Error(`CoinGecko API error: ${response.status}`);
     }
 
-    const data = await response.json();
+    const data: CoinGeckoExchange[] = await response.json();
     
     // Format lại dữ liệu để dễ sử dụng ở client
-    const formattedData = data.map((exchange: any, index: number) => ({
+    const formattedData = data.map((exchange: CoinGeckoExchange, index: number) => ({
       id: exchange.id,
       name: exchange.name,
       slug: exchange.id,

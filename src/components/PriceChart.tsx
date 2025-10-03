@@ -49,7 +49,7 @@ export default function PriceChart({ symbol = 'BTC', days = 30, type = 'area' }:
   }, [symbol, days]);
 
   // Custom tooltip
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: Array<{ payload: PriceDataPoint }> }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (

@@ -1,5 +1,14 @@
 import { NextResponse } from 'next/server';
 
+// Định nghĩa kiểu cho dữ liệu Fear & Greed Index
+interface FearGreedItem {
+  value: string;
+  value_classification: string;
+  timestamp: string;
+  time_until_update?: string;
+  [key: string]: unknown;
+}
+
 // API route để fetch Crypto Fear & Greed Index
 // Sử dụng alternative.me API (miễn phí, không cần API key)
 // Endpoint: /api/fear-greed
@@ -33,7 +42,7 @@ export async function GET(request: Request) {
     };
 
     // Format dữ liệu
-    const formattedData = data.data.map((item: any) => ({
+    const formattedData = data.data.map((item: FearGreedItem) => ({
       value: parseInt(item.value),
       value_classification: item.value_classification,
       classification: getClassification(parseInt(item.value)),

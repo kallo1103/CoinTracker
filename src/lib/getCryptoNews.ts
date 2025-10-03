@@ -13,6 +13,28 @@ type NewsItem = {
   summary?: string;
 };
 
+// Định nghĩa kiểu cho dữ liệu API CryptoPanic
+interface CryptoPanicSource {
+  title?: string;
+  [key: string]: unknown;
+}
+
+interface CryptoPanicMetadata {
+  description?: string;
+  [key: string]: unknown;
+}
+
+interface CryptoPanicNewsItem {
+  id?: string | number;
+  title?: string;
+  url?: string;
+  source?: CryptoPanicSource;
+  published_at?: string;
+  created_at?: string;
+  metadata?: CryptoPanicMetadata;
+  [key: string]: unknown;
+}
+
 // ============================================
 // In-memory cache để tránh rate limit
 // ============================================
@@ -59,7 +81,7 @@ export async function getCryptoNews(limit: number = 20): Promise<NewsItem[]> {
     const data = await response.json();
     
     // Transform CryptoPanic data sang format đơn giản
-    const news: NewsItem[] = (data.results || []).map((item: any) => ({
+    const news: NewsItem[] = (data.results || []).map((item: CryptoPanicNewsItem) => ({
       id: item.id?.toString() || Math.random().toString(),
       title: item.title || 'Không có tiêu đề',
       url: item.url || '#',

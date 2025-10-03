@@ -63,13 +63,8 @@ export default function DominancePieChart() {
     { name: 'Others (Altcoins)', value: 100 - data.btc_dominance - data.eth_dominance, color: '#663399' },
   ];
 
-  // Custom label
-  const renderLabel = (entry: any) => {
-    return `${entry.value.toFixed(1)}%`;
-  };
-
   // Custom tooltip
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: Array<{ name: string; value: number; payload: { color: string } }> }) => {
     if (active && payload && payload.length) {
       const data = payload[0];
       return (
@@ -97,7 +92,7 @@ export default function DominancePieChart() {
             cx="50%"
             cy="50%"
             labelLine={false}
-            label={renderLabel}
+            label={(entry) => `${(entry.value as number).toFixed(1)}%`}
             outerRadius={100}
             fill="#8884d8"
             dataKey="value"
@@ -110,9 +105,9 @@ export default function DominancePieChart() {
           <Legend 
             verticalAlign="bottom" 
             height={36}
-            formatter={(value, entry: any) => (
+            formatter={(value, entry) => (
               <span style={{ color: '#374151' }}>
-                {value}: <strong>{entry.payload.value.toFixed(2)}%</strong>
+                {value}: <strong>{(entry.payload?.value as number)?.toFixed(2)}%</strong>
               </span>
             )}
           />

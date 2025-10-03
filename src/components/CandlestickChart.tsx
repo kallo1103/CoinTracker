@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+import { ComposedChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
 // Interface cho candlestick data
 interface CandleData {
@@ -63,10 +63,10 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
   });
 
   // Custom Candlestick Shape
-  const CandlestickShape = (props: any) => {
+  const CandlestickShape = (props: { x?: number; y?: number; width?: number; height?: number; payload?: CandleData & { isGreen: boolean; bodyLow: number; bodyHigh: number; wickLow: number; wickHigh: number } }) => {
     const { x, y, width, height, payload } = props;
     
-    if (!payload) return null;
+    if (!payload || !x || !y || !width || !height) return null;
 
     const { high, low, open, close, isGreen } = payload;
     
@@ -127,7 +127,7 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
   };
 
   // Custom Tooltip
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: Array<{ payload: CandleData & { isGreen: boolean } }> }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       const change = data.close - data.open;

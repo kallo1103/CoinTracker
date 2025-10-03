@@ -68,7 +68,7 @@ export default function DocsPage() {
             <div className="border border-gray-300 rounded-lg p-6 hover:shadow-lg transition-shadow">
               <h3 className="text-xl font-bold mb-3 text-green-600">😨 Fear & Greed Index</h3>
               <p className="text-gray-700 dark:text-gray-300">
-                Đo lường tâm lý thị trường từ "Extreme Fear" đến "Extreme Greed". 
+                Đo lường tâm lý thị trường từ &quot;Extreme Fear&quot; đến &quot;Extreme Greed&quot;. 
                 Giúp nhà đầu tư đưa ra quyết định thông minh hơn.
               </p>
             </div>
@@ -299,7 +299,7 @@ export default function DocsPage() {
           
           <h3 className="text-2xl font-semibold mb-3">6.1. Đăng Ký Tài Khoản</h3>
           <ol className="list-decimal ml-6 mb-4 space-y-2 text-gray-700 dark:text-gray-300">
-            <li>Click nút <strong>"Sign In"</strong> ở góc trên cùng</li>
+            <li>Click nút <strong>&quot;Sign In&quot;</strong> ở góc trên cùng</li>
             <li>Chọn phương thức đăng nhập:
               <ul className="list-disc ml-6 mt-2">
                 <li><strong>Google OAuth:</strong> Đăng nhập nhanh bằng tài khoản Google</li>
@@ -455,7 +455,7 @@ export default function DocsPage() {
           <ol className="list-decimal ml-6 mb-4 space-y-2 text-gray-700 dark:text-gray-300">
             <li>Đăng nhập vào tài khoản</li>
             <li>Vào <strong>Settings → API Keys</strong></li>
-            <li>Click <strong>"Generate New Key"</strong></li>
+            <li>Click <strong>&quot;Generate New Key&quot;</strong></li>
             <li>Copy API key và sử dụng trong header:</li>
           </ol>
           <pre className="bg-gray-800 text-gray-100 p-4 rounded overflow-x-auto text-sm mb-4">
@@ -543,7 +543,7 @@ export default function DocsPage() {
               <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">
                 1. Đăng nhập vào tài khoản<br/>
                 2. Vào chi tiết coin muốn theo dõi<br/>
-                3. Click <strong>"Set Alert"</strong><br/>
+                3. Click <strong>&quot;Set Alert&quot;</strong><br/>
                 4. Nhập giá mục tiêu và chọn điều kiện (above/below)<br/>
                 5. Chọn kênh thông báo (email, push notification)<br/>
                 6. Save!

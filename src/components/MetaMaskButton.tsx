@@ -3,6 +3,21 @@
 import { useState } from "react";
 import { BrowserProvider } from "ethers";
 
+// Định nghĩa kiểu cho MetaMask Ethereum provider
+interface EthereumProvider {
+  isMetaMask?: boolean;
+  request: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
+  on?: (event: string, callback: (...args: unknown[]) => void) => void;
+  removeListener?: (event: string, callback: (...args: unknown[]) => void) => void;
+}
+
+// Mở rộng kiểu Window để bao gồm ethereum
+declare global {
+  interface Window {
+    ethereum?: EthereumProvider;
+  }
+}
+
 interface MetaMaskButtonProps {
   onConnect?: (address: string) => void;
 }
@@ -12,9 +27,9 @@ export default function MetaMaskButton({ onConnect }: MetaMaskButtonProps) {
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Check if MetaMask is installed
+  // Kiểm tra MetaMask đã cài đặt chưa
   const isMetaMaskInstalled = () => {
-    return typeof window !== "undefined" && typeof (window as any).ethereum !== "undefined";
+    return typeof window !== "undefined" && typeof window.ethereum !== "undefined";
   };
 
   // Connect to MetaMask
@@ -29,8 +44,8 @@ export default function MetaMaskButton({ onConnect }: MetaMaskButtonProps) {
       setIsConnecting(true);
       setError(null);
 
-      // Request account access
-      const provider = new BrowserProvider((window as any).ethereum);
+      // Yêu cầu truy cập tài khoản
+      const provider = new BrowserProvider(window.ethereum!);
       const accounts = await provider.send("eth_requestAccounts", []);
       
       if (accounts.length > 0) {
@@ -45,24 +60,25 @@ export default function MetaMaskButton({ onConnect }: MetaMaskButtonProps) {
           onConnect(address);
         }
 
-        // Sign in with NextAuth
+        // Đăng nhập với NextAuth
         await signInWithWallet(address);
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error("Error connecting to MetaMask:", err);
-      setError(err.message || "Unable to connect to MetaMask");
+      const errorMessage = err instanceof Error ? err.message : "Unable to connect to MetaMask";
+      setError(errorMessage);
     } finally {
       setIsConnecting(false);
     }
   };
 
-  // Sign in with wallet address via NextAuth
+  // Đăng nhập với địa chỉ ví qua NextAuth
   const signInWithWallet = async (address: string) => {
     try {
-      // Create message to sign
+      // Tạo thông điệp để ký
       const message = `Sign in to Crypto Tracker\n\nAddress: ${address}\nTimestamp: ${new Date().toISOString()}`;
       
-      const provider = new BrowserProvider((window as any).ethereum);
+      const provider = new BrowserProvider(window.ethereum!);
       const signer = await provider.getSigner();
       
       console.log("Requesting signature from MetaMask...");
@@ -84,20 +100,28 @@ export default function MetaMaskButton({ onConnect }: MetaMaskButtonProps) {
 
       if (result?.ok) {
         console.log("Sign in successful, redirecting to dashboard...");
-        // Redirect to dashboard
+        // Chuyển hướng tới dashboard
         window.location.href = "/dashboard";
       } else {
         console.error("Sign in failed:", result?.error);
         setError(result?.error || "Authentication failed");
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error("Error signing message:", err);
-      if (err.code === 4001) {
-        setError("You rejected the signature request");
-      } else if (err.code === -32603) {
-        setError("Internal error occurred");
+      // Kiểm tra lỗi MetaMask
+      if (err && typeof err === 'object' && 'code' in err) {
+        const errorCode = (err as { code: number }).code;
+        if (errorCode === 4001) {
+          setError("You rejected the signature request");
+        } else if (errorCode === -32603) {
+          setError("Internal error occurred");
+        } else {
+          const errorMessage = err instanceof Error ? err.message : "Unable to verify signature";
+          setError(errorMessage);
+        }
       } else {
-        setError(err.message || "Unable to verify signature");
+        const errorMessage = err instanceof Error ? err.message : "Unable to verify signature";
+        setError(errorMessage);
       }
     }
   };
@@ -190,7 +214,7 @@ export default function MetaMaskButton({ onConnect }: MetaMaskButtonProps) {
 
       {!isMetaMaskInstalled() && (
         <p className="text-gray-500 text-xs mt-2 text-center">
-          Don't have MetaMask? <a href="https://metamask.io/download/" target="_blank" rel="noopener noreferrer" className="text-orange-500 hover:underline">Download here</a>
+          Don&apos;t have MetaMask? <a href="https://metamask.io/download/" target="_blank" rel="noopener noreferrer" className="text-orange-500 hover:underline">Download here</a>
         </p>
       )}
     </div>
