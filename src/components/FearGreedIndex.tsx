@@ -62,7 +62,7 @@ export default function FearGreedIndex() {
 
   if (loading) {
     return (
-      <div className="rounded-lg shadow p-6 border border-gray-900">
+      <div className="rounded-lg shadow p-6 border border-gray-900 bg-slate-900">
         <div className="animate-pulse">
           <div className="h-4 bg-gray-200 rounded w-1/2 mb-4"></div>
           <div className="h-20 bg-gray-200 rounded"></div>
@@ -73,14 +73,14 @@ export default function FearGreedIndex() {
 
   if (error || !data) {
     return (
-      <div className="border border-gray-900 rounded-lg p-4">
+      <div className="border border-gray-900 rounded-lg p-4 bg-slate-900">
         <p className="text-red-600">❌ {error || 'Không có dữ liệu'}</p>
       </div>
     );
   }
 
   return (
-    <div className="rounded-lg shadow p-6 border border-gray-900">
+    <div className="rounded-lg shadow p-6 border border-gray-900 bg-slate-900">
       <h3 className="text-lg font-semibold text-white mb-4">
         😱 Crypto Fear & Greed Index
       </h3>

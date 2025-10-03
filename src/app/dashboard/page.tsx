@@ -81,7 +81,7 @@ export default function DashboardPage() {
 
               {/* Detailed information */}
               <div className="flex-1 text-center sm:text-left">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                <h3 className="text-2xl font-bold text-white mb-2">
                   {session.user?.name || "User"}
                 </h3>
                 <p className="text-gray-600 mb-4 flex items-center justify-center sm:justify-start gap-2">

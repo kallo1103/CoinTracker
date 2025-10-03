@@ -39,7 +39,7 @@ export default function DominancePieChart() {
 
   if (loading) {
     return (
-      <div className="rounded-lg shadow p-6 border border-gray-900">
+      <div className="rounded-lg shadow p-6 border border-gray-900 bg-slate-900">
         <div className="animate-pulse">
           <div className="h-4 bg-gray-200 rounded w-1/2 mb-4"></div>
           <div className="h-64 bg-gray-200 rounded"></div>
@@ -50,7 +50,7 @@ export default function DominancePieChart() {
 
   if (error || !data) {
     return (
-      <div className="border border-gray-900 rounded-lg p-4">
+      <div className="border border-gray-900 rounded-lg p-4 bg-slate-900">
         <p className="text-red-600">❌ {error || 'Không có dữ liệu'}</p>
       </div>
     );
@@ -85,7 +85,7 @@ export default function DominancePieChart() {
   };
 
   return (
-    <div className="rounded-lg shadow p-6 border border-gray-900">
+    <div className="rounded-lg shadow p-6 border border-gray-900 bg-slate-900">
       {/* Header */}
       <h3 className="text-xl font-bold text-white mb-6">🥧 Market Dominance</h3>
 

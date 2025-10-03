@@ -85,7 +85,7 @@ export default function FearGreedChart() {
 
   if (loading) {
     return (
-      <div className="rounded-lg shadow p-6 border border-gray-900">
+      <div className="rounded-lg shadow p-6 border border-gray-900 bg-slate-900">
         <div className="animate-pulse">
           <div className="h-4 bg-gray-200 rounded w-1/3 mb-4"></div>
           <div className="h-64 bg-gray-200 rounded"></div>
@@ -96,7 +96,7 @@ export default function FearGreedChart() {
 
   if (error || data.length === 0) {
     return (
-      <div className="border border-gray-900 rounded-lg p-4">
+      <div className="border border-gray-900 rounded-lg p-4 bg-slate-900">
         <p className="text-red-600">❌ {error || 'Không có dữ liệu'}</p>
       </div>
     );
@@ -107,7 +107,7 @@ export default function FearGreedChart() {
   const change = currentValue - previousValue;
 
   return (
-    <div className="rounded-lg shadow p-6 border border-gray-900">
+    <div className="rounded-lg shadow p-6 border border-gray-900 bg-slate-900">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
@@ -115,7 +115,7 @@ export default function FearGreedChart() {
           <p className="text-sm text-gray-500">30 ngày gần đây</p>
         </div>
         <div className="text-right">
-          <p className="text-2xl font-bold text-gray-900">{currentValue}</p>
+          <p className="text-2xl font-bold text-white">{currentValue}</p>
           <p className={`text-sm font-medium ${change >= 0 ? 'text-green-600' : 'text-red-600'}`}>
             {change >= 0 ? '▲' : '▼'} {Math.abs(change).toFixed(0)} (7d)
           </p>

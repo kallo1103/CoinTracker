@@ -184,7 +184,7 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
 
   if (loading) {
     return (
-      <div className="rounded-lg bg-blue-900 shadow p-6 border border-gray-900">
+      <div className="rounded-lg shadow p-6 border border-gray-900 bg-slate-900">
         <div className="animate-pulse">
           <div className="h-4 bg-gray-200 rounded w-1/4 mb-4"></div>
           <div className="h-96 bg-gray-200 rounded"></div>
@@ -195,7 +195,7 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
 
   if (error || data.length === 0) {
     return (
-      <div className="border border-gray-900 rounded-lg p-4">
+      <div className="border border-gray-900 rounded-lg p-4 bg-slate-900">
         <p className="text-red-600">❌ {error || 'Không có dữ liệu'}</p>
       </div>
     );
@@ -213,7 +213,7 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
   const redCandles = candleData.length - greenCandles;
 
   return (
-    <div className="rounded-lg shadow p-6 border border-gray-900">
+    <div className="rounded-lg shadow p-6 border border-gray-900 bg-slate-900">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
@@ -231,7 +231,7 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
       </div>
 
       {/* Stats Bar */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 p-4 rounded-lg bg-blue-900 border border-gray-900">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 p-4 rounded-lg bg-slate-800 border border-gray-700">
         <div className="text-center">
           <p className="text-xs text-gray-500 mb-1">Open</p>
           <p className="font-semibold text-sm">${firstPrice.toFixed(2)}</p>

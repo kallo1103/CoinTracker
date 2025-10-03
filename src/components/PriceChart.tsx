@@ -71,7 +71,7 @@ export default function PriceChart({ symbol = 'BTC', days = 30, type = 'area' }:
 
   if (loading) {
     return (
-      <div className="rounded-lg shadow p-6 border border-gray-900">
+      <div className="rounded-lg shadow p-6 border border-gray-900 bg-slate-900">
         <div className="animate-pulse">
           <div className="h-4 bg-gray-200 rounded w-1/4 mb-4"></div>
           <div className="h-64 bg-gray-200 rounded"></div>
@@ -82,7 +82,7 @@ export default function PriceChart({ symbol = 'BTC', days = 30, type = 'area' }:
 
   if (error || data.length === 0) {
     return (
-      <div className="border border-gray-900 rounded-lg p-4">
+      <div className="border border-gray-900 rounded-lg p-4 bg-slate-900">
         <p className="text-red-600">❌ {error || 'Không có dữ liệu'}</p>
       </div>
     );
@@ -96,7 +96,7 @@ export default function PriceChart({ symbol = 'BTC', days = 30, type = 'area' }:
   const isPositive = percentChange >= 0;
 
   return (
-    <div className="rounded-lg shadow p-6 border border-gray-900">
+    <div className="rounded-lg shadow p-6 border border-gray-900 bg-slate-900">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
