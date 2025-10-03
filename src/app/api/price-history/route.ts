@@ -1,39 +1,36 @@
 import { NextResponse } from 'next/server';
 
-// API route để fetch historical price data từ CoinMarketCap
+// API route để fetch historical price data từ CoinGecko (miễn phí)
+// CoinMarketCap free plan không hỗ trợ historical data
 // Endpoint: /api/price-history
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const symbol = searchParams.get('symbol') || 'BTC'; // Coin symbol
-  const interval = searchParams.get('interval') || '1d'; // 1d, 1h, etc
-  const count = searchParams.get('count') || '30'; // Số data points
+  const count = searchParams.get('count') || '30'; // Số ngày
   
   try {
-    // Lấy thông tin coin trước để có ID
-    const coinResponse = await fetch(
-      `https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=${symbol}`,
-      {
-        headers: {
-          'X-CMC_PRO_API_KEY': process.env.COINMARKETCAP_API_KEY || '',
-          'Accept': 'application/json',
-        },
-      }
-    );
+    // Map symbol sang CoinGecko ID
+    const coinMap: { [key: string]: string } = {
+      'BTC': 'bitcoin',
+      'ETH': 'ethereum',
+      'BNB': 'binancecoin',
+      'SOL': 'solana',
+      'ADA': 'cardano',
+      'XRP': 'ripple',
+      'DOT': 'polkadot',
+      'DOGE': 'dogecoin',
+      'MATIC': 'matic-network',
+      'LTC': 'litecoin',
+    };
+    
+    const coinId = coinMap[symbol.toUpperCase()] || 'bitcoin';
+    const days = count;
 
-    if (!coinResponse.ok) {
-      throw new Error(`CoinMarketCap API error: ${coinResponse.status}`);
-    }
-
-    const coinData = await coinResponse.json();
-    const coinId = coinData.data[symbol].id;
-
-    // Gọi CoinMarketCap OHLCV Historical API
-    // Note: Endpoint này cần plan cao hơn Basic. Nếu không có, dùng quotes/latest
+    // Gọi CoinGecko API - hoàn toàn miễn phí, không cần API key
     const response = await fetch(
-      `https://pro-api.coinmarketcap.com/v2/cryptocurrency/ohlcv/historical?id=${coinId}&count=${count}&interval=${interval}`,
+      `https://api.coingecko.com/api/v3/coins/${coinId}/ohlc?vs_currency=usd&days=${days}`,
       {
         headers: {
-          'X-CMC_PRO_API_KEY': process.env.COINMARKETCAP_API_KEY || '',
           'Accept': 'application/json',
         },
         next: { revalidate: 300 } // Cache 5 phút
@@ -41,35 +38,35 @@ export async function GET(request: Request) {
     );
 
     if (!response.ok) {
-      // Nếu không có quyền truy cập historical data, tạo mock data
-      console.warn('Historical API not available, generating mock data');
-      return generateMockData(symbol, parseInt(count));
+      throw new Error(`CoinGecko API error: ${response.status}`);
     }
 
     const data = await response.json();
     
-    // Format dữ liệu cho chart
-    const formattedData = data.data.quotes.map((quote: any) => ({
-      timestamp: new Date(quote.time_open).getTime(),
-      date: new Date(quote.time_open).toLocaleDateString('vi-VN'),
-      open: quote.quote.USD.open,
-      high: quote.quote.USD.high,
-      low: quote.quote.USD.low,
-      close: quote.quote.USD.close,
-      volume: quote.quote.USD.volume,
+    // Format dữ liệu từ CoinGecko
+    // Data format: [timestamp, open, high, low, close]
+    const formattedData = data.map((item: number[]) => ({
+      timestamp: item[0],
+      date: new Date(item[0]).toLocaleDateString('vi-VN'),
+      open: item[1],
+      high: item[2],
+      low: item[3],
+      close: item[4],
+      volume: 0, // CoinGecko OHLC không bao gồm volume trong free tier
     }));
     
     return NextResponse.json({
       success: true,
       symbol: symbol,
       data: formattedData,
+      source: 'CoinGecko API (Free)',
       timestamp: new Date().toISOString()
     });
     
   } catch (error) {
     console.error('Error fetching price history:', error);
-    // Fallback to mock data
-    return generateMockData(symbol, parseInt(count));
+    // Fallback to mock data nếu CoinGecko cũng lỗi
+    return generateMockData(symbol, parseInt(count || '30'));
   }
 }
 

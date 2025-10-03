@@ -11,6 +11,17 @@ export default function AuthButton() {
   const router = useRouter();
   const [showOptions, setShowOptions] = useState(false);
 
+  // Shorten display name for logged in users
+  const shortenName = (name?: string | null) => {
+    if (!name) return 'User';
+    const trimmed = name.trim();
+    // If full name, show first name only
+    if (trimmed.includes(' ')) return trimmed.split(' ')[0];
+    // If single long name, truncate
+    if (trimmed.length > 12) return `${trimmed.slice(0, 10)}...`;
+    return trimmed;
+  };
+
   // Loading state
   if (status === "loading") {
     return (
@@ -35,6 +46,7 @@ export default function AuthButton() {
             width={32}
             height={32}
             className="rounded-full"
+            unoptimized
           />
         ) : (
           <div className="w-8 h-8 bg-gradient-to-br from-indigo-400 to-purple-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
@@ -42,7 +54,7 @@ export default function AuthButton() {
           </div>
         )}
         <span className="font-medium text-gray-700 hidden sm:block">
-          {session.user?.name || "User"}
+          {shortenName(session.user?.name)}
         </span>
       </button>
     );
@@ -76,7 +88,7 @@ export default function AuthButton() {
 
           {/* Google Sign In */}
           <button
-            onClick={() => signIn("google")}
+            onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
             className="w-full px-4 py-2.5 bg-white hover:bg-gray-100 text-gray-800 rounded-lg transition-all font-medium shadow-sm flex items-center gap-2 justify-center"
           >
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">

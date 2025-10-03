@@ -1,12 +1,9 @@
 import { NextAuthOptions } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { PrismaClient } from "@prisma/client";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { verifyMessage } from "ethers";
-
-// Tạo Prisma client instance
-const prisma = new PrismaClient();
+import { prisma } from "./prisma";
 
 // Cấu hình NextAuth
 export const authOptions: NextAuthOptions = {
@@ -53,21 +50,27 @@ export const authOptions: NextAuthOptions = {
           });
 
           if (!user) {
-            // Tạo user mới
+            // Tạo user mới với avatar DiceBear
             user = await prisma.user.create({
               data: {
                 email: credentials.address.toLowerCase(),
                 name: `${credentials.address.slice(0, 6)}...${credentials.address.slice(-4)}`,
                 walletAddress: credentials.address.toLowerCase(),
-                image: `https://api.dicebear.com/7.x/identicon/svg?seed=${credentials.address}`,
+                image: `https://api.dicebear.com/9.x/identicon/svg?seed=${credentials.address}`,
               },
             });
-          } else if (!user.walletAddress) {
-            // Update existing user với wallet address
-            user = await prisma.user.update({
-              where: { id: user.id },
-              data: { walletAddress: credentials.address.toLowerCase() },
-            });
+          } else {
+            // Nếu user tồn tại, ensure walletAddress và image được set
+            const updates: any = {};
+            if (!user.walletAddress) updates.walletAddress = credentials.address.toLowerCase();
+            if (!user.image) updates.image = `https://api.dicebear.com/9.x/identicon/svg?seed=${credentials.address}`;
+
+            if (Object.keys(updates).length) {
+              user = await prisma.user.update({
+                where: { id: user.id },
+                data: updates,
+              });
+            }
           }
 
           // Trả về user object cho NextAuth
@@ -94,8 +97,12 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     // Callback khi tạo JWT token
     async jwt({ token, user, account }) {
+      // Khi user lần đầu đăng nhập, copy các trường cần thiết vào token
       if (user) {
-        token.id = user.id;
+        (token as any).id = user.id;
+        (token as any).name = user.name;
+        (token as any).email = user.email;
+        (token as any).image = user.image;
       }
       return token;
     },
@@ -103,7 +110,11 @@ export const authOptions: NextAuthOptions = {
     // Callback khi tạo session
     async session({ session, token }) {
       if (session.user) {
-        (session.user as any).id = token.id;
+        // Đảm bảo session chứa id, name, email và image từ token
+        (session.user as any).id = (token as any).id;
+        (session.user as any).name = (token as any).name || session.user.name;
+        (session.user as any).email = (token as any).email || session.user.email;
+        (session.user as any).image = (token as any).image || session.user.image;
       }
       return session;
     },
@@ -120,6 +131,12 @@ export const authOptions: NextAuthOptions = {
       }
       return baseUrl;
     },
+  },
+  
+  // Cấu hình pages tùy chỉnh
+  pages: {
+    signIn: '/',
+    error: '/', // Error page
   },
   
   // Secret key để mã hóa tokens

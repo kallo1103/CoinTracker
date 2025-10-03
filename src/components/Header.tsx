@@ -43,14 +43,14 @@ export default function Header() {
           </Link>
           
           <Link 
-            href="/discover" 
+            href="/exchange" 
             className={`flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200 ${
               isCollapsed ? 'justify-center' : ''
             }`}
             title={isCollapsed ? "Discover" : ""}
           >
             <span className={isCollapsed ? '' : 'mr-3'}>🔍</span>
-            {!isCollapsed && "Discover"}
+            {!isCollapsed && "Exchange"}
           </Link>
           
           <Link 
@@ -73,6 +73,17 @@ export default function Header() {
           >
             <span className={isCollapsed ? '' : 'mr-3'}>📚</span>
             {!isCollapsed && "Docs"}
+          </Link>
+
+          <Link 
+            href="/crypto-news" 
+            className={`flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200 ${
+              isCollapsed ? 'justify-center' : ''
+            }`}
+            title={isCollapsed ? "Tin tức" : ""}
+          >
+            <span className={isCollapsed ? '' : 'mr-3'}>📰</span>
+            {!isCollapsed && "Tin tức"}
           </Link>
         </nav>
 

@@ -65,6 +65,7 @@ export default function DashboardPage() {
                     width={120}
                     height={120}
                     className="rounded-full ring-4 ring-indigo-100"
+                    unoptimized
                   />
                 ) : (
                   <div className="w-[120px] h-[120px] rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white text-4xl font-bold ring-4 ring-indigo-100">
