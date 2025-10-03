@@ -43,13 +43,24 @@ export default function Header() {
           </Link>
           
           <Link 
+            href="/search" 
+            className={`flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200 ${
+              isCollapsed ? 'justify-center' : ''
+            }`}
+            title={isCollapsed ? "Tìm kiếm" : ""}
+          >
+            <span className={isCollapsed ? '' : 'mr-3'}>🔍</span>
+            {!isCollapsed && "Tìm kiếm"}
+          </Link>
+          
+          <Link 
             href="/exchange" 
             className={`flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200 ${
               isCollapsed ? 'justify-center' : ''
             }`}
-            title={isCollapsed ? "Discover" : ""}
+            title={isCollapsed ? "Exchange" : ""}
           >
-            <span className={isCollapsed ? '' : 'mr-3'}>🔍</span>
+            <span className={isCollapsed ? '' : 'mr-3'}>🏦</span>
             {!isCollapsed && "Exchange"}
           </Link>
           
