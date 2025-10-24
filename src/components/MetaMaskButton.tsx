@@ -99,9 +99,9 @@ export default function MetaMaskButton({ onConnect }: MetaMaskButtonProps) {
       console.log("Sign in result:", result);
 
       if (result?.ok) {
-        console.log("Sign in successful, redirecting to dashboard...");
-        // Chuyển hướng tới dashboard
-        window.location.href = "/dashboard";
+        console.log("Sign in successful, redirecting to profile...");
+        // Chuyển hướng tới profile
+        window.location.href = "/profile";
       } else {
         console.error("Sign in failed:", result?.error);
         setError(result?.error || "Authentication failed");
@@ -162,7 +162,7 @@ export default function MetaMaskButton({ onConnect }: MetaMaskButtonProps) {
       <button
         onClick={connectWallet}
         disabled={isConnecting}
-        className="px-6 py-2.5 bg-orange-400 text-white rounded-lg transition-all font-medium shadow-md hover:shadow-lg flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed mx-auto"
+        className="px-4 py-2.5 bg-orange-400 text-white rounded-lg transition-all font-medium shadow-md hover:shadow-lg flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed mx-auto"
       >
         {isConnecting ? (
           <>

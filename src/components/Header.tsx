@@ -1,18 +1,29 @@
 'use client';
 
 import { useNavbar } from '@/contexts/NavbarContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import AuthButton from '@/components/AuthButton';
 import Link from 'next/link';
+import { 
+  ChevronRight, 
+  ChevronLeft, 
+  BarChart3, 
+  Search, 
+  Building2, 
+  BookOpen, 
+  Newspaper 
+} from "lucide-react";
 
 // Header Component - Navigation Bar dọc bên trái với toggle button
 export default function Header() {
   const { isCollapsed, toggleNavbar } = useNavbar();
+  const { t } = useLanguage();
 
   return (
     <header className={`fixed left-0 top-0 h-full bg-gray-900 shadow-lg z-50 transition-all duration-300 ${
       isCollapsed ? 'w-16' : 'w-64'
     }`}>
-      <div className="p-6">
+      <div className="p-4">
         {/* Logo and Toggle Button */}
         <div className="flex items-center justify-between mb-8">
           {!isCollapsed && (
@@ -25,7 +36,7 @@ export default function Header() {
             className="p-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200"
             title={isCollapsed ? "Expand navbar" : "Collapse navbar"}
           >
-            {isCollapsed ? '→' : '←'}
+            {isCollapsed ? <ChevronRight className="w-5 h-5" /> : <ChevronLeft className="w-5 h-5" />}
           </button>
         </div>
 
@@ -36,10 +47,10 @@ export default function Header() {
             className={`flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200 ${
               isCollapsed ? 'justify-center' : ''
             }`}
-            title={isCollapsed ? "Dashboard" : ""}
+            title={isCollapsed ? t('nav.dashboard') : ""}
           >
-            <span className={isCollapsed ? '' : 'mr-3'}>📊</span>
-            {!isCollapsed && "Dashboard"}
+            <BarChart3 className={`w-5 h-5 ${isCollapsed ? '' : 'mr-3'}`} />
+            {!isCollapsed && t('nav.dashboard')}
           </Link>
           
           <Link 
@@ -47,10 +58,10 @@ export default function Header() {
             className={`flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200 ${
               isCollapsed ? 'justify-center' : ''
             }`}
-            title={isCollapsed ? "Tìm kiếm" : ""}
+            title={isCollapsed ? t('nav.search') : ""}
           >
-            <span className={isCollapsed ? '' : 'mr-3'}>🔍</span>
-            {!isCollapsed && "Tìm kiếm"}
+            <Search className={`w-5 h-5 ${isCollapsed ? '' : 'mr-3'}`} />
+            {!isCollapsed && t('nav.search')}
           </Link>
           
           <Link 
@@ -58,21 +69,10 @@ export default function Header() {
             className={`flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200 ${
               isCollapsed ? 'justify-center' : ''
             }`}
-            title={isCollapsed ? "Exchange" : ""}
+            title={isCollapsed ? t('nav.exchange') : ""}
           >
-            <span className={isCollapsed ? '' : 'mr-3'}>🏦</span>
-            {!isCollapsed && "Exchange"}
-          </Link>
-          
-          <Link 
-            href="/verification" 
-            className={`flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200 ${
-              isCollapsed ? 'justify-center' : ''
-            }`}
-            title={isCollapsed ? "Verification" : ""}
-          >
-            <span className={isCollapsed ? '' : 'mr-3'}>✅</span>
-            {!isCollapsed && "Verification"}
+            <Building2 className={`w-5 h-5 ${isCollapsed ? '' : 'mr-3'}`} />
+            {!isCollapsed && t('nav.exchange')}
           </Link>
           
           <Link 
@@ -80,10 +80,10 @@ export default function Header() {
             className={`flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200 ${
               isCollapsed ? 'justify-center' : ''
             }`}
-            title={isCollapsed ? "Docs" : ""}
+            title={isCollapsed ? t('nav.docs') : ""}
           >
-            <span className={isCollapsed ? '' : 'mr-3'}>📚</span>
-            {!isCollapsed && "Docs"}
+            <BookOpen className={`w-5 h-5 ${isCollapsed ? '' : 'mr-3'}`} />
+            {!isCollapsed && t('nav.docs')}
           </Link>
 
           <Link 
@@ -91,22 +91,19 @@ export default function Header() {
             className={`flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200 ${
               isCollapsed ? 'justify-center' : ''
             }`}
-            title={isCollapsed ? "Tin tức" : ""}
+            title={isCollapsed ? t('nav.news') : ""}
           >
-            <span className={isCollapsed ? '' : 'mr-3'}>📰</span>
-            {!isCollapsed && "Tin tức"}
+            <Newspaper className={`w-5 h-5 ${isCollapsed ? '' : 'mr-3'}`} />
+            {!isCollapsed && t('nav.news')}
           </Link>
         </nav>
 
         {/* Auth Button - Sign In/Sign Out */}
-        <div className="absolute bottom-6 left-0 right-0 px-6">
+        <div className={`absolute bottom-6 left-0 right-0 ${
+          isCollapsed ? 'px-1' : 'px-6'
+        }`}>
           <div className={`${isCollapsed ? 'flex justify-center' : ''}`}>
-            {!isCollapsed && <AuthButton />}
-            {isCollapsed && (
-              <div className="text-center">
-                <AuthButton />
-              </div>
-            )}
+            <AuthButton />
           </div>
         </div>
       </div>

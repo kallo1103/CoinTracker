@@ -142,9 +142,9 @@ export const authOptions: NextAuthOptions = {
     
     // Redirect sau khi đăng nhập thành công
     async redirect({ url, baseUrl }) {
-      // Nếu URL là callback URL, redirect về dashboard
+      // Nếu URL là callback URL, redirect về profile
       if (url.startsWith(baseUrl)) {
-        return `${baseUrl}/dashboard`;
+        return `${baseUrl}/profile`;
       }
       // Nếu là relative URL, thêm baseUrl
       if (url.startsWith("/")) {

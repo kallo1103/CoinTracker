@@ -56,7 +56,7 @@ export default function GlobalMetrics() {
   const formatPercent = (percent: number) => {
     const isPositive = percent >= 0;
     return (
-      <span className={isPositive ? 'text-green-600' : 'text-red-600'}>
+      <span className={isPositive ? 'text-green-500' : 'text-red-500'}>
         {isPositive ? '▲' : '▼'} {Math.abs(percent).toFixed(2)}%
       </span>
     );
@@ -66,9 +66,9 @@ export default function GlobalMetrics() {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="rounded-lg shadow p-6 animate-pulse border border-gray-900">
-            <div className="h-4 bg-gray-200 rounded w-1/2 mb-4"></div>
-            <div className="h-8 bg-gray-200 rounded"></div>
+          <div key={i} className="rounded-lg shadow p-6 animate-pulse border border-gray-900 bg-blue-900">
+            <div className="h-4 bg-gray-700 rounded w-1/2 mb-4"></div>
+            <div className="h-8 bg-gray-700 rounded"></div>
           </div>
         ))}
       </div>
@@ -77,8 +77,8 @@ export default function GlobalMetrics() {
 
   if (error || !data) {
     return (
-      <div className="border border-gray-900 rounded-lg p-4">
-        <p className="text-red-600">❌ {error || 'Không có dữ liệu'}</p>
+      <div className="border border-gray-900 rounded-lg p-4 bg-blue-900">
+        <p className="text-red-500 text-white">❌ {error || 'Không có dữ liệu'}</p>
       </div>
     );
   }
@@ -92,56 +92,56 @@ export default function GlobalMetrics() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Bitcoin Dominance */}
         <div 
-          className="rounded-lg bg-blue-900 shadow-lg p-6 border border-gray-900"
+          className="rounded-lg bg-blue-900 shadow-lg p-6 border border-gray-900 text-white"
         >
           <div className="flex items-center justify-between mb-2">
-            <h4 className="text-sm font-medium opacity-90">₿ Bitcoin Dominance</h4>
+            <h4 className="text-sm font-medium opacity-90 text-white">₿ Bitcoin Dominance</h4>
             <span className="text-2xl">₿</span>
           </div>
-          <div className="text-3xl font-bold">{data.btc_dominance.toFixed(2)}%</div>
-          <div className="mt-2 text-xs opacity-75">
+          <div className="text-3xl font-bold text-white">{data.btc_dominance.toFixed(2)}%</div>
+          <div className="mt-2 text-xs opacity-75 text-white">
             Bitcoin chiếm {data.btc_dominance.toFixed(2)}% tổng thị trường
           </div>
         </div>
 
         {/* Ethereum Dominance */}
         <div 
-          className="rounded-lg bg-blue-900 shadow-lg p-6 border border-gray-900"
+          className="rounded-lg bg-blue-900 shadow-lg p-6 border border-gray-900 text-white"
         >
           <div className="flex items-center justify-between mb-2">
-            <h4 className="text-sm font-medium opacity-90">Ξ Ethereum Dominance</h4>
+            <h4 className="text-sm font-medium opacity-90 text-white">Ξ Ethereum Dominance</h4>
             <span className="text-2xl">Ξ</span>
           </div>
-          <div className="text-3xl font-bold">{data.eth_dominance.toFixed(2)}%</div>
-          <div className="mt-2 text-xs opacity-75">
+          <div className="text-3xl font-bold text-white">{data.eth_dominance.toFixed(2)}%</div>
+          <div className="mt-2 text-xs opacity-75 text-white">
             Ethereum chiếm {data.eth_dominance.toFixed(2)}% tổng thị trường
           </div>
         </div>
 
         {/* Total Market Cap */}
         <div 
-          className="rounded-lg bg-blue-900 shadow-lg p-6 border border-gray-900"
+          className="rounded-lg bg-blue-900 shadow-lg p-6 border border-gray-900 text-white"
         >
           <div className="flex items-center justify-between mb-2">
-            <h4 className="text-sm font-medium opacity-90">💰 Total Market Cap</h4>
+            <h4 className="text-sm font-medium opacity-90 text-white">💰 Total Market Cap</h4>
             <span className="text-2xl">💰</span>
           </div>
-          <div className="text-3xl font-bold">{formatCurrency(data.total_market_cap)}</div>
-          <div className="mt-2 text-xs opacity-75">
+          <div className="text-3xl font-bold text-white">{formatCurrency(data.total_market_cap)}</div>
+          <div className="mt-2 text-xs opacity-75 text-white">
             Thay đổi 24h: {formatPercent(data.total_market_cap_yesterday_percentage_change)}
           </div>
         </div>
 
         {/* Total Volume 24h */}
         <div 
-          className="rounded-lg bg-blue-900 shadow-lg p-6 border border-gray-900"
+          className="rounded-lg bg-blue-900 shadow-lg p-6 border border-gray-900 text-white"
         >
           <div className="flex items-center justify-between mb-2">
-            <h4 className="text-sm font-medium opacity-90">📈 Volume 24h</h4>
+            <h4 className="text-sm font-medium opacity-90 text-white">📈 Volume 24h</h4>
             <span className="text-2xl">📈</span>
           </div>
-          <div className="text-3xl font-bold">{formatCurrency(data.total_volume_24h)}</div>
-          <div className="mt-2 text-xs opacity-75">
+          <div className="text-3xl font-bold text-white">{formatCurrency(data.total_volume_24h)}</div>
+          <div className="mt-2 text-xs opacity-75 text-white">
             {data.active_cryptocurrencies.toLocaleString()} cryptocurrencies
           </div>
         </div>

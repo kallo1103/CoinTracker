@@ -73,12 +73,12 @@ export default function PopularCoins({ limit = 8 }: PopularCoinsProps) {
         {Array.from({ length: limit }).map((_, index) => (
           <div
             key={index}
-            className="p-6 bg-gradient-to-br from-white/50 to-gray-50/50 backdrop-blur-sm border border-gray-200/50 rounded-2xl animate-pulse"
+            className="p-6 bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl animate-pulse"
           >
             <div className="text-center">
-              <div className="w-12 h-12 bg-gray-300 rounded-full mx-auto mb-3"></div>
-              <div className="h-4 bg-gray-300 rounded mb-2"></div>
-              <div className="h-3 bg-gray-300 rounded w-2/3 mx-auto"></div>
+              <div className="w-12 h-12 bg-gray-600 rounded-full mx-auto mb-3"></div>
+              <div className="h-4 bg-gray-600 rounded mb-2"></div>
+              <div className="h-3 bg-gray-600 rounded w-2/3 mx-auto"></div>
             </div>
           </div>
         ))}
@@ -105,14 +105,14 @@ export default function PopularCoins({ limit = 8 }: PopularCoinsProps) {
         <Link
           key={coin.id}
           href={`/coin/${coin.id}`}
-          className="group block p-6 bg-gradient-to-br from-white/50 to-gray-50/50 backdrop-blur-sm border border-gray-200/50 rounded-2xl hover:from-blue-50 hover:to-indigo-50 hover:border-blue-200 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+          className="group block p-6 bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl hover:from-blue-900/50 hover:to-indigo-900/50 hover:border-blue-500 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
         >
           <div className="text-center">
             <div className="relative mb-3">
               <img
                 src={coin.image}
                 alt={coin.name}
-                className="w-12 h-12 rounded-full mx-auto ring-2 ring-gray-100 group-hover:ring-blue-200 transition-all duration-200"
+                className="w-12 h-12 rounded-full mx-auto ring-2 ring-gray-600 group-hover:ring-blue-400 transition-all duration-200"
                 onError={(e) => {
                   // Fallback to symbol if image fails to load
                   const target = e.target as HTMLImageElement;
@@ -134,14 +134,14 @@ export default function PopularCoins({ limit = 8 }: PopularCoinsProps) {
                 </div>
               )}
             </div>
-            <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors text-sm mb-1">
+            <h3 className="font-semibold text-white group-hover:text-blue-300 transition-colors text-sm mb-1">
               {coin.name}
             </h3>
-            <p className="text-xs text-gray-500 uppercase font-medium mb-2">
+            <p className="text-xs text-gray-400 uppercase font-medium mb-2">
               {coin.symbol}
             </p>
             <div className="space-y-1">
-              <p className="text-xs font-medium text-gray-700">
+              <p className="text-xs font-medium text-gray-200">
                 {formatPrice(coin.current_price)}
               </p>
               {formatPercent(coin.price_change_percentage_24h)}

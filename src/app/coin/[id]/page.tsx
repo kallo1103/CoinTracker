@@ -162,7 +162,7 @@ export default function CoinProfile() {
           <h2 className="text-xl font-semibold text-red-800 mb-2">Lỗi tải dữ liệu</h2>
           <p className="text-red-600 mb-4">{error}</p>
           <Link 
-            href="/dashboard" 
+            href="/profile" 
             className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
           >
             ← Quay lại Dashboard
@@ -178,7 +178,7 @@ export default function CoinProfile() {
         {/* Header */}
         <div className="mb-8">
           <Link 
-            href="/dashboard" 
+            href="/profile" 
             className="inline-flex items-center px-4 py-2 bg-white/80 backdrop-blur-sm text-blue-600 hover:text-blue-800 hover:bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 mb-6 group"
           >
             <svg className="h-5 w-5 mr-2 group-hover:-translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">

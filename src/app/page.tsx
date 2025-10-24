@@ -9,8 +9,8 @@ import CandlestickChart from '@/components/CandlestickChart';
 
 export default function Home() {
   return (
-    <div className="container mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold mb-8">📊 Dashboard Cryptocurrency</h1>
+    <div className="container mx-auto px-4 py-12 bg-gray-900 min-h-screen">
+      <h1 className="text-4xl font-bold mb-8 text-white">📊 Dashboard Cryptocurrency</h1>
       
       {/* Global Metrics - Bitcoin Dominance, Market Cap, etc */}
       <div className="mb-12">

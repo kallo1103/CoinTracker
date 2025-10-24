@@ -201,7 +201,7 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
     );
   }
 
-  // Tính stats
+
   const firstPrice = data[0]?.open || 0;
   const lastPrice = data[data.length - 1]?.close || 0;
   const priceChange = lastPrice - firstPrice;
@@ -233,8 +233,8 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
       {/* Stats Bar */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 p-4 rounded-lg bg-slate-800 border border-gray-700">
         <div className="text-center">
-          <p className="text-xs text-gray-500 mb-1">Open</p>
-          <p className="font-semibold text-sm">${firstPrice.toFixed(2)}</p>
+          <p className="text-xs text-white mb-1">Open</p>
+          <p className="font-semibold text-white text-sm">${firstPrice.toFixed(2)}</p>
         </div>
         <div className="text-center">
           <p className="text-xs text-gray-500 mb-1">High</p>
@@ -249,8 +249,8 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
           </p>
         </div>
         <div className="text-center">
-          <p className="text-xs text-gray-500 mb-1">Close</p>
-          <p className="font-semibold text-sm">${lastPrice.toFixed(2)}</p>
+          <p className="text-xs text-white mb-1">Close</p>
+          <p className="font-semibold text-white text-sm">${lastPrice.toFixed(2)}</p>
         </div>
       </div>
 

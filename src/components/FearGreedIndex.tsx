@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { AlertTriangle, X } from "lucide-react";
 
 // Interface cho dữ liệu Fear & Greed Index
 interface FearGreedData {
@@ -74,15 +75,16 @@ export default function FearGreedIndex() {
   if (error || !data) {
     return (
       <div className="border border-gray-900 rounded-lg p-4 bg-slate-900">
-        <p className="text-red-600">❌ {error || 'Không có dữ liệu'}</p>
+        <p className="text-red-600 flex items-center gap-2"><X className="w-4 h-4" /> {error || 'Không có dữ liệu'}</p>
       </div>
     );
   }
 
   return (
     <div className="rounded-lg shadow p-6 border border-gray-900 bg-slate-900">
-      <h3 className="text-lg font-semibold text-white mb-4">
-        😱 Crypto Fear & Greed Index
+      <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+        <AlertTriangle className="w-5 h-5" />
+        Crypto Fear & Greed Index
       </h3>
       
       {/* Gauge/Meter hiển thị */}

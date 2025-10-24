@@ -105,25 +105,25 @@ export default function CryptoList({ limit = 10 }: CryptoListProps) {
 
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20">
-        <thead className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-t-2xl">
+      <table className="min-w-full bg-slate-900 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20">
+        <thead className="bg-gradient-to-r from-slate-800 to-slate-900 rounded-t-2xl">
           <tr>
-            <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            <th className="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
               #
             </th>
-            <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            <th className="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
               Tên
             </th>
-            <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            <th className="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
               Giá
             </th>
-            <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            <th className="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
               24h
             </th>
-            <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            <th className="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
               7d
             </th>
-            <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            <th className="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
               Market Cap
             </th>
           </tr>
@@ -145,7 +145,7 @@ export default function CryptoList({ limit = 10 }: CryptoListProps) {
                     }}
                   />
                   <div>
-                    <div className="text-sm font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                    <div className="text-sm font-semibold text-white group-hover:text-blue-600 transition-colors">
                       {crypto.name}
                     </div>
                     <div className="text-sm text-gray-500 uppercase font-medium">
@@ -154,7 +154,7 @@ export default function CryptoList({ limit = 10 }: CryptoListProps) {
                   </div>
                 </Link>
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-white">
                 {formatPrice(crypto.current_price)}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm">
@@ -163,7 +163,7 @@ export default function CryptoList({ limit = 10 }: CryptoListProps) {
               <td className="px-6 py-4 whitespace-nowrap text-sm">
                 {formatPercent(crypto.price_change_percentage_7d)}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
                 {formatMarketCap(crypto.market_cap)}
               </td>
             </tr>

@@ -4,9 +4,9 @@ import { NextResponse } from 'next/server';
 // Endpoint: /api/coin/bitcoin
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const coinId = params.id;
+  const { id: coinId } = await params;
   
   if (!coinId) {
     return NextResponse.json(

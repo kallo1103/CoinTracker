@@ -5,76 +5,91 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import MetaMaskButton from "./MetaMaskButton";
 import { useState } from "react";
+import { useNavbar } from "@/contexts/NavbarContext";
+import { LogIn, X } from "lucide-react";
 
 export default function AuthButton() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [showOptions, setShowOptions] = useState(false);
+  const { isCollapsed } = useNavbar(); // Lấy trạng thái sidebar
 
-  // Shorten display name for logged in users
-  const shortenName = (name?: string | null) => {
-    if (!name) return 'User';
-    const trimmed = name.trim();
-    // If full name, show first name only
-    if (trimmed.includes(' ')) return trimmed.split(' ')[0];
-    // If single long name, truncate
-    if (trimmed.length > 12) return `${trimmed.slice(0, 10)}...`;
-    return trimmed;
-  };
 
-  // Loading state
+  // Loading state - responsive cho cả sidebar đóng/mở
   if (status === "loading") {
     return (
-      <div className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg animate-pulse">
-        <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
-        <div className="w-20 h-4 bg-gray-300 rounded"></div>
+      <div className={`flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg animate-pulse ${
+        isCollapsed ? 'justify-center px-2' : ''
+      }`}>
+        <div className={`${isCollapsed ? 'w-10 h-10' : 'w-8 h-8'} bg-gray-300 rounded-full`}></div>
+        {!isCollapsed && <div className="w-20 h-4 bg-gray-300 rounded"></div>}
       </div>
     );
   }
 
-  // Logged in - show user info
+  // Logged in - show user info - responsive cho cả sidebar đóng/mở
   if (session) {
     return (
       <button
-        onClick={() => router.push("/dashboard")}
-        className="flex items-center gap-2 px-4 py-2 bg-white hover:bg-gray-50 rounded-lg transition-colors shadow-sm border border-gray-200 mx-auto"
+        onClick={() => router.push("/profile")}
+        className={`flex items-center gap-2 px-3 sm:px-4 py-2 bg-white rounded-lg transition-all shadow-sm border border-gray-200 hover:shadow-md ${
+          isCollapsed 
+            ? 'w-15 h-12 justify-start px-2' 
+            : 'w-full max-w-[300px] h-[60px] mx-auto'
+        }`}
+        title={isCollapsed ? `Profile - ${session.user?.name || 'User'}` : ''}
       >
         {session.user?.image ? (
           <Image
             src={session.user.image}
             alt={session.user.name || "User"}
-            width={32}
-            height={32}
-            className="rounded-full"
+            width={isCollapsed ? 28 : 32}
+            height={isCollapsed ? 28 : 32}
+            className="rounded-full flex-shrink-0"
             unoptimized
           />
         ) : (
-          <div className="w-8 h-8 bg-gradient-to-br from-indigo-400 to-purple-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
+          <div className={`${
+            isCollapsed ? 'w-7 h-7 text-xs' : 'w-10 h-10 text-sm'
+          } bg-gradient-to-br from-indigo-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0`}>
             {session.user?.name?.charAt(0).toUpperCase() || "U"}
           </div>
         )}
-        <span className="font-medium text-gray-700 hidden sm:block">
-          {shortenName(session.user?.name)}
-        </span>
+        {isCollapsed ? (
+          <span className="font-medium text-gray-700 text-xs truncate ml-1">
+            {session.user?.name || 'User'}
+          </span>
+        ) : (
+          <span className="font-medium text-gray-700 text-sm sm:text-base whitespace-nowrap overflow-hidden">
+            {session.user?.name || 'User'}
+          </span>
+        )}
       </button>
     );
   }
 
-  // Not logged in - show sign in options
+  // Not logged in - show sign in options - responsive cho cả sidebar đóng/mở
   return (
     <div className="relative">
       {!showOptions ? (
         <button
           onClick={() => setShowOptions(true)}
-          className="px-6 py-2.5 bg-blue-900 text-white rounded-lg transition-all font-medium shadow-md hover:shadow-lg flex items-center gap-2 mx-auto"
+          className={`bg-blue-900 text-white rounded-lg transition-all font-medium shadow-md hover:shadow-lg flex items-center gap-2 ${
+            isCollapsed 
+              ? 'w-12 h-12 justify-center px-2' 
+              : 'w-full max-w-[200px] px-4 sm:px-6 py-2 sm:py-2.5 mx-auto text-sm sm:text-base'
+          }`}
+          title={isCollapsed ? "Đăng nhập" : ''}
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-          </svg>
-          Sign in
+          <LogIn className={`${isCollapsed ? 'w-6 h-6' : 'w-5 h-5'}`} />
+          {!isCollapsed && "Sign in"}
         </button>
       ) : (
-        <div className="bg-gray-800 rounded-lg p-4 shadow-xl border border-gray-700 space-y-3 min-w-[250px]">
+        <div className={`bg-gray-800 rounded-lg p-3 sm:p-4 shadow-xl border border-gray-700 space-y-3 ${
+          isCollapsed 
+            ? 'absolute left-16 bottom-0 w-64 z-50' 
+            : 'w-full max-w-[280px] sm:min-w-[250px]'
+        }`}>
           {/* Header */}
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-white font-semibold">Choose Method</h3>
@@ -82,13 +97,13 @@ export default function AuthButton() {
               onClick={() => setShowOptions(false)}
               className="text-gray-400 hover:text-white"
             >
-              ✕
+              <X className="w-4 h-4" />
             </button>
           </div>
 
           {/* Google Sign In */}
           <button
-            onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+            onClick={() => signIn("google", { callbackUrl: "/profile" })}
             className="w-full px-4 py-2.5 bg-white hover:bg-gray-100 text-gray-800 rounded-lg transition-all font-medium shadow-sm flex items-center gap-2 justify-center"
           >
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">

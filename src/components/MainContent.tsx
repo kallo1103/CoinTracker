@@ -7,7 +7,7 @@ export default function MainContent({ children }: { children: React.ReactNode })
   const { isCollapsed } = useNavbar();
   
   return (
-    <main className={`min-h-screen transition-all duration-300 ${
+    <main className={`min-h-screen bg-gray-900 transition-all duration-300 ${
       isCollapsed ? 'ml-16' : 'ml-64'
     }`}>
       {children}
