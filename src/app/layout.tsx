@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import MainContent from "@/components/MainContent";
 import { NavbarProvider } from "@/contexts/NavbarContext";
 import Providers from "@/components/Providers";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: "Crypto Tracker",
@@ -47,6 +48,8 @@ export default function RootLayout({
             <Footer />
           </NavbarProvider>
         </Providers>
+        {/* Vercel Speed Insights - theo dõi hiệu suất ứng dụng */}
+        <SpeedInsights />
       </body>
     </html>
   );
