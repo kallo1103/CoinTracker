@@ -175,6 +175,159 @@ const translations = {
     'theme.auto': 'Tự động',
     'language.vietnamese': 'Tiếng Việt',
     'language.english': 'English',
+    
+    // Dashboard
+    'dashboard.welcome': 'Chào mừng đến Dashboard!',
+    'dashboard.loginSuccess': 'Bạn đã đăng nhập thành công',
+    'dashboard.accountInfo': 'Thông tin tài khoản',
+    'dashboard.name': 'Tên',
+    'dashboard.email': 'Email',
+    'dashboard.accountType': 'Loại tài khoản',
+    'dashboard.premium': 'Premium',
+    'dashboard.free': 'Miễn phí',
+    'dashboard.quickActions': 'Hành động nhanh',
+    'dashboard.profile': 'Hồ sơ',
+    'dashboard.settings': 'Cài đặt',
+    'dashboard.docs': 'Tài liệu',
+    'dashboard.viewProfile': 'Xem hồ sơ của bạn',
+    'dashboard.configurePreferences': 'Cấu hình tùy chọn',
+    'dashboard.readDocs': 'Đọc tài liệu',
+    'dashboard.backToDashboard': 'Về Dashboard',
+    
+    // Search
+    'search.title': 'Tìm kiếm Cryptocurrency',
+    'search.subtitle': 'Khám phá thông tin chi tiết về các loại tiền điện tử phổ biến trên thế giới',
+    'search.searchCoin': 'Tìm kiếm coin',
+    'search.searchPlaceholder': 'Nhập tên hoặc ký hiệu của coin để tìm kiếm',
+    'search.popular': 'Coin phổ biến',
+    'search.tips': 'Mẹo tìm kiếm',
+    'search.tip1': 'Nhập tên đầy đủ hoặc ký hiệu của coin (ví dụ: "bitcoin" hoặc "BTC")',
+    'search.tip2': 'Tìm kiếm bằng tên tiếng Anh sẽ cho kết quả chính xác hơn',
+    'search.tip3': 'Bạn cần nhập ít nhất 2 ký tự để bắt đầu tìm kiếm',
+    'search.tip4': 'Click vào kết quả để xem thông tin chi tiết của coin',
+    
+    // Home Page
+    'home.title': '📊 Dashboard Cryptocurrency',
+    'home.topCryptos': 'Top 10 Cryptocurrencies',
+    
+    // Common - Extended
+    'common.loadingData': 'Đang tải dữ liệu...',
+    'common.noData': 'Không có dữ liệu',
+    'common.rank': 'Xếp hạng',
+    'common.name': 'Tên',
+    'common.price': 'Giá',
+    'common.change24h': 'Thay đổi 24h',
+    'common.volume': 'Khối lượng',
+    'common.marketCap': 'Vốn hóa',
+    'common.updated': 'Cập nhật',
+    'common.symbol': 'Ký hiệu',
+    'common.markets': 'Thị trường',
+    'common.supply': 'Nguồn cung',
+    
+    // Time Ranges
+    'time.7d': '7 ngày',
+    'time.30d': '30 ngày',
+    'time.90d': '90 ngày',
+    'time.1y': '1 năm',
+    'time.24h': '24 giờ',
+    
+    // Coin Detail
+    'coin.backToDashboard': 'Quay lại Dashboard',
+    'coin.loading': 'Đang tải thông tin coin...',
+    'coin.error': 'Lỗi tải dữ liệu',
+    'coin.marketData': 'Thống kê thị trường',
+    'coin.supplyInfo': 'Thông tin nguồn cung',
+    'coin.circulating': 'Đang lưu hành',
+    'coin.totalSupply': 'Tổng cung',
+    'coin.maxSupply': 'Cung tối đa',
+    'coin.categories': 'Danh mục',
+    'coin.links': 'Liên kết',
+    'coin.homepage': 'Trang chủ',
+    'coin.explorer': 'Trình khám phá',
+    'coin.sourceCode': 'Mã nguồn',
+    'coin.community': 'Cộng đồng',
+    'coin.description': 'Mô tả',
+    'coin.priceChange': 'Thay đổi giá',
+    'coin.high24h': 'Cao nhất 24h',
+    'coin.low24h': 'Thấp nhất 24h',
+    'coin.allTimeHigh': 'Cao nhất mọi thời đại',
+    'coin.allTimeLow': 'Thấp nhất mọi thời đại',
+    
+    // Charts & Indicators
+    'chart.priceIncrease': 'Tăng giá',
+    'chart.priceDecrease': 'Giảm giá',
+    'chart.candles': 'nến',
+    'chart.price': 'Giá',
+    'chart.volume': 'Khối lượng',
+    'chart.date': 'Ngày',
+    'chart.open': 'Mở cửa',
+    'chart.close': 'Đóng cửa',
+    'chart.high': 'Cao',
+    'chart.low': 'Thấp',
+    'chart.recentDays': 'ngày gần đây',
+    
+    // Fear & Greed Index
+    'fearGreed.title': 'Chỉ số Sợ hãi & Tham lam',
+    'fearGreed.meaning': 'Ý nghĩa',
+    'fearGreed.extremeFear': 'Sợ hãi cực độ',
+    'fearGreed.fear': 'Sợ hãi',
+    'fearGreed.neutral': 'Trung lập',
+    'fearGreed.greed': 'Tham lam',
+    'fearGreed.extremeGreed': 'Tham lam cực độ',
+    'fearGreed.range': 'Khoảng',
+    'fearGreed.now': 'Hiện tại',
+    
+    // Global Metrics
+    'metrics.totalMarketCap': 'Tổng vốn hóa thị trường',
+    'metrics.totalVolume24h': 'Tổng khối lượng 24h',
+    'metrics.btcDominance': 'Thống trị BTC',
+    'metrics.ethDominance': 'Thống trị ETH',
+    'metrics.dominance': 'Thống trị',
+    
+    // Exchange
+    'exchange.title': 'Sàn giao dịch',
+    'exchange.totalExchanges': 'Tổng số sàn',
+    'exchange.totalVolume': 'Tổng volume 24h (BTC)',
+    'exchange.totalMarkets': 'Tổng market pairs',
+    'exchange.trustScore': 'Điểm tin cậy',
+    'exchange.name': 'Tên sàn',
+    'exchange.volume24h': 'Khối lượng 24h',
+    'exchange.established': 'Thành lập',
+    'exchange.country': 'Quốc gia',
+    
+    // Crypto List
+    'cryptoList.title': 'Danh sách Cryptocurrency',
+    'cryptoList.noResults': 'Không tìm thấy kết quả',
+    'cryptoList.viewMore': 'Xem thêm',
+    
+    // Popular Coins
+    'popularCoins.title': 'Coin phổ biến',
+    'popularCoins.trending': 'Đang xu hướng',
+    
+    // Crypto News
+    'news.title': 'Tin tức Crypto',
+    'news.latest': 'Tin mới nhất',
+    'news.readMore': 'Đọc thêm',
+    'news.source': 'Nguồn',
+    'news.publishedAt': 'Xuất bản lúc',
+    
+    // Search Component
+    'cryptoSearch.placeholder': 'Tìm kiếm coin (ví dụ: bitcoin, ethereum)...',
+    'cryptoSearch.noResults': 'Không tìm thấy kết quả',
+    'cryptoSearch.searching': 'Đang tìm kiếm...',
+    
+    // MetaMask
+    'metamask.connect': 'Kết nối MetaMask',
+    'metamask.connected': 'Đã kết nối',
+    'metamask.disconnect': 'Ngắt kết nối',
+    'metamask.notInstalled': 'Vui lòng cài đặt MetaMask',
+    'metamask.address': 'Địa chỉ',
+    
+    // Dominance Chart
+    'dominance.title': 'Thống trị thị trường',
+    'dominance.bitcoin': 'Bitcoin',
+    'dominance.ethereum': 'Ethereum',
+    'dominance.others': 'Khác',
   },
   en: {
     // Navigation
@@ -337,6 +490,159 @@ const translations = {
     'theme.auto': 'Auto',
     'language.vietnamese': 'Tiếng Việt',
     'language.english': 'English',
+    
+    // Dashboard
+    'dashboard.welcome': 'Welcome to the Dashboard!',
+    'dashboard.loginSuccess': 'You have successfully logged in',
+    'dashboard.accountInfo': 'Account Information',
+    'dashboard.name': 'Name',
+    'dashboard.email': 'Email',
+    'dashboard.accountType': 'Account Type',
+    'dashboard.premium': 'Premium',
+    'dashboard.free': 'Free',
+    'dashboard.quickActions': 'Quick Actions',
+    'dashboard.profile': 'Profile',
+    'dashboard.settings': 'Settings',
+    'dashboard.docs': 'Documentation',
+    'dashboard.viewProfile': 'View your profile',
+    'dashboard.configurePreferences': 'Configure preferences',
+    'dashboard.readDocs': 'Read documentation',
+    'dashboard.backToDashboard': 'Back to Dashboard',
+    
+    // Search
+    'search.title': 'Search Cryptocurrency',
+    'search.subtitle': 'Discover detailed information about popular cryptocurrencies worldwide',
+    'search.searchCoin': 'Search coin',
+    'search.searchPlaceholder': 'Enter name or symbol of the coin to search',
+    'search.popular': 'Popular Coins',
+    'search.tips': 'Search Tips',
+    'search.tip1': 'Enter full name or symbol of the coin (e.g., "bitcoin" or "BTC")',
+    'search.tip2': 'Searching with English name will give more accurate results',
+    'search.tip3': 'You need to enter at least 2 characters to start searching',
+    'search.tip4': 'Click on the result to view detailed information about the coin',
+    
+    // Home Page
+    'home.title': '📊 Cryptocurrency Dashboard',
+    'home.topCryptos': 'Top 10 Cryptocurrencies',
+    
+    // Common - Extended
+    'common.loadingData': 'Loading data...',
+    'common.noData': 'No data available',
+    'common.rank': 'Rank',
+    'common.name': 'Name',
+    'common.price': 'Price',
+    'common.change24h': '24h Change',
+    'common.volume': 'Volume',
+    'common.marketCap': 'Market Cap',
+    'common.updated': 'Updated',
+    'common.symbol': 'Symbol',
+    'common.markets': 'Markets',
+    'common.supply': 'Supply',
+    
+    // Time Ranges
+    'time.7d': '7 Days',
+    'time.30d': '30 Days',
+    'time.90d': '90 Days',
+    'time.1y': '1 Year',
+    'time.24h': '24 Hours',
+    
+    // Coin Detail
+    'coin.backToDashboard': 'Back to Dashboard',
+    'coin.loading': 'Loading coin info...',
+    'coin.error': 'Error loading data',
+    'coin.marketData': 'Market Statistics',
+    'coin.supplyInfo': 'Supply Information',
+    'coin.circulating': 'Circulating',
+    'coin.totalSupply': 'Total Supply',
+    'coin.maxSupply': 'Max Supply',
+    'coin.categories': 'Categories',
+    'coin.links': 'Links',
+    'coin.homepage': 'Homepage',
+    'coin.explorer': 'Explorer',
+    'coin.sourceCode': 'Source Code',
+    'coin.community': 'Community',
+    'coin.description': 'Description',
+    'coin.priceChange': 'Price Change',
+    'coin.high24h': '24h High',
+    'coin.low24h': '24h Low',
+    'coin.allTimeHigh': 'All Time High',
+    'coin.allTimeLow': 'All Time Low',
+    
+    // Charts & Indicators
+    'chart.priceIncrease': 'Price Up',
+    'chart.priceDecrease': 'Price Down',
+    'chart.candles': 'candles',
+    'chart.price': 'Price',
+    'chart.volume': 'Volume',
+    'chart.date': 'Date',
+    'chart.open': 'Open',
+    'chart.close': 'Close',
+    'chart.high': 'High',
+    'chart.low': 'Low',
+    'chart.recentDays': 'recent days',
+    
+    // Fear & Greed Index
+    'fearGreed.title': 'Fear & Greed Index',
+    'fearGreed.meaning': 'Meaning',
+    'fearGreed.extremeFear': 'Extreme Fear',
+    'fearGreed.fear': 'Fear',
+    'fearGreed.neutral': 'Neutral',
+    'fearGreed.greed': 'Greed',
+    'fearGreed.extremeGreed': 'Extreme Greed',
+    'fearGreed.range': 'Range',
+    'fearGreed.now': 'Now',
+    
+    // Global Metrics
+    'metrics.totalMarketCap': 'Total Market Cap',
+    'metrics.totalVolume24h': 'Total Volume 24h',
+    'metrics.btcDominance': 'BTC Dominance',
+    'metrics.ethDominance': 'ETH Dominance',
+    'metrics.dominance': 'Dominance',
+    
+    // Exchange
+    'exchange.title': 'Exchanges',
+    'exchange.totalExchanges': 'Total Exchanges',
+    'exchange.totalVolume': 'Total Volume 24h (BTC)',
+    'exchange.totalMarkets': 'Total Market Pairs',
+    'exchange.trustScore': 'Trust Score',
+    'exchange.name': 'Exchange Name',
+    'exchange.volume24h': 'Volume 24h',
+    'exchange.established': 'Established',
+    'exchange.country': 'Country',
+    
+    // Crypto List
+    'cryptoList.title': 'Cryptocurrency List',
+    'cryptoList.noResults': 'No results found',
+    'cryptoList.viewMore': 'View More',
+    
+    // Popular Coins
+    'popularCoins.title': 'Popular Coins',
+    'popularCoins.trending': 'Trending',
+    
+    // Crypto News
+    'news.title': 'Crypto News',
+    'news.latest': 'Latest News',
+    'news.readMore': 'Read More',
+    'news.source': 'Source',
+    'news.publishedAt': 'Published at',
+    
+    // Search Component
+    'cryptoSearch.placeholder': 'Search coins (e.g., bitcoin, ethereum)...',
+    'cryptoSearch.noResults': 'No results found',
+    'cryptoSearch.searching': 'Searching...',
+    
+    // MetaMask
+    'metamask.connect': 'Connect MetaMask',
+    'metamask.connected': 'Connected',
+    'metamask.disconnect': 'Disconnect',
+    'metamask.notInstalled': 'Please install MetaMask',
+    'metamask.address': 'Address',
+    
+    // Dominance Chart
+    'dominance.title': 'Market Dominance',
+    'dominance.bitcoin': 'Bitcoin',
+    'dominance.ethereum': 'Ethereum',
+    'dominance.others': 'Others',
   }
 };
 

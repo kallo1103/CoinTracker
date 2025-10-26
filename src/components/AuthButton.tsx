@@ -7,6 +7,8 @@ import MetaMaskButton from "./MetaMaskButton";
 import { useState } from "react";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { LogIn, X } from "lucide-react";
+import { DESIGN_TOKENS } from '@/config/design-tokens';
+import { getBrandColor } from '@/utils/theme';
 
 export default function AuthButton() {
   const { data: session, status } = useSession();
@@ -74,48 +76,98 @@ export default function AuthButton() {
       {!showOptions ? (
         <button
           onClick={() => setShowOptions(true)}
-          className={`bg-blue-900 text-white rounded-lg transition-all font-medium shadow-md hover:shadow-lg flex items-center gap-2 ${
+          className={`text-white rounded-lg transition-all font-medium shadow-md hover:shadow-lg flex items-center ${
             isCollapsed 
-              ? 'w-12 h-12 justify-center px-2' 
-              : 'w-full max-w-[200px] px-4 sm:px-6 py-2 sm:py-2.5 mx-auto text-sm sm:text-base'
+              ? 'w-12 h-12 justify-center' 
+              : 'w-full max-w-[200px] mx-auto'
           }`}
+          style={{
+            background: `linear-gradient(135deg, ${getBrandColor('primary')} 0%, ${getBrandColor('secondary')} 100%)`,
+            padding: isCollapsed 
+              ? `${DESIGN_TOKENS.spacing.scale[2]}px` 
+              : `${DESIGN_TOKENS.spacing.scale[2]}px ${DESIGN_TOKENS.spacing.scale[6]}px`,
+            borderRadius: DESIGN_TOKENS.borderRadius.lg,
+            fontSize: isCollapsed ? DESIGN_TOKENS.typography.fontSize.sm : DESIGN_TOKENS.typography.fontSize.base,
+            gap: `${DESIGN_TOKENS.spacing.scale[2]}px`
+          }}
           title={isCollapsed ? "Đăng nhập" : ''}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = `linear-gradient(135deg, ${getBrandColor('primaryHover')} 0%, ${getBrandColor('secondaryHover')} 100%)`;
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = `linear-gradient(135deg, ${getBrandColor('primary')} 0%, ${getBrandColor('secondary')} 100%)`;
+          }}
         >
-          <LogIn className={`${isCollapsed ? 'w-6 h-6' : 'w-5 h-5'}`} />
+          <LogIn 
+            style={{
+              width: isCollapsed ? '24px' : '20px',
+              height: isCollapsed ? '24px' : '20px'
+            }}
+          />
           {!isCollapsed && "Sign in"}
         </button>
       ) : (
-        <div className={`bg-gray-800 rounded-lg p-3 sm:p-4 shadow-xl border border-gray-700 space-y-3 ${
-          isCollapsed 
-            ? 'absolute left-16 bottom-0 w-64 z-50' 
-            : 'w-full max-w-[280px] sm:min-w-[250px]'
-        }`}>
+        <div 
+          className={`bg-gray-800 shadow-xl border border-gray-700 ${
+            isCollapsed 
+              ? 'absolute left-16 bottom-0 w-64 z-50' 
+              : 'w-full max-w-[280px] sm:min-w-[250px]'
+          }`}
+          style={{
+            borderRadius: DESIGN_TOKENS.borderRadius.lg,
+            padding: `${DESIGN_TOKENS.spacing.scale[4]}px`,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: `${DESIGN_TOKENS.spacing.scale[3]}px`
+          }}
+        >
           {/* Header */}
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-white font-semibold">Choose Method</h3>
+          <div 
+            className="flex items-center justify-between"
+            style={{ marginBottom: `${DESIGN_TOKENS.spacing.scale[3]}px` }}
+          >
+            <h3 
+              className="text-white font-semibold"
+              style={{ fontSize: DESIGN_TOKENS.typography.fontSize.base }}
+            >
+              Choose Method
+            </h3>
             <button
               onClick={() => setShowOptions(false)}
               className="text-gray-400 hover:text-white"
             >
-              <X className="w-4 h-4" />
+              <X style={{ width: '16px', height: '16px' }} />
             </button>
           </div>
 
           {/* Google Sign In */}
           <button
             onClick={() => signIn("google", { callbackUrl: "/profile" })}
-            className="w-full px-4 py-2.5 bg-white hover:bg-gray-100 text-gray-800 rounded-lg transition-all font-medium shadow-sm flex items-center gap-2 justify-center"
+            className="w-full bg-white hover:bg-gray-100 text-gray-800 transition-all font-medium shadow-sm flex items-center justify-center"
+            style={{
+              padding: `${DESIGN_TOKENS.spacing.scale[2]}px ${DESIGN_TOKENS.spacing.scale[4]}px`,
+              borderRadius: DESIGN_TOKENS.borderRadius.lg,
+              gap: `${DESIGN_TOKENS.spacing.scale[2]}px`
+            }}
           >
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <svg style={{ width: '20px', height: '20px' }} fill="currentColor" viewBox="0 0 24 24">
               <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"/>
             </svg>
             Google
           </button>
 
           {/* Divider */}
-          <div className="flex items-center gap-2">
+          <div 
+            className="flex items-center"
+            style={{ gap: `${DESIGN_TOKENS.spacing.scale[2]}px` }}
+          >
             <div className="flex-1 h-px bg-gray-600"></div>
-            <span className="text-gray-400 text-xs">OR</span>
+            <span 
+              className="text-gray-400"
+              style={{ fontSize: DESIGN_TOKENS.typography.fontSize.xs }}
+            >
+              OR
+            </span>
             <div className="flex-1 h-px bg-gray-600"></div>
           </div>
 

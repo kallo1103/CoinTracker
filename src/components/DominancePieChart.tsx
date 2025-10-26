@@ -39,10 +39,10 @@ export default function DominancePieChart() {
 
   if (loading) {
     return (
-      <div className="rounded-lg shadow p-6 border border-gray-900 bg-slate-900">
+      <div className="rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
         <div className="animate-pulse">
-          <div className="h-4 bg-gray-200 rounded w-1/2 mb-4"></div>
-          <div className="h-64 bg-gray-200 rounded"></div>
+          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2 mb-4"></div>
+          <div className="h-64 bg-gray-200 dark:bg-gray-700 rounded"></div>
         </div>
       </div>
     );
@@ -50,8 +50,8 @@ export default function DominancePieChart() {
 
   if (error || !data) {
     return (
-      <div className="border border-gray-900 rounded-lg p-4 bg-slate-900">
-        <p className="text-red-600">❌ {error || 'Không có dữ liệu'}</p>
+      <div className="border border-red-200 dark:border-red-800 rounded-lg p-4 bg-red-50 dark:bg-red-900/20">
+        <p className="text-red-600 dark:text-red-400">❌ {error || 'Không có dữ liệu'}</p>
       </div>
     );
   }
@@ -68,8 +68,8 @@ export default function DominancePieChart() {
     if (active && payload && payload.length) {
       const data = payload[0];
       return (
-        <div className="bg-white p-3 rounded-lg shadow-lg border border-gray-200">
-          <p className="font-medium text-gray-900">{data.name}</p>
+        <div className="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
+          <p className="font-medium text-gray-900 dark:text-white">{data.name}</p>
           <p className="text-lg font-bold" style={{ color: data.payload.color }}>
             {data.value.toFixed(2)}%
           </p>
@@ -80,9 +80,9 @@ export default function DominancePieChart() {
   };
 
   return (
-    <div className="rounded-lg shadow p-6 border border-gray-900 bg-slate-900">
+    <div className="rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
       {/* Header */}
-      <h3 className="text-xl font-bold text-white mb-6">🥧 Market Dominance</h3>
+      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">🥧 Market Dominance</h3>
 
       {/* Pie Chart */}
       <ResponsiveContainer width="100%" height={300}>
@@ -106,7 +106,7 @@ export default function DominancePieChart() {
             verticalAlign="bottom" 
             height={36}
             formatter={(value, entry) => (
-              <span style={{ color: '#374151' }}>
+              <span className="text-gray-700 dark:text-gray-300">
                 {value}: <strong>{(entry.payload?.value as number)?.toFixed(2)}%</strong>
               </span>
             )}
@@ -117,16 +117,16 @@ export default function DominancePieChart() {
       {/* Stats */}
       <div className="mt-6 grid grid-cols-3 gap-4">
         <div className="text-center">
-          <div className="text-sm text-gray-600">Bitcoin</div>
-          <div className="text-xl font-bold text-orange-600">{data.btc_dominance.toFixed(2)}%</div>
+          <div className="text-sm text-gray-600 dark:text-gray-400">Bitcoin</div>
+          <div className="text-xl font-bold text-orange-600 dark:text-orange-400">{data.btc_dominance.toFixed(2)}%</div>
         </div>
         <div className="text-center">
-          <div className="text-sm text-gray-600">Ethereum</div>
-          <div className="text-xl font-bold text-purple-600">{data.eth_dominance.toFixed(2)}%</div>
+          <div className="text-sm text-gray-600 dark:text-gray-400">Ethereum</div>
+          <div className="text-xl font-bold text-purple-600 dark:text-purple-400">{data.eth_dominance.toFixed(2)}%</div>
         </div>
         <div className="text-center">
-          <div className="text-sm text-gray-600">Others</div>
-          <div className="text-xl font-bold text-blue-600">
+          <div className="text-sm text-gray-600 dark:text-gray-400">Others</div>
+          <div className="text-xl font-bold text-gray-900 dark:text-white">
             {(100 - data.btc_dominance - data.eth_dominance).toFixed(2)}%
           </div>
         </div>

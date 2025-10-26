@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { ComposedChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // Interface cho candlestick data
 interface CandleData {
@@ -20,6 +21,7 @@ interface CandlestickChartProps {
 }
 
 export default function CandlestickChart({ symbol = 'BTC', days = 30 }: CandlestickChartProps) {
+  const { t } = useLanguage();
   const [data, setData] = useState<CandleData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -140,19 +142,19 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
           
           <div className="space-y-1 text-sm">
             <div className="flex justify-between gap-4">
-              <span className="text-gray-500">Open:</span>
+              <span className="text-gray-500">{t('chart.open')}:</span>
               <span className="font-semibold">${data.open.toFixed(2)}</span>
             </div>
             <div className="flex justify-between gap-4">
-              <span className="text-gray-500">High:</span>
+              <span className="text-gray-500">{t('chart.high')}:</span>
               <span className="font-semibold text-green-600">${data.high.toFixed(2)}</span>
             </div>
             <div className="flex justify-between gap-4">
-              <span className="text-gray-500">Low:</span>
+              <span className="text-gray-500">{t('chart.low')}:</span>
               <span className="font-semibold text-red-600">${data.low.toFixed(2)}</span>
             </div>
             <div className="flex justify-between gap-4">
-              <span className="text-gray-500">Close:</span>
+              <span className="text-gray-500">{t('chart.close')}:</span>
               <span className="font-semibold">${data.close.toFixed(2)}</span>
             </div>
           </div>
@@ -170,7 +172,7 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
 
           <div className="mt-2 pt-2 border-t border-gray-100">
             <div className="flex justify-between gap-4">
-              <span className="text-gray-500 text-xs">Volume:</span>
+              <span className="text-gray-500 text-xs">{t('chart.volume')}:</span>
               <span className="font-medium text-xs">
                 ${(data.volume / 1e9).toFixed(2)}B
               </span>
@@ -184,7 +186,7 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
 
   if (loading) {
     return (
-      <div className="rounded-lg shadow p-6 border border-gray-900 bg-slate-900">
+      <div className="rounded-lg shadow p-6 border border-gray-200 dark:border-gray-900 bg-white dark:bg-slate-900">
         <div className="animate-pulse">
           <div className="h-4 bg-gray-200 rounded w-1/4 mb-4"></div>
           <div className="h-96 bg-gray-200 rounded"></div>
@@ -213,15 +215,15 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
   const redCandles = candleData.length - greenCandles;
 
   return (
-    <div className="rounded-lg shadow p-6 border border-gray-900 bg-slate-900">
+    <div className="rounded-lg shadow p-6 border border-gray-200 dark:border-gray-900 bg-white dark:bg-slate-900">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-xl font-bold text-white">🕯️ {symbol} Candlestick Chart</h3>
-          <p className="text-sm text-gray-500">{days} ngày gần đây</p>
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white">🕯️ {symbol} Candlestick Chart</h3>
+          <p className="text-sm text-gray-500">{days} {t('chart.recentDays')}</p>
         </div>
         <div className="text-right">
-          <p className="text-2xl font-bold text-white">
+          <p className="text-2xl font-bold text-gray-900 dark:text-white">
             ${lastPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </p>
           <p className={`text-sm font-medium ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
@@ -231,26 +233,26 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
       </div>
 
       {/* Stats Bar */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 p-4 rounded-lg bg-slate-800 border border-gray-700">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 p-4 rounded-lg bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-gray-700">
         <div className="text-center">
-          <p className="text-xs text-white mb-1">Open</p>
-          <p className="font-semibold text-white text-sm">${firstPrice.toFixed(2)}</p>
+          <p className="text-xs text-gray-900 dark:text-white mb-1">{t('chart.open')}</p>
+          <p className="font-semibold text-gray-900 dark:text-white text-sm">${firstPrice.toFixed(2)}</p>
         </div>
         <div className="text-center">
-          <p className="text-xs text-gray-500 mb-1">High</p>
+          <p className="text-xs text-gray-500 mb-1">{t('chart.high')}</p>
           <p className="font-semibold text-sm text-green-600">
             ${Math.max(...data.map(d => d.high)).toFixed(2)}
           </p>
         </div>
         <div className="text-center">
-          <p className="text-xs text-gray-500 mb-1">Low</p>
+          <p className="text-xs text-gray-500 mb-1">{t('chart.low')}</p>
           <p className="font-semibold text-sm text-red-600">
             ${Math.min(...data.map(d => d.low)).toFixed(2)}
           </p>
         </div>
         <div className="text-center">
-          <p className="text-xs text-white mb-1">Close</p>
-          <p className="font-semibold text-white text-sm">${lastPrice.toFixed(2)}</p>
+          <p className="text-xs text-gray-900 dark:text-white mb-1">{t('chart.close')}</p>
+          <p className="font-semibold text-gray-900 dark:text-white text-sm">${lastPrice.toFixed(2)}</p>
         </div>
       </div>
 
@@ -301,15 +303,15 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-green-500 rounded"></div>
-            <span className="text-gray-600">Tăng giá ({greenCandles} nến)</span>
+            <span className="text-gray-600">{t('chart.priceIncrease')} ({greenCandles} {t('chart.candles')})</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-red-500 rounded"></div>
-            <span className="text-gray-600">Giảm giá ({redCandles} nến)</span>
+            <span className="text-gray-600">{t('chart.priceDecrease')} ({redCandles} {t('chart.candles')})</span>
           </div>
         </div>
         <p className="text-xs text-gray-400">
-          Updated: {new Date().toLocaleString('vi-VN')}
+          {t('common.updated')}: {new Date().toLocaleString()}
         </p>
       </div>
     </div>

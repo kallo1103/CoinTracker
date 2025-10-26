@@ -148,7 +148,7 @@ export default function CoinProfile() {
   if (loading) {
     return (
       <div className="flex justify-center items-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-600 dark:border-white"></div>
         <span className="ml-3 text-gray-600">Đang tải thông tin coin...</span>
       </div>
     );
@@ -163,7 +163,7 @@ export default function CoinProfile() {
           <p className="text-red-600 mb-4">{error}</p>
           <Link 
             href="/profile" 
-            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+            className="inline-flex items-center px-4 py-2 btn-primary rounded-md transition-colors"
           >
             ← Quay lại Dashboard
           </Link>
@@ -173,13 +173,13 @@ export default function CoinProfile() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 dark:from-gray-900 dark:via-gray-900 dark:to-black">
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
           <Link 
             href="/profile" 
-            className="inline-flex items-center px-4 py-2 bg-white/80 backdrop-blur-sm text-blue-600 hover:text-blue-800 hover:bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 mb-6 group"
+            className="inline-flex items-center px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-gray-900 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white hover:bg-white dark:hover:bg-gray-700 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 mb-6 group"
           >
             <svg className="h-5 w-5 mr-2 group-hover:-translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -209,7 +209,7 @@ export default function CoinProfile() {
                   {coin.name}
                 </h1>
                 <div className="flex items-center space-x-4 mt-2">
-                  <span className="inline-flex items-center px-4 py-2 rounded-full text-lg font-semibold bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg">
+                  <span className="inline-flex items-center px-4 py-2 rounded-full text-lg font-semibold bg-gradient-to-r from-gray-700 to-gray-900 dark:from-gray-200 dark:to-white text-white dark:text-gray-900 shadow-lg">
                     {coin.symbol.toUpperCase()}
                   </span>
                   <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-700">
@@ -241,7 +241,7 @@ export default function CoinProfile() {
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-white/20 hover:shadow-2xl transition-all duration-300 group">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm font-medium text-gray-500">Thay đổi 24h</h3>
-              <svg className="h-5 w-5 text-blue-500 group-hover:scale-110 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="h-5 w-5 text-gray-700 dark:text-gray-300 group-hover:scale-110 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
               </svg>
             </div>
@@ -280,7 +280,7 @@ export default function CoinProfile() {
           {/* Market Data */}
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-white/20 hover:shadow-2xl transition-all duration-300">
             <div className="flex items-center mb-6">
-              <div className="p-3 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl mr-4">
+              <div className="p-3 bg-gradient-to-r from-gray-700 to-gray-900 dark:from-gray-200 dark:to-white rounded-xl mr-4">
                 <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
@@ -328,7 +328,7 @@ export default function CoinProfile() {
             <div className="space-y-5">
               <div className="flex justify-between items-center p-3 bg-gray-50/50 rounded-xl">
                 <span className="text-gray-600 font-medium">Đang lưu hành:</span>
-                <span className="font-bold text-blue-600">{formatSupply(coin.market_data.circulating_supply)}</span>
+                <span className="font-bold text-gray-900 dark:text-white">{formatSupply(coin.market_data.circulating_supply)}</span>
               </div>
               <div className="flex justify-between items-center p-3 bg-gray-50/50 rounded-xl">
                 <span className="text-gray-600 font-medium">Tổng cung:</span>
@@ -375,7 +375,7 @@ export default function CoinProfile() {
               {coin.categories.map((category, index) => (
                 <span
                   key={index}
-                  className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 hover:from-blue-200 hover:to-indigo-200 transition-all duration-200 shadow-md hover:shadow-lg"
+                  className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 text-gray-900 dark:text-white hover:from-gray-300 hover:to-gray-400 dark:hover:from-gray-600 dark:hover:to-gray-500 transition-all duration-200 shadow-md hover:shadow-lg"
                 >
                   {category}
                 </span>
@@ -418,7 +418,7 @@ export default function CoinProfile() {
             {coin.links.homepage && coin.links.homepage.length > 0 && (
               <div className="bg-gray-50/50 rounded-xl p-4">
                 <h3 className="font-semibold text-gray-900 mb-3 flex items-center">
-                  <svg className="h-5 w-5 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="h-5 w-5 mr-2 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                   </svg>
                   Trang chủ
@@ -430,7 +430,7 @@ export default function CoinProfile() {
                       href={link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block text-blue-600 hover:text-blue-800 text-sm truncate p-2 bg-white/50 rounded-lg hover:bg-white/80 transition-colors duration-200"
+                      className="block text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-sm truncate p-2 bg-white/50 dark:bg-gray-800/50 rounded-lg hover:bg-white/80 dark:hover:bg-gray-700/80 transition-colors duration-200"
                     >
                       {link}
                     </a>
@@ -454,7 +454,7 @@ export default function CoinProfile() {
                       href={link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block text-blue-600 hover:text-blue-800 text-sm truncate p-2 bg-white/50 rounded-lg hover:bg-white/80 transition-colors duration-200"
+                      className="block text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-sm truncate p-2 bg-white/50 dark:bg-gray-800/50 rounded-lg hover:bg-white/80 dark:hover:bg-gray-700/80 transition-colors duration-200"
                     >
                       {link}
                     </a>
@@ -478,7 +478,7 @@ export default function CoinProfile() {
                       href={link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block text-blue-600 hover:text-blue-800 text-sm truncate p-2 bg-white/50 rounded-lg hover:bg-white/80 transition-colors duration-200"
+                      className="block text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-sm truncate p-2 bg-white/50 dark:bg-gray-800/50 rounded-lg hover:bg-white/80 dark:hover:bg-gray-700/80 transition-colors duration-200"
                     >
                       {link}
                     </a>

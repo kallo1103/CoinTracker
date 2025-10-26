@@ -1,74 +1,74 @@
 @import "tailwindcss";
 
-/* CSS Variables for Theme Support */
+/* CSS Variables for Theme Support - Black & White Theme */
 :root {
-  /* Light theme variables */
-  --background: #ffffff;
-  --foreground: #111827;
-  --card: #ffffff;
-  --card-foreground: #111827;
-  --popover: #ffffff;
-  --popover-foreground: #111827;
-  --primary: #3b82f6;
-  --primary-foreground: #ffffff;
-  --secondary: #f3f4f6;
-  --secondary-foreground: #374151;
-  --muted: #f9fafb;
-  --muted-foreground: #6b7280;
-  --accent: #f3f4f6;
-  --accent-foreground: #374151;
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-  --border: #e5e7eb;
-  --input: #e5e7eb;
-  --ring: #3b82f6;
+  /* Light theme variables - Trắng chủ đạo */
+  --background: 0 0% 100%;
+  --foreground: 0 0% 0%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 0%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 0%;
+  --primary: 0 0% 0%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 0 0% 96%;
+  --secondary-foreground: 0 0% 10%;
+  --muted: 0 0% 98%;
+  --muted-foreground: 0 0% 40%;
+  --accent: 0 0% 90%;
+  --accent-foreground: 0 0% 10%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 0 0% 88%;
+  --input: 0 0% 94%;
+  --ring: 0 0% 0%;
   --radius: 0.5rem;
 }
 
-/* Dark theme variables */
+/* Dark theme variables - Đen chủ đạo */
 .dark {
-  --background: #0f172a;
-  --foreground: #f8fafc;
-  --card: #1e293b;
-  --card-foreground: #f8fafc;
-  --popover: #1e293b;
-  --popover-foreground: #f8fafc;
-  --primary: #3b82f6;
-  --primary-foreground: #ffffff;
-  --secondary: #334155;
-  --secondary-foreground: #cbd5e1;
-  --muted: #1e293b;
-  --muted-foreground: #64748b;
-  --accent: #334155;
-  --accent-foreground: #cbd5e1;
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-  --border: #334155;
-  --input: #334155;
-  --ring: #3b82f6;
+  --background: 0 0% 0%;
+  --foreground: 0 0% 100%;
+  --card: 0 0% 7%;
+  --card-foreground: 0 0% 100%;
+  --popover: 0 0% 10%;
+  --popover-foreground: 0 0% 100%;
+  --primary: 0 0% 100%;
+  --primary-foreground: 0 0% 0%;
+  --secondary: 0 0% 10%;
+  --secondary-foreground: 0 0% 90%;
+  --muted: 0 0% 4%;
+  --muted-foreground: 0 0% 63%;
+  --accent: 0 0% 16%;
+  --accent-foreground: 0 0% 90%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 0 0% 16%;
+  --input: 0 0% 10%;
+  --ring: 0 0% 100%;
 }
 
-/* Light theme */
+/* Light theme - duplicate để đảm bảo .light class cũng hoạt động */
 .light {
-  --background: #ffffff;
-  --foreground: #111827;
-  --card: #ffffff;
-  --card-foreground: #111827;
-  --popover: #ffffff;
-  --popover-foreground: #111827;
-  --primary: #3b82f6;
-  --primary-foreground: #ffffff;
-  --secondary: #f3f4f6;
-  --secondary-foreground: #374151;
-  --muted: #f9fafb;
-  --muted-foreground: #6b7280;
-  --accent: #f3f4f6;
-  --accent-foreground: #374151;
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-  --border: #e5e7eb;
-  --input: #e5e7eb;
-  --ring: #3b82f6;
+  --background: 0 0% 100%;
+  --foreground: 0 0% 0%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 0%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 0%;
+  --primary: 0 0% 0%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 0 0% 96%;
+  --secondary-foreground: 0 0% 10%;
+  --muted: 0 0% 98%;
+  --muted-foreground: 0 0% 40%;
+  --accent: 0 0% 90%;
+  --accent-foreground: 0 0% 10%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 0 0% 88%;
+  --input: 0 0% 94%;
+  --ring: 0 0% 0%;
 }
 
 /* Base styles */
@@ -76,10 +76,28 @@
   border-color: hsl(var(--border));
 }
 
+html {
+  background-color: hsl(var(--background));
+}
+
 body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Đảm bảo các màu được áp dụng cho light theme */
+html.light,
+html.light body {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* Đảm bảo các màu được áp dụng cho dark theme */
+html.dark,
+html.dark body {
+  background-color: #000000;
+  color: #ffffff;
 }
 
 /* Custom scrollbar for both themes */
@@ -94,17 +112,43 @@ body {
 
 ::-webkit-scrollbar-thumb {
   background: hsl(var(--muted-foreground));
-  border-radius: 4px;
+  border-radius: 4px; /* 0.25rem from design tokens */
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--foreground));
 }
 
-/* Smooth transitions for theme changes */
+/* Sidebar width utilities - tích hợp với DESIGN_TOKENS */
+@layer utilities {
+  .sidebar-collapsed {
+    width: 64px;  /* 4rem - DESIGN_TOKENS.spacing.sidebar.collapsed */
+  }
+  
+  .sidebar-expanded {
+    width: 256px;  /* 16rem - DESIGN_TOKENS.spacing.sidebar.expanded */
+  }
+  
+  .ml-sidebar-collapsed {
+    margin-left: 64px;
+  }
+  
+  .ml-sidebar-expanded {
+    margin-left: 256px;
+  }
+}
+
+/* Smooth transitions for theme changes - tuỳ chỉnh từ DESIGN_TOKENS */
 * {
   transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
+
+/* NOTE: Transitions được quản lý bởi DESIGN_TOKENS.transition.duration:
+   - fast: 150ms
+   - base: 200ms
+   - slow: 300ms (sử dụng ở đây cho theme changes)
+   - slower: 500ms
+*/
 
 /* Glassmorphism effects */
 .glass {
@@ -156,20 +200,63 @@ body {
 
 /* Focus styles */
 .focus-ring {
-  @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+  @apply focus:outline-none focus:ring-2 focus:ring-gray-800 focus:ring-offset-2;
 }
 
-/* Button styles */
+.dark .focus-ring {
+  @apply focus:ring-gray-200;
+}
+
+/* Button styles - Gradient cho primary buttons */
 .btn-primary {
-  @apply bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg transition-colors;
+  @apply font-medium px-4 py-2 rounded-lg transition-all text-white;
+  background: linear-gradient(135deg, #1a1a1a 0%, #4a4a4a 100%);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #2a2a2a 0%, #5a5a5a 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.dark .btn-primary {
+  background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+  color: #000000;
+}
+
+.dark .btn-primary:hover {
+  background: linear-gradient(135deg, #f5f5f5 0%, #d0d0d0 100%);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
 }
 
 .btn-secondary {
-  @apply bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium px-4 py-2 rounded-lg transition-colors;
+  @apply bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium px-4 py-2 rounded-lg transition-all;
 }
 
 .dark .btn-secondary {
-  @apply bg-gray-700 hover:bg-gray-600 text-gray-100;
+  @apply bg-gray-800 hover:bg-gray-700 text-gray-100;
+}
+
+/* Gradient button variant - Colorful gradient for special actions */
+.btn-gradient {
+  @apply font-medium px-4 py-2 rounded-lg transition-all text-white;
+  background: linear-gradient(135deg, #434343 0%, #000000 100%);
+}
+
+.btn-gradient:hover {
+  background: linear-gradient(135deg, #535353 0%, #1a1a1a 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.dark .btn-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
+  color: #000000;
+}
+
+.dark .btn-gradient:hover {
+  background: linear-gradient(135deg, #f0f0f0 0%, #b0b0b0 100%);
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.3);
 }
 
 /* Card styles */

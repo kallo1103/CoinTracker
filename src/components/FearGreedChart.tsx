@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // Interface cho Fear & Greed data
 interface FearGreedDataPoint {
@@ -11,6 +12,7 @@ interface FearGreedDataPoint {
 }
 
 export default function FearGreedChart() {
+  const { t } = useLanguage();
   const [data, setData] = useState<FearGreedDataPoint[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -50,10 +52,10 @@ export default function FearGreedChart() {
       let textColor = 'text-gray-900';
       if (data.value <= 25) {
         bgColor = 'bg-red-500';
-        textColor = 'text-white';
+        textColor = 'text-gray-900 dark:text-white';
       } else if (data.value <= 45) {
         bgColor = 'bg-orange-500';
-        textColor = 'text-white';
+        textColor = 'text-gray-900 dark:text-white';
       } else if (data.value <= 55) {
         bgColor = 'bg-yellow-500';
       } else if (data.value <= 75) {
@@ -63,8 +65,8 @@ export default function FearGreedChart() {
       }
 
       return (
-        <div className="bg-white p-4 rounded-lg shadow-lg border border-gray-200">
-          <p className="text-sm text-gray-600 mb-2">{date}</p>
+        <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
+          <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">{date}</p>
           <div className={`inline-block px-3 py-1 rounded ${bgColor} ${textColor} font-bold`}>
             {data.value} - {data.value_classification}
           </div>
@@ -76,10 +78,10 @@ export default function FearGreedChart() {
 
   if (loading) {
     return (
-      <div className="rounded-lg shadow p-6 border border-gray-900 bg-slate-900">
+      <div className="rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
         <div className="animate-pulse">
-          <div className="h-4 bg-gray-200 rounded w-1/3 mb-4"></div>
-          <div className="h-64 bg-gray-200 rounded"></div>
+          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/3 mb-4"></div>
+          <div className="h-64 bg-gray-200 dark:bg-gray-700 rounded"></div>
         </div>
       </div>
     );
@@ -87,8 +89,8 @@ export default function FearGreedChart() {
 
   if (error || data.length === 0) {
     return (
-      <div className="border border-gray-900 rounded-lg p-4 bg-slate-900">
-        <p className="text-red-600">❌ {error || 'Không có dữ liệu'}</p>
+      <div className="border border-red-200 dark:border-red-800 rounded-lg p-4 bg-red-50 dark:bg-red-900/20">
+        <p className="text-red-600 dark:text-red-400">❌ {error || 'Không có dữ liệu'}</p>
       </div>
     );
   }
@@ -98,16 +100,16 @@ export default function FearGreedChart() {
   const change = currentValue - previousValue;
 
   return (
-    <div className="rounded-lg shadow p-6 border border-gray-900 bg-slate-900">
+    <div className="rounded-lg shadow p-6 border border-gray-200 dark:border-gray-900 bg-white dark:bg-slate-900">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-xl font-bold text-white">😱 Fear & Greed History</h3>
-          <p className="text-sm text-gray-500">30 ngày gần đây</p>
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white">😱 Fear & Greed History</h3>
+          <p className="text-sm text-gray-500 dark:text-gray-400">30 {t('chart.recentDays')}</p>
         </div>
         <div className="text-right">
-          <p className="text-2xl font-bold text-white">{currentValue}</p>
-          <p className={`text-sm font-medium ${change >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+          <p className="text-2xl font-bold text-gray-900 dark:text-white">{currentValue}</p>
+          <p className={`text-sm font-medium ${change >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
             {change >= 0 ? '▲' : '▼'} {Math.abs(change).toFixed(0)} (7d)
           </p>
         </div>

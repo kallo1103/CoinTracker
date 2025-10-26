@@ -183,7 +183,7 @@ export default function ProfileEditPage() {
                 </div>
               )}
               {isEditing && (
-                <button className="absolute -bottom-2 -right-2 bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full shadow-lg transition-colors">
+                <button className="absolute -bottom-2 -right-2 bg-gray-800 hover:bg-gray-700 dark:bg-white dark:hover:bg-gray-200 dark:text-gray-900 text-white p-2 rounded-full shadow-lg transition-colors">
                   <Camera className="w-4 h-4" />
                 </button>
               )}
@@ -193,7 +193,7 @@ export default function ProfileEditPage() {
               <p className="text-gray-300 mb-4">Cập nhật ảnh đại diện của bạn</p>
               {isEditing && (
                 <div className="flex gap-3">
-                  <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-colors flex items-center gap-2">
+                  <button className="px-4 py-2 btn-primary rounded-xl transition-colors flex items-center gap-2">
                     <Upload className="w-4 h-4" />
                     Tải lên
                   </button>
@@ -209,8 +209,8 @@ export default function ProfileEditPage() {
         {/* Basic Information */}
         <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-gray-700/20 mb-8">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-blue-500/20 rounded-xl">
-              <UserCheck className="w-6 h-6 text-blue-400" />
+            <div className="p-2 bg-gray-700/50 dark:bg-gray-600/50 rounded-xl">
+              <UserCheck className="w-6 h-6 text-gray-300 dark:text-white" />
             </div>
             <h2 className="text-2xl font-bold text-white">Thông tin cơ bản</h2>
           </div>
@@ -223,7 +223,7 @@ export default function ProfileEditPage() {
                 value={profileData.name}
                 onChange={(e) => updateProfileData('name', e.target.value)}
                 disabled={!isEditing}
-                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
+                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:ring-2 focus:ring-gray-500 dark:focus:ring-white focus:border-transparent disabled:opacity-50"
               />
             </div>
 
@@ -234,7 +234,7 @@ export default function ProfileEditPage() {
                 value={profileData.email}
                 onChange={(e) => updateProfileData('email', e.target.value)}
                 disabled={!isEditing}
-                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
+                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:ring-2 focus:ring-gray-500 dark:focus:ring-white focus:border-transparent disabled:opacity-50"
               />
             </div>
 
@@ -245,7 +245,7 @@ export default function ProfileEditPage() {
                 value={profileData.phone}
                 onChange={(e) => updateProfileData('phone', e.target.value)}
                 disabled={!isEditing}
-                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
+                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:ring-2 focus:ring-gray-500 dark:focus:ring-white focus:border-transparent disabled:opacity-50"
               />
             </div>
 
@@ -256,7 +256,7 @@ export default function ProfileEditPage() {
                 value={profileData.birthDate}
                 onChange={(e) => updateProfileData('birthDate', e.target.value)}
                 disabled={!isEditing}
-                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
+                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:ring-2 focus:ring-gray-500 dark:focus:ring-white focus:border-transparent disabled:opacity-50"
               />
             </div>
 
@@ -291,7 +291,7 @@ export default function ProfileEditPage() {
                 onChange={(e) => updateProfileData('website', e.target.value)}
                 disabled={!isEditing}
                 placeholder="https://example.com"
-                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
+                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:ring-2 focus:ring-gray-500 dark:focus:ring-white focus:border-transparent disabled:opacity-50"
               />
             </div>
 
@@ -303,7 +303,7 @@ export default function ProfileEditPage() {
                 onChange={(e) => updateProfileData('twitter', e.target.value)}
                 disabled={!isEditing}
                 placeholder="@username"
-                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
+                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:ring-2 focus:ring-gray-500 dark:focus:ring-white focus:border-transparent disabled:opacity-50"
               />
             </div>
 
@@ -315,7 +315,7 @@ export default function ProfileEditPage() {
                 onChange={(e) => updateProfileData('linkedin', e.target.value)}
                 disabled={!isEditing}
                 placeholder="linkedin.com/in/username"
-                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
+                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:ring-2 focus:ring-gray-500 dark:focus:ring-white focus:border-transparent disabled:opacity-50"
               />
             </div>
 
@@ -327,7 +327,7 @@ export default function ProfileEditPage() {
                 onChange={(e) => updateProfileData('location', e.target.value)}
                 disabled={!isEditing}
                 placeholder="Thành phố, Quốc gia"
-                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
+                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:ring-2 focus:ring-gray-500 dark:focus:ring-white focus:border-transparent disabled:opacity-50"
               />
             </div>
           </div>
@@ -346,16 +346,16 @@ export default function ProfileEditPage() {
             {profileData.interests.map((interest, index) => (
               <div
                 key={index}
-                className="flex items-center gap-2 bg-blue-600/20 border border-blue-500/30 rounded-xl px-4 py-2"
+                className="flex items-center gap-2 bg-gray-700/50 dark:bg-gray-600/50 border border-gray-600/30 rounded-xl px-4 py-2"
               >
-                <span className="text-blue-300">{interest}</span>
+                <span className="text-gray-300 dark:text-white">{interest}</span>
                 {isEditing && (
                   <button
                     onClick={() => {
                       const newInterests = profileData.interests.filter((_, i) => i !== index);
                       updateProfileData('interests', newInterests);
                     }}
-                    className="text-blue-300 hover:text-red-400 transition-colors"
+                    className="text-gray-400 hover:text-red-400 transition-colors"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -394,7 +394,7 @@ export default function ProfileEditPage() {
                   disabled={!isEditing}
                   className="sr-only peer"
                 />
-                <div className="w-11 h-6 bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                <div className="w-11 h-6 bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-gray-400 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gray-800 dark:peer-checked:bg-white"></div>
               </label>
             </div>
 
@@ -411,7 +411,7 @@ export default function ProfileEditPage() {
                   disabled={!isEditing}
                   className="sr-only peer"
                 />
-                <div className="w-11 h-6 bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                <div className="w-11 h-6 bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-gray-400 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gray-800 dark:peer-checked:bg-white"></div>
               </label>
             </div>
 
@@ -428,7 +428,7 @@ export default function ProfileEditPage() {
                   disabled={!isEditing}
                   className="sr-only peer"
                 />
-                <div className="w-11 h-6 bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                <div className="w-11 h-6 bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-gray-400 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gray-800 dark:peer-checked:bg-white"></div>
               </label>
             </div>
           </div>

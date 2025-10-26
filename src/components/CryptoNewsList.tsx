@@ -47,10 +47,10 @@ export default function CryptoNewsList({ items }: { items: NewsItem[] }) {
                 target="_blank" 
                 rel="noopener noreferrer"
                 onClick={(e) => handleNewsClick(e, item.url)}
-                className="text-white font-medium hover:text-blue-400 hover:underline transition-colors duration-200 flex items-center gap-2 group"
+                className="text-white font-medium hover:text-gray-300 hover:underline transition-colors duration-200 flex items-center gap-2 group"
               >
                 <span>{item.title}</span>
-                <span className="text-gray-500 group-hover:text-blue-400 transition-colors">
+                <span className="text-gray-500 group-hover:text-gray-300 transition-colors">
                   ↗
                 </span>
               </a>

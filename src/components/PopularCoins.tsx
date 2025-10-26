@@ -105,7 +105,7 @@ export default function PopularCoins({ limit = 8 }: PopularCoinsProps) {
         <Link
           key={coin.id}
           href={`/coin/${coin.id}`}
-          className="group block p-6 bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl hover:from-blue-900/50 hover:to-indigo-900/50 hover:border-blue-500 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+          className="group block p-6 bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl hover:from-gray-700/50 hover:to-gray-800/50 hover:border-gray-500 dark:hover:border-white transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
         >
           <div className="text-center">
             <div className="relative mb-3">
@@ -134,7 +134,7 @@ export default function PopularCoins({ limit = 8 }: PopularCoinsProps) {
                 </div>
               )}
             </div>
-            <h3 className="font-semibold text-white group-hover:text-blue-300 transition-colors text-sm mb-1">
+            <h3 className="font-semibold text-white transition-colors text-sm mb-1">
               {coin.name}
             </h3>
             <p className="text-xs text-gray-400 uppercase font-medium mb-2">

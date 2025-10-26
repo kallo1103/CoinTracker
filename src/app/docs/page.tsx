@@ -16,7 +16,7 @@ export default function DocsPage() {
       <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg p-6 mb-8">
         <h2 className="text-2xl font-bold mb-4">Table of Contents</h2>
         <ul className="space-y-2">
-          <li><a href="#gioi-thieu" className="text-blue-600 hover:underline">1. Introduction</a></li>
+          <li><a href="#gioi-thieu" className="text-gray-700 dark:text-gray-300 hover:underline">1. Introduction</a></li>
           <li><a href="#tinh-nang" className="text-blue-600 hover:underline">2. Key Features</a></li>
           <li><a href="#profile" className="text-blue-600 hover:underline">3. Profile & Charts</a></li>
           <li><a href="#fear-greed" className="text-blue-600 hover:underline">4. Fear & Greed Index</a></li>

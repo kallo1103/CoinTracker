@@ -131,7 +131,7 @@ export default function StatisticsPage() {
                   onClick={() => setTimeRange(range)}
                   className={`px-4 py-2 rounded-xl font-medium transition-all ${
                     timeRange === range
-                      ? 'bg-blue-600 text-white'
+                      ? 'bg-gray-800 dark:bg-white text-white dark:text-gray-900'
                       : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                   }`}
                 >
@@ -149,10 +149,10 @@ export default function StatisticsPage() {
           <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl shadow-xl p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-blue-100 text-sm font-medium">Tổng lượt xem</p>
+                <p className="text-gray-300 text-sm font-medium">Tổng lượt xem</p>
                 <p className="text-3xl font-bold text-white">{stats.overview.totalViews.toLocaleString()}</p>
               </div>
-              <Eye className="w-8 h-8 text-blue-200" />
+              <Eye className="w-8 h-8 text-gray-400 dark:text-gray-300" />
             </div>
           </div>
 
@@ -191,8 +191,8 @@ export default function StatisticsPage() {
           {/* Most Viewed Coins */}
           <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-gray-700/20">
             <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 bg-blue-500/20 rounded-xl">
-                <TrendingUp className="w-6 h-6 text-blue-400" />
+              <div className="p-2 bg-gray-700/50 dark:bg-gray-600/50 rounded-xl">
+                <TrendingUp className="w-6 h-6 text-gray-300 dark:text-white" />
               </div>
               <h2 className="text-2xl font-bold text-white">Coin được xem nhiều nhất</h2>
             </div>
@@ -266,7 +266,7 @@ export default function StatisticsPage() {
                     {new Date(day.date).toLocaleDateString('vi-VN', { weekday: 'short' })}
                   </div>
                   <div className="space-y-1">
-                    <div className="h-2 bg-blue-500 rounded" style={{ width: `${(day.views / 70) * 100}%` }}></div>
+                    <div className="h-2 bg-gray-700 dark:bg-white rounded" style={{ width: `${(day.views / 70) * 100}%` }}></div>
                     <div className="h-2 bg-green-500 rounded" style={{ width: `${(day.searches / 20) * 100}%` }}></div>
                   </div>
                   <div className="text-xs text-gray-300 mt-1">
@@ -279,7 +279,7 @@ export default function StatisticsPage() {
           
           <div className="flex items-center justify-center gap-6 mt-4">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-blue-500 rounded"></div>
+              <div className="w-3 h-3 bg-gray-700 dark:bg-white rounded"></div>
               <span className="text-gray-300 text-sm">Lượt xem</span>
             </div>
             <div className="flex items-center gap-2">

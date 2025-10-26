@@ -124,11 +124,11 @@ export default function CryptoSearch() {
           onKeyPress={handleKeyPress}
           onFocus={() => results.length > 0 && setShowResults(true)}
           placeholder="Tìm kiếm coin (ví dụ: bitcoin, ethereum)..."
-          className="block w-full pl-12 pr-12 py-4 border-2 border-gray-600 rounded-xl leading-5 bg-gray-800/80 backdrop-blur-sm placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 shadow-lg hover:shadow-xl text-white font-medium"
+          className="block w-full pl-12 pr-12 py-4 border-2 border-gray-600 rounded-xl leading-5 bg-gray-800/80 backdrop-blur-sm placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-4 focus:ring-gray-500/20 focus:border-gray-400 dark:focus:border-white transition-all duration-300 shadow-lg hover:shadow-xl text-white font-medium"
         />
         {loading && (
           <div className="absolute inset-y-0 right-0 pr-4 flex items-center">
-            <div className="animate-spin rounded-full h-5 w-5 border-2 border-blue-500 border-t-transparent"></div>
+            <div className="animate-spin rounded-full h-5 w-5 border-2 border-gray-400 dark:border-white border-t-transparent"></div>
           </div>
         )}
         {query && !loading && (
@@ -164,14 +164,14 @@ export default function CryptoSearch() {
               <div
                 key={coin.id}
                 onClick={() => handleCoinSelect(coin.id)}
-                className="cursor-pointer select-none relative py-3 px-4 mx-2 hover:bg-gradient-to-r hover:from-blue-900/50 hover:to-indigo-900/50 transition-all duration-200 rounded-xl group"
+                className="cursor-pointer select-none relative py-3 px-4 mx-2 hover:bg-gradient-to-r hover:from-gray-700/50 hover:to-gray-600/50 transition-all duration-200 rounded-xl group"
               >
                 <div className="flex items-center">
                   <div className="relative">
                     <img
                       src={coin.thumb}
                       alt={coin.name}
-                      className="h-10 w-10 rounded-full mr-4 ring-2 ring-gray-600 group-hover:ring-blue-400 transition-all duration-200"
+                      className="h-10 w-10 rounded-full mr-4 ring-2 ring-gray-600 group-hover:ring-gray-400 dark:group-hover:ring-white transition-all duration-200"
                       onError={(e) => {
                         (e.target as HTMLImageElement).src = '/favicon.svg';
                       }}
@@ -184,10 +184,10 @@ export default function CryptoSearch() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between">
-                      <p className="text-sm font-semibold text-white truncate group-hover:text-blue-300 transition-colors">
+                      <p className="text-sm font-semibold text-white truncate transition-colors">
                         {coin.name}
                       </p>
-                      <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-700 text-gray-200 group-hover:bg-blue-700 group-hover:text-blue-100 transition-colors">
+                      <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-700 text-gray-200 group-hover:bg-gray-600 group-hover:text-white transition-colors">
                         {coin.symbol.toUpperCase()}
                       </span>
                     </div>
@@ -203,7 +203,7 @@ export default function CryptoSearch() {
                     )}
                   </div>
                   <div className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                    <svg className="h-5 w-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="h-5 w-5 text-gray-400 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // Interface cho dữ liệu exchange từ CoinGecko
 interface Exchange {
@@ -24,6 +25,7 @@ interface ExchangeListProps {
 }
 
 export default function ExchangeList({ limit = 50 }: ExchangeListProps) {
+  const { t } = useLanguage();
   const [exchanges, setExchanges] = useState<Exchange[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -79,7 +81,7 @@ export default function ExchangeList({ limit = 50 }: ExchangeListProps) {
   if (loading) {
     return (
       <div className="flex justify-center items-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-600 dark:border-white"></div>
       </div>
     );
   }
@@ -109,17 +111,17 @@ export default function ExchangeList({ limit = 50 }: ExchangeListProps) {
       <div className="bg-gray-800/50 rounded-lg p-3 md:p-4 border border-gray-700">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 text-center">
           <div>
-            <p className="text-gray-400 text-xs md:text-sm">Tổng số sàn</p>
+            <p className="text-gray-400 text-xs md:text-sm">{t('exchange.totalExchanges')}</p>
             <p className="text-xl md:text-2xl font-bold text-white">{exchanges.length}</p>
           </div>
           <div>
-            <p className="text-gray-400 text-xs md:text-sm">Tổng volume 24h (BTC)</p>
-            <p className="text-xl md:text-2xl font-bold text-blue-400">
+            <p className="text-gray-400 text-xs md:text-sm">{t('exchange.totalVolume')}</p>
+            <p className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">
               {formatBTC(exchanges.reduce((sum, ex) => sum + ex.volume_24h_btc, 0))}
             </p>
           </div>
           <div>
-            <p className="text-gray-400 text-xs md:text-sm">Tổng market pairs</p>
+            <p className="text-gray-400 text-xs md:text-sm">{t('exchange.totalMarkets')}</p>
             <p className="text-xl md:text-2xl font-bold text-green-400">
               {exchanges.reduce((sum, ex) => sum + ex.num_market_pairs, 0).toLocaleString()}
             </p>
@@ -296,7 +298,7 @@ export default function ExchangeList({ limit = 50 }: ExchangeListProps) {
 
       {/* Footer info - responsive */}
       <div className="text-xs md:text-sm text-gray-400 text-center px-2">
-        Dữ liệu được cập nhật tự động mỗi 5 phút • Nguồn: <span className="text-blue-400">CoinGecko API</span> (Miễn phí)
+        Dữ liệu được cập nhật tự động mỗi 5 phút • Nguồn: <span className="text-gray-700 dark:text-gray-300 font-semibold">CoinGecko API</span> (Miễn phí)
       </div>
     </div>
   );

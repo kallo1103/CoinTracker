@@ -1,4 +1,6 @@
 // Trang chủ - Home Page
+'use client';
+
 import CryptoList from '@/components/CryptoList';
 import FearGreedIndex from '@/components/FearGreedIndex';
 import GlobalMetrics from '@/components/GlobalMetrics';
@@ -6,11 +8,14 @@ import PriceChart from '@/components/PriceChart';
 import FearGreedChart from '@/components/FearGreedChart';
 import DominancePieChart from '@/components/DominancePieChart';
 import CandlestickChart from '@/components/CandlestickChart';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Home() {
+  const { t } = useLanguage();
+  
   return (
-    <div className="container mx-auto px-4 py-12 bg-gray-900 min-h-screen">
-      <h1 className="text-4xl font-bold mb-8 text-white">📊 Dashboard Cryptocurrency</h1>
+    <div className="container mx-auto px-4 py-12 min-h-screen">
+      <h1 className="text-4xl font-bold mb-8 text-gray-900 dark:text-white">{t('home.title')}</h1>
       
       {/* Global Metrics - Bitcoin Dominance, Market Cap, etc */}
       <div className="mb-12">
@@ -48,7 +53,7 @@ export default function Home() {
 
       {/* Top Cryptocurrencies List */}
       <div className="mb-12">
-        <h2 className="text-2xl font-semibold mb-4">Top 10 Cryptocurrencies</h2>
+        <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-white">{t('home.topCryptos')}</h2>
         <CryptoList limit={10} />
       </div>
     </div>

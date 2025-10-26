@@ -2,6 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { API_CONFIG } from '@/config/api';
+import { DESIGN_TOKENS } from '@/config/design-tokens';
+import { DEFAULT_LIMITS } from '@/config/constants';
+import { formatChartAxisValue, formatChartDateLabel } from '@/utils/formatters';
+import { getChartGradientColors, getPriceChangeColor, getChartGridColor, getChartAxisColor } from '@/utils/theme';
+import { useChartHeight } from '@/utils/responsive';
 
 // Interface cho price data
 interface PriceDataPoint {
@@ -20,16 +27,20 @@ interface PriceChartProps {
   type?: 'line' | 'area'; // Loại chart
 }
 
-export default function PriceChart({ symbol = 'BTC', days = 30, type = 'area' }: PriceChartProps) {
+export default function PriceChart({ symbol = 'BTC', days = DEFAULT_LIMITS.historyDays.default, type = 'area' }: PriceChartProps) {
+  const { t } = useLanguage();
   const [data, setData] = useState<PriceDataPoint[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  
+  // Responsive chart height
+  const chartHeight = useChartHeight();
 
   // Fetch price history data
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(`/api/price-history?symbol=${symbol}&count=${days}&interval=1d`);
+        const response = await fetch(`${API_CONFIG.endpoints.priceHistory}?symbol=${symbol}&count=${days}&interval=1d`);
         const result = await response.json();
         
         if (result.success) {
@@ -53,12 +64,12 @@ export default function PriceChart({ symbol = 'BTC', days = 30, type = 'area' }:
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
-        <div className="bg-white p-4 rounded-lg shadow-lg border border-gray-200">
-          <p className="text-sm text-gray-600 mb-2">{data.date}</p>
-          <p className="text-lg font-bold text-gray-900">
+        <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
+          <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">{data.date}</p>
+          <p className="text-lg font-bold text-gray-900 dark:text-white">
             ${data.close.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </p>
-          <div className="mt-2 space-y-1 text-xs text-gray-600">
+          <div className="mt-2 space-y-1 text-xs text-gray-600 dark:text-gray-400">
             <p>Open: ${data.open.toFixed(2)}</p>
             <p>High: ${data.high.toFixed(2)}</p>
             <p>Low: ${data.low.toFixed(2)}</p>
@@ -71,10 +82,10 @@ export default function PriceChart({ symbol = 'BTC', days = 30, type = 'area' }:
 
   if (loading) {
     return (
-      <div className="rounded-lg shadow p-6 border border-gray-900 bg-slate-900">
+      <div className="rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
         <div className="animate-pulse">
-          <div className="h-4 bg-gray-200 rounded w-1/4 mb-4"></div>
-          <div className="h-64 bg-gray-200 rounded"></div>
+          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/4 mb-4"></div>
+          <div className="h-64 bg-gray-200 dark:bg-gray-700 rounded"></div>
         </div>
       </div>
     );
@@ -82,96 +93,120 @@ export default function PriceChart({ symbol = 'BTC', days = 30, type = 'area' }:
 
   if (error || data.length === 0) {
     return (
-      <div className="border border-gray-900 rounded-lg p-4 bg-slate-900">
-        <p className="text-red-600">❌ {error || 'Không có dữ liệu'}</p>
+      <div className="border border-red-200 dark:border-red-800 rounded-lg p-4 bg-red-50 dark:bg-red-900/20">
+        <p className="text-red-600 dark:text-red-400">❌ {error || 'Không có dữ liệu'}</p>
       </div>
     );
   }
 
-  // Tính % thay đổi
+  // Tính % thay đổi và màu sắc
   const firstPrice = data[0]?.close || 0;
   const lastPrice = data[data.length - 1]?.close || 0;
   const priceChange = lastPrice - firstPrice;
   const percentChange = ((priceChange / firstPrice) * 100);
-  const isPositive = percentChange >= 0;
+  
+  // Lấy màu từ theme utils
+  const { color: changeColor, isPositive } = getPriceChangeColor(percentChange);
+  const gradientColors = getChartGradientColors(isPositive);
 
   return (
-    <div className="rounded-lg shadow p-6 border border-gray-900 bg-slate-900">
+    <div 
+      className="rounded-lg shadow p-6 border border-gray-200 dark:border-gray-900 bg-white dark:bg-slate-900"
+      style={{ borderRadius: DESIGN_TOKENS.borderRadius.lg }}
+    >
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-xl font-bold text-white">{symbol} Price Chart</h3>
-          <p className="text-sm text-gray-500">{days} ngày gần đây</p>
+          <h3 
+            className="text-xl font-bold text-gray-900 dark:text-white"
+            style={{ fontSize: DESIGN_TOKENS.typography.fontSize.xl }}
+          >
+            {symbol} Price Chart
+          </h3>
+          <p 
+            className="text-sm text-gray-500 dark:text-gray-400"
+            style={{ fontSize: DESIGN_TOKENS.typography.fontSize.sm }}
+          >
+            {days} {t('chart.recentDays')}
+          </p>
         </div>
         <div className="text-right">
-          <p className="text-2xl font-bold text-white">
+          <p 
+            className="text-2xl font-bold text-gray-900 dark:text-white"
+            style={{ fontSize: DESIGN_TOKENS.typography.fontSize['2xl'] }}
+          >
             ${lastPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </p>
-          <p className={`text-sm font-medium ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
+          <p 
+            className="text-sm font-medium"
+            style={{ 
+              fontSize: DESIGN_TOKENS.typography.fontSize.sm,
+              color: changeColor
+            }}
+          >
             {isPositive ? '▲' : '▼'} {Math.abs(percentChange).toFixed(2)}% ({days}d)
           </p>
         </div>
       </div>
 
       {/* Chart */}
-      <ResponsiveContainer width="100%" height={400}>
+      <ResponsiveContainer width="100%" height={chartHeight}>
         {type === 'area' ? (
           <AreaChart data={data}>
             <defs>
               <linearGradient id={`color${symbol}`} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor={isPositive ? "#10b981" : "#ef4444"} stopOpacity={0.3}/>
-                <stop offset="95%" stopColor={isPositive ? "#10b981" : "#ef4444"} stopOpacity={0}/>
+                <stop offset="5%" stopColor={gradientColors.start} stopOpacity={0.3}/>
+                <stop offset="95%" stopColor={gradientColors.end} stopOpacity={0}/>
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+            <CartesianGrid 
+              strokeDasharray="3 3" 
+              stroke={getChartGridColor()} 
+            />
             <XAxis 
               dataKey="date" 
-              stroke="#6b7280"
-              style={{ fontSize: '12px' }}
-              tickFormatter={(value) => {
-                // Chỉ hiển thị một số ngày để không bị đông
-                const parts = value.split('/');
-                return `${parts[0]}/${parts[1]}`;
-              }}
+              stroke={getChartAxisColor()}
+              style={{ fontSize: DESIGN_TOKENS.typography.fontSize.xs }}
+              tickFormatter={formatChartDateLabel}
             />
             <YAxis 
-              stroke="#6b7280"
-              style={{ fontSize: '12px' }}
-              tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
+              stroke={getChartAxisColor()}
+              style={{ fontSize: DESIGN_TOKENS.typography.fontSize.xs }}
+              tickFormatter={formatChartAxisValue}
             />
             <Tooltip content={<CustomTooltip />} />
             <Area 
               type="monotone" 
               dataKey="close" 
-              stroke={isPositive ? "#10b981" : "#ef4444"}
-              strokeWidth={2}
+              stroke={gradientColors.stroke}
+              strokeWidth={DESIGN_TOKENS.chart.strokeWidth.normal}
               fill={`url(#color${symbol})`}
             />
           </AreaChart>
         ) : (
           <LineChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+            <CartesianGrid 
+              strokeDasharray="3 3" 
+              stroke={getChartGridColor()} 
+            />
             <XAxis 
               dataKey="date" 
-              stroke="#6b7280"
-              style={{ fontSize: '12px' }}
-              tickFormatter={(value) => {
-                const parts = value.split('/');
-                return `${parts[0]}/${parts[1]}`;
-              }}
+              stroke={getChartAxisColor()}
+              style={{ fontSize: DESIGN_TOKENS.typography.fontSize.xs }}
+              tickFormatter={formatChartDateLabel}
             />
             <YAxis 
-              stroke="#6b7280"
-              style={{ fontSize: '12px' }}
-              tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
+              stroke={getChartAxisColor()}
+              style={{ fontSize: DESIGN_TOKENS.typography.fontSize.xs }}
+              tickFormatter={formatChartAxisValue}
             />
             <Tooltip content={<CustomTooltip />} />
             <Legend />
             <Line 
               type="monotone" 
               dataKey="close" 
-              stroke={isPositive ? "#10b981" : "#ef4444"}
-              strokeWidth={2}
+              stroke={gradientColors.stroke}
+              strokeWidth={DESIGN_TOKENS.chart.strokeWidth.normal}
               dot={false}
               name="Price"
             />
