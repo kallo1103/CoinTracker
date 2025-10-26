@@ -12,7 +12,7 @@ Real-time cryptocurrency price tracking platform built with **Next.js 15**, **Ne
 
 ### 📊 **Dashboard & Charts**
 - ✅ **Top Cryptocurrencies** - List of top coins with real-time prices
-- ✅ **Global Metrics** - Bitcoin Dominance, Total Market Cap, Volume 24h
+- ✅ **Global Metrics** - Bitcoin Dominance, Ethereum Dominance, Total Market Cap, Volume 24h with percentage changes
 - ✅ **Candlestick Charts** - Japanese candlestick charts (OHLC) with real data
 - ✅ **Price Charts** - Area & Line charts for BTC, ETH and other coins
 - ✅ **Dominance Pie Chart** - Market share distribution BTC vs ETH vs Altcoins
@@ -164,6 +164,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 - **Multi-language** - English and Vietnamese support
 - **News Caching** - Optimized news loading with caching
 - **Search Functionality** - Advanced crypto and exchange search
+- **Global Metrics Dashboard** - Bitcoin/Ethereum dominance, market cap with 24h changes, trading volume
 
 ## 🔑 Getting API Keys
 
@@ -174,7 +175,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 **API Endpoints:**
 - `/api/crypto` - Top cryptocurrencies
-- `/api/global-metrics` - Bitcoin dominance, market cap
+- `/api/global-metrics` - Bitcoin dominance, Ethereum dominance, total market cap, volume 24h, active cryptocurrencies
 - `/api/coin/[id]` - Individual coin details
 - `/api/coins/markets` - Coin market data
 - `/api/exchange/list` - Exchange listings
@@ -221,7 +222,7 @@ Copy the result to `NEXTAUTH_SECRET` in `.env.local`
 - [x] CoinGecko API integration (historical data)
 - [x] Candlestick charts with real OHLC data
 - [x] Fear & Greed Index
-- [x] Global metrics & Bitcoin dominance
+- [x] Global metrics & Bitcoin dominance with Ethereum dominance, market cap, volume 24h
 - [x] Exchange listings
 - [x] NextAuth with Google OAuth
 - [x] MetaMask wallet authentication
@@ -294,7 +295,7 @@ CoinTracker/
 │   │   ├── FearGreedChart.tsx
 │   │   ├── FearGreedIndex.tsx
 │   │   ├── Footer.tsx
-│   │   ├── GlobalMetrics.tsx
+│   │   ├── GlobalMetrics.tsx  # Global crypto metrics with Bitcoin/Ethereum dominance, market cap, volume
 │   │   ├── Header.tsx
 │   │   ├── LanguageSelector.tsx
 │   │   ├── MainContent.tsx
