@@ -158,14 +158,6 @@ export default function CryptoSearch() {
               >
                 <div className="flex items-center">
                   <div className="relative">
-                    <img
-                      src={coin.thumb}
-                      alt={coin.name}
-                      className="h-10 w-10 rounded-full mr-4 ring-2 ring-transparent group-hover:ring-blue-500/50 transition-all"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = '/favicon.svg';
-                      }}
-                    />
                     {coin.market_cap_rank && coin.market_cap_rank <= 10 && (
                       <div className="absolute -top-1 -right-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-lg">
                         {coin.market_cap_rank}

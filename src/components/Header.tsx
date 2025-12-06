@@ -14,7 +14,6 @@ import {
   BookOpen, 
   Newspaper 
 } from "lucide-react";
-import { DESIGN_TOKENS } from '@/config/design-tokens';
 import { getSidebarWidth } from '@/utils/responsive';
 
 // Header Component - Navigation Bar (Sidebar)
