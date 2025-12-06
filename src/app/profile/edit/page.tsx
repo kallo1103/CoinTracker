@@ -165,7 +165,7 @@ export default function ProfileEditPage() {
         )}
 
         {/* Profile Picture Section */}
-        <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-gray-700/20 mb-8">
+        <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 mb-8">
           <div className="flex items-center gap-6">
             <div className="relative">
               {session.user?.image ? (
@@ -207,7 +207,7 @@ export default function ProfileEditPage() {
         </div>
 
         {/* Basic Information */}
-        <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-gray-700/20 mb-8">
+        <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 mb-8">
           <div className="flex items-center gap-3 mb-6">
             <div className="p-2 bg-gray-700/50 dark:bg-gray-600/50 rounded-xl">
               <UserCheck className="w-6 h-6 text-gray-300 dark:text-white" />
@@ -274,7 +274,7 @@ export default function ProfileEditPage() {
         </div>
 
         {/* Social Links */}
-        <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-gray-700/20 mb-8">
+        <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 mb-8">
           <div className="flex items-center gap-3 mb-6">
             <div className="p-2 bg-green-500/20 rounded-xl">
               <Mail className="w-6 h-6 text-green-400" />
@@ -334,7 +334,7 @@ export default function ProfileEditPage() {
         </div>
 
         {/* Interests */}
-        <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-gray-700/20 mb-8">
+        <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 mb-8">
           <div className="flex items-center gap-3 mb-6">
             <div className="p-2 bg-purple-500/20 rounded-xl">
               <Shield className="w-6 h-6 text-purple-400" />
@@ -372,7 +372,7 @@ export default function ProfileEditPage() {
         </div>
 
         {/* Privacy Settings */}
-        <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-gray-700/20 mb-8">
+        <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 mb-8">
           <div className="flex items-center gap-3 mb-6">
             <div className="p-2 bg-red-500/20 rounded-xl">
               <Bell className="w-6 h-6 text-red-400" />

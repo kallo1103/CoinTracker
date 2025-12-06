@@ -26,32 +26,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <head>
         {/* Dùng favicon từ thư mục public - hỗ trợ SVG và ICO */}
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="alternate icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/favicon.svg" />
-        {/* Script để load theme trước khi React hydrate - tránh flash */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var theme = localStorage.getItem('theme') || 'auto';
-                  var actualTheme = theme;
-                  
-                  if (theme === 'auto') {
-                    actualTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                  }
-                  
-                  document.documentElement.classList.remove('light', 'dark');
-                  document.documentElement.classList.add(actualTheme);
-                } catch (e) {}
-              })();
-            `,
-          }}
-        />
       </head>
       <body className="antialiased min-h-screen bg-white dark:bg-black text-gray-900 dark:text-gray-100">
         <Providers>

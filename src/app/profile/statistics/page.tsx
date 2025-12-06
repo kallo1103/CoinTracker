@@ -119,7 +119,7 @@ export default function StatisticsPage() {
 
         {/* Time Range Selector */}
         <div className="mb-8">
-          <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-gray-700/20">
+          <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold text-white">Khoảng thời gian</h2>
               <span className="text-gray-300">{getTimeRangeLabel(timeRange)}</span>
@@ -189,7 +189,7 @@ export default function StatisticsPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Most Viewed Coins */}
-          <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-gray-700/20">
+          <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 bg-gray-700/50 dark:bg-gray-600/50 rounded-xl">
                 <TrendingUp className="w-6 h-6 text-gray-300 dark:text-white" />
@@ -219,7 +219,7 @@ export default function StatisticsPage() {
           </div>
 
           {/* Search History */}
-          <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-gray-700/20">
+          <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 bg-green-500/20 rounded-xl">
                 <Search className="w-6 h-6 text-green-400" />
@@ -250,7 +250,7 @@ export default function StatisticsPage() {
         </div>
 
         {/* Daily Activity Chart */}
-        <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-gray-700/20 mb-8">
+        <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 mb-8">
           <div className="flex items-center gap-3 mb-6">
             <div className="p-2 bg-purple-500/20 rounded-xl">
               <Activity className="w-6 h-6 text-purple-400" />
@@ -290,7 +290,7 @@ export default function StatisticsPage() {
         </div>
 
         {/* Achievements */}
-        <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-gray-700/20">
+        <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6">
           <div className="flex items-center gap-3 mb-6">
             <div className="p-2 bg-yellow-500/20 rounded-xl">
               <Award className="w-6 h-6 text-yellow-400" />

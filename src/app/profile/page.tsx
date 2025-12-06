@@ -62,7 +62,7 @@ export default function ProfilePage() {
         </div>
 
         {/* User info card */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden mb-8 border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden mb-8">
           {/* Header card with gradient */}
           <div className="bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-6">
             <h2 className="text-2xl font-bold text-white">{t('profile.accountInfo')}</h2>
@@ -119,9 +119,9 @@ export default function ProfilePage() {
         </div>
 
         {/* Search Section */}
-        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl shadow-2xl p-8 mb-8 border border-gray-200 dark:border-gray-700/20 hover:shadow-3xl transition-all duration-300">
+        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl shadow-2xl p-8 mb-8 hover:shadow-3xl transition-all duration-300 relative z-50">
           <div className="text-center mb-6">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-gray-700 to-gray-900 dark:from-gray-200 dark:to-white rounded-2xl mb-4">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-4">
               <Search className="h-8 w-8 text-white" />
             </div>
             <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2">
@@ -139,9 +139,9 @@ export default function ProfilePage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <button
             onClick={() => router.push("/profile/edit")}
-            className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-all duration-300 cursor-pointer border border-gray-200 dark:border-gray-700/20 hover:border-indigo-500 hover:-translate-y-1 w-full text-left"
+            className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-all duration-300 cursor-pointer hover:-translate-y-1 w-full text-left"
           >
-            <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-gray-700 to-gray-900 dark:from-gray-200 dark:to-white rounded-xl mb-4 group-hover:scale-110 transition-transform duration-200">
+            <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl mb-4 group-hover:scale-110 transition-transform duration-200">
               <ProfileIcon className="w-6 h-6 text-white" />
             </div>
             <h3 className="font-bold text-gray-900 dark:text-white mb-2 group-hover:text-indigo-400 transition-colors">{t('profile.edit')}</h3>
@@ -150,7 +150,7 @@ export default function ProfilePage() {
 
           <button
             onClick={() => router.push("/profile/settings")}
-            className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-all duration-300 cursor-pointer border border-gray-200 dark:border-gray-700/20 hover:border-purple-500 hover:-translate-y-1 w-full text-left"
+            className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-all duration-300 cursor-pointer hover:-translate-y-1 w-full text-left"
           >
             <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl mb-4 group-hover:scale-110 transition-transform duration-200">
               <Settings className="w-6 h-6 text-white" />
@@ -161,7 +161,7 @@ export default function ProfilePage() {
 
           <button
             onClick={() => router.push("/profile/statistics")}
-            className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-all duration-300 cursor-pointer border border-gray-200 dark:border-gray-700/20 hover:border-green-500 hover:-translate-y-1 w-full text-left"
+            className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-all duration-300 cursor-pointer hover:-translate-y-1 w-full text-left"
           >
             <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl mb-4 group-hover:scale-110 transition-transform duration-200">
               <BarChart3 className="w-6 h-6 text-white" />
@@ -175,7 +175,7 @@ export default function ProfilePage() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button
             onClick={() => router.push("/")}
-            className="group px-8 py-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-indigo-600 dark:text-indigo-300 rounded-2xl font-semibold hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300 shadow-xl hover:shadow-2xl border-2 border-indigo-500 hover:border-indigo-400 hover:-translate-y-1"
+            className="group px-8 py-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-indigo-600 dark:text-indigo-300 rounded-2xl font-semibold hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-1"
           >
             <span className="flex items-center">
               <ArrowLeft className="h-5 w-5 mr-2 group-hover:-translate-x-1 transition-transform duration-200" />

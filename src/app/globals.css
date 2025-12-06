@@ -1,270 +1,149 @@
 @import "tailwindcss";
 
-/* CSS Variables for Theme Support - Black & White Theme */
+/* CSS Variables for Web3 Theme */
 :root {
-  /* Light theme variables - Trắng chủ đạo */
-  --background: 0 0% 100%;
-  --foreground: 0 0% 0%;
+  /* Base colors (Light Mode - kept for compatibility, but Web3 is dark-first) */
+  --background: 210 40% 98%; /* slate-50 */
+  --foreground: 222 47% 11%; /* slate-900 */
+  
   --card: 0 0% 100%;
-  --card-foreground: 0 0% 0%;
+  --card-foreground: 222 47% 11%;
+  
   --popover: 0 0% 100%;
-  --popover-foreground: 0 0% 0%;
-  --primary: 0 0% 0%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 0 0% 96%;
-  --secondary-foreground: 0 0% 10%;
-  --muted: 0 0% 98%;
-  --muted-foreground: 0 0% 40%;
-  --accent: 0 0% 90%;
-  --accent-foreground: 0 0% 10%;
+  --popover-foreground: 222 47% 11%;
+  
+  /* Primary: Electric Blue */
+  --primary: 221 83% 53%; /* #3b82f6 */
+  --primary-foreground: 210 40% 98%;
+  
+  /* Secondary: Purple */
+  --secondary: 262 83% 58%; /* #8b5cf6 */
+  --secondary-foreground: 210 40% 98%;
+  
+  --muted: 215 16% 47%;
+  --muted-foreground: 215 16% 47%;
+  
+  --accent: 189 94% 43%; /* #06b6d4 cyan */
+  --accent-foreground: 222 47% 11%;
+  
   --destructive: 0 84% 60%;
-  --destructive-foreground: 0 0% 100%;
-  --border: 0 0% 88%;
-  --input: 0 0% 94%;
-  --ring: 0 0% 0%;
-  --radius: 0.5rem;
+  --destructive-foreground: 210 40% 98%;
+  
+  --border: 214 32% 91%;
+  --input: 214 32% 91%;
+  --ring: 221 83% 53%;
+  
+  --radius: 0.75rem; /* Modern larger radius */
 }
 
-/* Dark theme variables - Đen chủ đạo */
+/* Dark Theme (Default Web3) */
 .dark {
-  --background: 0 0% 0%;
-  --foreground: 0 0% 100%;
-  --card: 0 0% 7%;
-  --card-foreground: 0 0% 100%;
-  --popover: 0 0% 10%;
-  --popover-foreground: 0 0% 100%;
-  --primary: 0 0% 100%;
-  --primary-foreground: 0 0% 0%;
-  --secondary: 0 0% 10%;
-  --secondary-foreground: 0 0% 90%;
-  --muted: 0 0% 4%;
-  --muted-foreground: 0 0% 63%;
-  --accent: 0 0% 16%;
-  --accent-foreground: 0 0% 90%;
-  --destructive: 0 84% 60%;
-  --destructive-foreground: 0 0% 100%;
-  --border: 0 0% 16%;
-  --input: 0 0% 10%;
-  --ring: 0 0% 100%;
+  --background: 222 47% 6%; /* #050b14 Deep Space */
+  --foreground: 210 40% 98%;
+  
+  --card: 222 47% 8%; /* Slightly lighter than bg */
+  --card-foreground: 210 40% 98%;
+  
+  --popover: 222 47% 8%;
+  --popover-foreground: 210 40% 98%;
+  
+  --primary: 221 83% 53%; /* Bright Blue */
+  --primary-foreground: 210 40% 98%;
+  
+  --secondary: 262 83% 58%; /* Bright Purple */
+  --secondary-foreground: 210 40% 98%;
+  
+  --muted: 217 33% 17%;
+  --muted-foreground: 215 20% 65%;
+  
+  --accent: 189 94% 43%; /* Cyan */
+  --accent-foreground: 210 40% 98%;
+  
+  --destructive: 0 62% 30%;
+  --destructive-foreground: 210 40% 98%;
+  
+  --border: 217 33% 17%;
+  --input: 217 33% 17%;
+  --ring: 221 83% 53%;
 }
 
-/* Light theme - duplicate để đảm bảo .light class cũng hoạt động */
+/* Light theme fallback */
 .light {
-  --background: 0 0% 100%;
-  --foreground: 0 0% 0%;
+  --background: 210 40% 98%;
+  --foreground: 222 47% 11%;
   --card: 0 0% 100%;
-  --card-foreground: 0 0% 0%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 0 0% 0%;
-  --primary: 0 0% 0%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 0 0% 96%;
-  --secondary-foreground: 0 0% 10%;
-  --muted: 0 0% 98%;
-  --muted-foreground: 0 0% 40%;
-  --accent: 0 0% 90%;
-  --accent-foreground: 0 0% 10%;
-  --destructive: 0 84% 60%;
-  --destructive-foreground: 0 0% 100%;
-  --border: 0 0% 88%;
-  --input: 0 0% 94%;
-  --ring: 0 0% 0%;
+  --card-foreground: 222 47% 11%;
+  /* ... repeat other light vars if needed ... */
 }
 
-/* Base styles */
-* {
-  border-color: hsl(var(--border));
-}
-
-html {
-  background-color: hsl(var(--background));
-}
-
-body {
-  background-color: hsl(var(--background));
-  color: hsl(var(--foreground));
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* Đảm bảo các màu được áp dụng cho light theme */
-html.light,
-html.light body {
-  background-color: #ffffff;
-  color: #000000;
-}
-
-/* Đảm bảo các màu được áp dụng cho dark theme */
-html.dark,
-html.dark body {
-  background-color: #000000;
-  color: #ffffff;
-}
-
-/* Custom scrollbar for both themes */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: hsl(var(--muted));
-}
-
-::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted-foreground));
-  border-radius: 4px; /* 0.25rem from design tokens */
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--foreground));
-}
-
-/* Sidebar width utilities - tích hợp với DESIGN_TOKENS */
-@layer utilities {
-  .sidebar-collapsed {
-    width: 64px;  /* 4rem - DESIGN_TOKENS.spacing.sidebar.collapsed */
+/* Global Styles */
+@layer base {
+  * {
+    @apply border-[hsl(var(--border))];
   }
   
-  .sidebar-expanded {
-    width: 256px;  /* 16rem - DESIGN_TOKENS.spacing.sidebar.expanded */
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-[hsl(var(--background))] text-[hsl(var(--foreground))];
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Utilities & Components */
+@layer components {
+  /* Glassmorphism Card */
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl;
   }
   
-  .ml-sidebar-collapsed {
-    margin-left: 64px;
+  .dark .glass-card {
+    @apply bg-black/40 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.36)];
+  }
+
+  /* Neon Glow Utility */
+  .glow-primary {
+    box-shadow: 0 0 20px -5px hsl(var(--primary) / 0.5);
   }
   
-  .ml-sidebar-expanded {
-    margin-left: 256px;
+  .glow-text {
+    text-shadow: 0 0 10px hsl(var(--primary) / 0.5);
+  }
+
+  /* Modern Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-700/50 rounded-full hover:bg-slate-600;
   }
 }
 
-/* Smooth transitions for theme changes - tuỳ chỉnh từ DESIGN_TOKENS */
-* {
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+/* Animations */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
 }
 
-/* NOTE: Transitions được quản lý bởi DESIGN_TOKENS.transition.duration:
-   - fast: 150ms
-   - base: 200ms
-   - slow: 300ms (sử dụng ở đây cho theme changes)
-   - slower: 500ms
-*/
-
-/* Glassmorphism effects */
-.glass {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+.animate-float {
+  animation: float 6s ease-in-out infinite;
 }
 
-.dark .glass {
-  background: rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; box-shadow: 0 0 15px hsl(var(--primary) / 0.5); }
+  50% { opacity: 0.7; box-shadow: 0 0 5px hsl(var(--primary) / 0.2); }
 }
 
-/* Gradient backgrounds */
-.gradient-bg {
-  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
-}
-
-/* Custom animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.3s ease-out;
-}
-
-.animate-slide-in {
-  animation: slideIn 0.3s ease-out;
-}
-
-/* Focus styles */
-.focus-ring {
-  @apply focus:outline-none focus:ring-2 focus:ring-gray-800 focus:ring-offset-2;
-}
-
-.dark .focus-ring {
-  @apply focus:ring-gray-200;
-}
-
-/* Button styles - Gradient cho primary buttons */
-.btn-primary {
-  @apply font-medium px-4 py-2 rounded-lg transition-all text-white;
-  background: linear-gradient(135deg, #1a1a1a 0%, #4a4a4a 100%);
-}
-
-.btn-primary:hover {
-  background: linear-gradient(135deg, #2a2a2a 0%, #5a5a5a 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-.dark .btn-primary {
-  background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
-  color: #000000;
-}
-
-.dark .btn-primary:hover {
-  background: linear-gradient(135deg, #f5f5f5 0%, #d0d0d0 100%);
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
-}
-
-.btn-secondary {
-  @apply bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium px-4 py-2 rounded-lg transition-all;
-}
-
-.dark .btn-secondary {
-  @apply bg-gray-800 hover:bg-gray-700 text-gray-100;
-}
-
-/* Gradient button variant - Colorful gradient for special actions */
-.btn-gradient {
-  @apply font-medium px-4 py-2 rounded-lg transition-all text-white;
-  background: linear-gradient(135deg, #434343 0%, #000000 100%);
-}
-
-.btn-gradient:hover {
-  background: linear-gradient(135deg, #535353 0%, #1a1a1a 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-}
-
-.dark .btn-gradient {
-  background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
-  color: #000000;
-}
-
-.dark .btn-gradient:hover {
-  background: linear-gradient(135deg, #f0f0f0 0%, #b0b0b0 100%);
-  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.3);
-}
-
-/* Card styles */
-.card {
-  @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm;
-}
-
-/* Input styles */
-.input {
-  @apply w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+.animate-pulse-glow {
+  animation: pulse-glow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }

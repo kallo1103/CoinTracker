@@ -4,7 +4,6 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import ThemeToggle from "@/components/ThemeToggle";
 import LanguageSelector from "@/components/LanguageSelector";
 import { 
   ArrowLeft, 
@@ -34,7 +33,6 @@ export default function SettingsPage() {
       analytics: true
     },
     appearance: {
-      theme: 'dark',
       language: 'vi',
       currency: 'USD'
     },
@@ -133,7 +131,7 @@ export default function SettingsPage() {
         )}
 
         {/* Theme and Language Controls */}
-        <div className="bg-white dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-gray-200 dark:border-gray-700/20 mb-8">
+        <div className="bg-white dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 mb-8">
           <div className="flex items-center gap-3 mb-6">
             <div className="p-2 bg-gray-700/50 dark:bg-gray-600/50 rounded-xl">
               <Palette className="w-6 h-6 text-gray-300 dark:text-white" />
@@ -142,17 +140,6 @@ export default function SettingsPage() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Theme Control */}
-            <div>
-              <label className="block text-gray-900 dark:text-white font-medium mb-3">{t('settings.theme')}</label>
-              <div className="flex items-center gap-3">
-                <ThemeToggle />
-                <span className="text-sm text-gray-600 dark:text-gray-300">
-                  {t('settings.theme')} & {t('settings.language')}
-                </span>
-              </div>
-            </div>
-
             {/* Language Control */}
             <div>
               <label className="block text-gray-900 dark:text-white font-medium mb-3">{t('settings.language')}</label>
@@ -169,7 +156,7 @@ export default function SettingsPage() {
         {/* Settings Sections */}
         <div className="space-y-8">
           {/* Notifications */}
-          <div className="bg-white dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-gray-200 dark:border-gray-700/20">
+          <div className="bg-white dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 bg-gray-700/50 dark:bg-gray-600/50 rounded-xl">
                 <Bell className="w-6 h-6 text-gray-300 dark:text-white" />
@@ -229,7 +216,7 @@ export default function SettingsPage() {
           </div>
 
           {/* Privacy */}
-          <div className="bg-white dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-gray-200 dark:border-gray-700/20">
+          <div className="bg-white dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 bg-green-500/20 rounded-xl">
                 <Shield className="w-6 h-6 text-green-400" />
@@ -270,7 +257,7 @@ export default function SettingsPage() {
           </div>
 
           {/* Security */}
-          <div className="bg-white dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-gray-200 dark:border-gray-700/20">
+          <div className="bg-white dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 bg-red-500/20 rounded-xl">
                 <Shield className="w-6 h-6 text-red-400" />

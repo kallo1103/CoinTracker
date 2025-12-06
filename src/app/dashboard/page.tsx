@@ -6,6 +6,16 @@ import { useEffect } from "react";
 import Image from "next/image";
 import CryptoSearch from "@/components/CryptoSearch";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { 
+  Check, 
+  Mail, 
+  Search, 
+  User, 
+  Settings, 
+  BarChart2, 
+  ChevronLeft, 
+  LogOut 
+} from "lucide-react";
 
 export default function DashboardPage() {
   const { data: session, status } = useSession();
@@ -39,7 +49,7 @@ export default function DashboardPage() {
         </div>
 
         {/* User info card */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden mb-8 border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-80 rounded-2xl shadow-xl overflow-hidden mb-8 border border-gray-200 dark:border-gray-700">
           {/* Header card with gradient */}
           <div className="bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-6">
             <h2 className="text-2xl font-bold text-white">{t('dashboard.accountInfo')}</h2>
@@ -65,9 +75,7 @@ export default function DashboardPage() {
                   </div>
                 )}
                 <div className="absolute -bottom-2 -right-2 bg-green-500 w-8 h-8 rounded-full border-4 border-white flex items-center justify-center">
-                  <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
+                  <Check className="w-4 h-4 text-white" />
                 </div>
               </div>
 
@@ -77,9 +85,7 @@ export default function DashboardPage() {
                   {session.user?.name || "User"}
                 </h3>
                 <p className="text-gray-700 dark:text-gray-300 mb-4 flex items-center justify-center sm:justify-start gap-2">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
+                  <Mail className="w-5 h-5" />
                   {session.user?.email}
                 </p>
 
@@ -100,12 +106,10 @@ export default function DashboardPage() {
         </div>
 
         {/* Search Section */}
-        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl shadow-2xl p-8 mb-8 border border-gray-200 dark:border-gray-700/20 hover:shadow-3xl transition-all duration-300">
+        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl shadow-2xl p-8 mb-8 border border-gray-200 dark:border-gray-700/20 hover:shadow-3xl transition-all duration-300 relative z-50">
           <div className="text-center mb-6">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-gray-700 to-gray-900 dark:from-gray-200 dark:to-white rounded-2xl mb-4">
-              <svg className="h-8 w-8 text-white dark:text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
+              <Search className="h-8 w-8 text-white dark:text-gray-900" />
             </div>
             <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2">
                {t('profile.searchCrypto')}
@@ -122,9 +126,7 @@ export default function DashboardPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-all duration-300 cursor-pointer border border-gray-200 dark:border-gray-700/20 hover:border-gray-400 dark:hover:border-gray-500 hover:-translate-y-1">
             <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-gray-700 to-gray-900 dark:from-gray-200 dark:to-white rounded-xl mb-4 group-hover:scale-110 transition-transform duration-200">
-              <svg className="w-6 h-6 text-white dark:text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
+              <User className="w-6 h-6 text-white dark:text-gray-900" />
             </div>
             <h3 className="font-bold text-gray-900 dark:text-white mb-2 transition-colors">{t('dashboard.profile')}</h3>
             <p className="text-sm text-gray-600 dark:text-gray-300">{t('profile.manageInfo')}</p>
@@ -132,10 +134,7 @@ export default function DashboardPage() {
 
           <div className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-all duration-300 cursor-pointer border border-gray-200 dark:border-gray-700/20 hover:border-gray-400 dark:hover:border-gray-500 hover:-translate-y-1">
             <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-600 dark:from-purple-400 dark:to-pink-400 rounded-xl mb-4 group-hover:scale-110 transition-transform duration-200">
-              <svg className="w-6 h-6 text-white dark:text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
+              <Settings className="w-6 h-6 text-white dark:text-gray-900" />
             </div>
             <h3 className="font-bold text-gray-900 dark:text-white mb-2 transition-colors">{t('dashboard.settings')}</h3>
             <p className="text-sm text-gray-600 dark:text-gray-300">{t('profile.customizeAccount')}</p>
@@ -143,9 +142,7 @@ export default function DashboardPage() {
 
           <div className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-all duration-300 cursor-pointer border border-gray-200 dark:border-gray-700/20 hover:border-gray-400 dark:hover:border-gray-500 hover:-translate-y-1">
             <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 dark:from-green-400 dark:to-emerald-400 rounded-xl mb-4 group-hover:scale-110 transition-transform duration-200">
-              <svg className="w-6 h-6 text-white dark:text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-              </svg>
+              <BarChart2 className="w-6 h-6 text-white dark:text-gray-900" />
             </div>
             <h3 className="font-bold text-gray-900 dark:text-white mb-2 transition-colors">{t('profile.statistics')}</h3>
             <p className="text-sm text-gray-600 dark:text-gray-300">{t('profile.viewActivity')}</p>
@@ -159,9 +156,7 @@ export default function DashboardPage() {
             className="group px-8 py-4 bg-gray-200 dark:bg-gray-800/80 backdrop-blur-sm text-gray-900 dark:text-indigo-300 rounded-2xl font-semibold hover:bg-gray-300 dark:hover:bg-gray-700 transition-all duration-300 shadow-xl hover:shadow-2xl border-2 border-gray-400 dark:border-indigo-500 hover:border-gray-500 dark:hover:border-indigo-400 hover:-translate-y-1"
           >
             <span className="flex items-center">
-              <svg className="h-5 w-5 mr-2 group-hover:-translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
+              <ChevronLeft className="h-5 w-5 mr-2 group-hover:-translate-x-1 transition-transform duration-200" />
               Back to Home
             </span>
           </button>
@@ -172,9 +167,7 @@ export default function DashboardPage() {
           >
             <span className="flex items-center">
               {t('auth.signout')}
-              <svg className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-              </svg>
+              <LogOut className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
             </span>
           </button>
         </div>

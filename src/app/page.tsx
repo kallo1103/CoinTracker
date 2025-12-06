@@ -53,7 +53,7 @@ export default function Home() {
 
       {/* Top Cryptocurrencies List */}
       <div className="mb-12">
-        <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-white">{t('home.topCryptos')}</h2>
+        <h2 className="text-2xl font-semibold mb-4  text-gray-900 dark:text-white">{t('home.topCryptos')}</h2>
         <CryptoList limit={10} />
       </div>
     </div>
