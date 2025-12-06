@@ -133,10 +133,10 @@ export const getFearGreedBgClass = (value: number): string => {
 export const getFearGreedTextClass = (value: number): string => {
   // Dark text cho light backgrounds (yellow, lime)
   if (value > FEAR_GREED_THRESHOLDS.fear.max && value <= FEAR_GREED_THRESHOLDS.greed.max) {
-    return 'text-gray-900 dark:text-gray-900';
+    return 'text-gray-900';
   }
   // Light text cho dark backgrounds (red, orange, green)
-  return 'text-white dark:text-white';
+  return 'text-white';
 };
 
 // ==================== GRAY SCALE ====================
@@ -167,13 +167,18 @@ export const getBrandColor = (
 
 /**
  * Convert hex color sang rgba với opacity
- * @param hex - Mã màu hex (vd: "#10b981")
+ * @param color - Mã màu hex (vd: "#10b981") hoặc rgba string
  * @param opacity - Opacity (0-1)
  * @returns RGBA string
  */
-export const hexToRgba = (hex: string, opacity: number): string => {
+export const hexToRgba = (color: string, opacity: number): string => {
+  // Nếu là rgba/rgb sẵn rồi thì trả về (có thể xử lý opacity nếu cần, nhưng ở đây đơn giản hóa)
+  if (color.startsWith('rgb')) {
+    return color;
+  }
+
   // Remove # if present
-  hex = hex.replace('#', '');
+  const hex = color.replace('#', '');
   
   // Parse RGB
   const r = parseInt(hex.substring(0, 2), 16);
@@ -187,23 +192,17 @@ export const hexToRgba = (hex: string, opacity: number): string => {
 
 /**
  * Lấy màu cho chart axis
- * @param isDark - True nếu dark mode
  * @returns Mã màu hex
  */
-export const getChartAxisColor = (isDark: boolean = false): string => {
-  return isDark 
-    ? DESIGN_TOKENS.colors.chart.gridDark 
-    : DESIGN_TOKENS.colors.chart.axis;
+export const getChartAxisColor = (): string => {
+  return DESIGN_TOKENS.colors.chart.axis;
 };
 
 /**
  * Lấy màu cho chart grid
- * @param isDark - True nếu dark mode
  * @returns Mã màu hex
  */
-export const getChartGridColor = (isDark: boolean = false): string => {
-  return isDark 
-    ? DESIGN_TOKENS.colors.chart.gridDark 
-    : DESIGN_TOKENS.colors.chart.grid;
+export const getChartGridColor = (): string => {
+  return DESIGN_TOKENS.colors.chart.grid;
 };
 
