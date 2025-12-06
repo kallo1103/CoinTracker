@@ -302,12 +302,10 @@ CoinTracker/
 │   │   ├── MetaMaskButton.tsx
 │   │   ├── PopularCoins.tsx
 │   │   ├── PriceChart.tsx
-│   │   ├── Providers.tsx
-│   │   └── ThemeToggle.tsx
+│   │   └── Providers.tsx
 │   ├── contexts/              # React contexts
 │   │   ├── LanguageContext.tsx
-│   │   ├── NavbarContext.tsx
-│   │   └── ThemeContext.tsx
+│   │   └── NavbarContext.tsx
 │   └── lib/                   # Utilities
 │       ├── auth.ts            # NextAuth config
 │       ├── prisma.ts          # Prisma client
