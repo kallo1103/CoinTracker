@@ -1,24 +1,34 @@
 'use client';
 
 import { useNavbar } from '@/contexts/NavbarContext';
+import { useLanguage } from '@/contexts/LanguageContext';
+import Link from 'next/link';
 import { 
   BarChart3, 
   Search, 
+  Building2,
+  Newspaper,
   BookOpen, 
-  Mail, 
-  Phone, 
-  MapPin 
+  User,
+  Settings,
+  TrendingUp,
+  HelpCircle,
+  FileText,
+  Mail,
+  Github,
+  Twitter,
+  Linkedin
 } from "lucide-react";
 import { DESIGN_TOKENS } from '@/config/design-tokens';
 import { getContentMarginLeft } from '@/utils/responsive';
 
-// Footer Component - Phù hợp với navigation bar dọc
 export default function Footer() {
   const { isCollapsed } = useNavbar();
+  const { t } = useLanguage();
   
   return (
     <footer 
-      className="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white mt-auto transition-all border-t border-gray-200 dark:border-gray-800"
+      className="bg-slate-900/80 dark:bg-black/60 backdrop-blur-xl text-slate-300 dark:text-slate-400 mt-auto transition-all border-t border-white/10"
       style={{
         marginLeft: `${getContentMarginLeft(isCollapsed)}px`,
         transitionDuration: DESIGN_TOKENS.transition.duration.slow
@@ -27,136 +37,208 @@ export default function Footer() {
       <div 
         className="container mx-auto"
         style={{
-          padding: `${DESIGN_TOKENS.spacing.scale[8]}px ${DESIGN_TOKENS.spacing.scale[6]}px`
+          padding: `${DESIGN_TOKENS.spacing.scale[10]}px ${DESIGN_TOKENS.spacing.scale[6]}px ${DESIGN_TOKENS.spacing.scale[8]}px`
         }}
       >
         <div 
-          className="grid grid-cols-1 md:grid-cols-4"
-          style={{ gap: `${DESIGN_TOKENS.spacing.scale[8]}px` }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12"
         >
-          {/* Column 1 - Information */}
-          <div>
+          {/* Column 1 - Brand & Description */}
+          <div className="lg:col-span-1">
             <h3 
-              className="font-bold text-gray-900 dark:text-white"
+              className="font-bold text-white mb-3 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
               style={{
-                fontSize: DESIGN_TOKENS.typography.fontSize.xl,
+                fontSize: DESIGN_TOKENS.typography.fontSize['2xl'],
                 marginBottom: `${DESIGN_TOKENS.spacing.scale[4]}px`
               }}
             >
-              Crypto Tracker
+              {t('footer.title')}
             </h3>
+            <p 
+              className="text-slate-400 dark:text-slate-500 text-sm leading-relaxed"
+              style={{
+                marginBottom: `${DESIGN_TOKENS.spacing.scale[4]}px`
+              }}
+            >
+              {t('footer.description')}
+            </p>
+            {/* Social Links */}
+            <div className="flex gap-3 mt-4">
+              <a 
+                href="https://github.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-slate-400 hover:text-blue-400 transition-colors p-2 hover:bg-white/5 rounded-lg"
+                aria-label="GitHub"
+              >
+                <Github size={18} />
+              </a>
+              <a 
+                href="https://twitter.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-slate-400 hover:text-blue-400 transition-colors p-2 hover:bg-white/5 rounded-lg"
+                aria-label="Twitter"
+              >
+                <Twitter size={18} />
+              </a>
+              <a 
+                href="https://linkedin.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-slate-400 hover:text-blue-400 transition-colors p-2 hover:bg-white/5 rounded-lg"
+                aria-label="LinkedIn"
+              >
+                <Linkedin size={18} />
+              </a>
+            </div>
           </div>
 
-          {/* Column 2 - Navigation Links */}
+          {/* Column 2 - Navigation */}
           <div>
             <h3 
-              className="font-bold text-gray-900 dark:text-white"
+              className="font-semibold text-white mb-4"
               style={{
-                fontSize: DESIGN_TOKENS.typography.fontSize.xl,
+                fontSize: DESIGN_TOKENS.typography.fontSize.lg,
                 marginBottom: `${DESIGN_TOKENS.spacing.scale[4]}px`
               }}
             >
-              Navigation
-            </h3>
-            <ul style={{ display: 'flex', flexDirection: 'column', gap: `${DESIGN_TOKENS.spacing.scale[2]}px` }}>
-              <li>
-                <a href="/profile" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors flex items-center">
-                  <BarChart3 className="w-4 h-4 mr-2" />
-                  Profile
-                </a>
-              </li>
-              <li>
-                <a href="/discover" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors flex items-center">
-                  <Search className="w-4 h-4 mr-2" />
-                  Discover
-                </a>
-              </li>
-              <li>
-                <a href="/docs" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors flex items-center">
-                  <BookOpen className="w-4 h-4 mr-2" />
-                  Docs
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 3 - Support Links */}
-          <div>
-            <h3 
-              className="font-bold text-gray-900 dark:text-white"
-              style={{
-                fontSize: DESIGN_TOKENS.typography.fontSize.xl,
-                marginBottom: `${DESIGN_TOKENS.spacing.scale[4]}px`
-              }}
-            >
-              Support
-            </h3>
-            <ul style={{ display: 'flex', flexDirection: 'column', gap: `${DESIGN_TOKENS.spacing.scale[2]}px` }}>
-              <li>
-                <a href="/help" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
-                  Help Center
-                </a>
-              </li>
-              <li>
-                <a href="/faq" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
-                  FAQ
-                </a>
-              </li>
-              <li>
-                <a href="/contact" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
-                  Contact Us
-                </a>
-              </li>
-              <li>
-                <a href="/api" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
-                  API Documentation
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 4 - Contact Info */}
-          <div>
-            <h3 
-              className="font-bold text-gray-900 dark:text-white"
-              style={{
-                fontSize: DESIGN_TOKENS.typography.fontSize.xl,
-                marginBottom: `${DESIGN_TOKENS.spacing.scale[4]}px`
-              }}
-            >
-              Contact
+              {t('footer.navigation')}
             </h3>
             <ul 
-              className="text-gray-600 dark:text-gray-400"
-              style={{ display: 'flex', flexDirection: 'column', gap: `${DESIGN_TOKENS.spacing.scale[2]}px` }}
+              className="flex flex-col gap-2"
             >
-              <li className="flex items-center">
-                <Mail className="w-4 h-4 mr-2" />
-                info@cryptotracker.com
-              </li>
-              <li className="flex items-center">
-                <Phone className="w-4 h-4 mr-2" />
-                +84 123 456 789
-              </li>
-              <li className="flex items-center">
-                <MapPin className="w-4 h-4 mr-2" />
-                Hanoi, Vietnam
-              </li>
+              <FooterLink href="/" icon={<BarChart3 size={16} />} label={t('footer.dashboard')} />
+              <FooterLink href="/search" icon={<Search size={16} />} label={t('footer.search')} />
+              <FooterLink href="/exchange" icon={<Building2 size={16} />} label={t('footer.exchange')} />
+              <FooterLink href="/crypto-news" icon={<Newspaper size={16} />} label={t('footer.news')} />
+              <FooterLink href="/docs" icon={<BookOpen size={16} />} label={t('footer.docs')} />
+            </ul>
+          </div>
+
+          {/* Column 3 - Resources */}
+          <div>
+            <h3 
+              className="font-semibold text-white mb-4"
+              style={{
+                fontSize: DESIGN_TOKENS.typography.fontSize.lg,
+                marginBottom: `${DESIGN_TOKENS.spacing.scale[4]}px`
+              }}
+            >
+              {t('footer.resources')}
+            </h3>
+            <ul 
+              className="flex flex-col gap-2"
+            >
+              <FooterLink href="/profile" icon={<User size={16} />} label={t('footer.profile')} />
+              <FooterLink href="/profile/settings" icon={<Settings size={16} />} label={t('footer.settings')} />
+              <FooterLink href="/profile/statistics" icon={<TrendingUp size={16} />} label={t('footer.statistics')} />
+              <FooterLink href="/docs" icon={<FileText size={16} />} label={t('footer.api')} />
+            </ul>
+          </div>
+
+          {/* Column 4 - Support & Legal */}
+          <div>
+            <h3 
+              className="font-semibold text-white mb-4"
+              style={{
+                fontSize: DESIGN_TOKENS.typography.fontSize.lg,
+                marginBottom: `${DESIGN_TOKENS.spacing.scale[4]}px`
+              }}
+            >
+              {t('footer.support')}
+            </h3>
+            <ul 
+              className="flex flex-col gap-2 mb-6"
+            >
+              <FooterLink href="/docs" icon={<HelpCircle size={16} />} label={t('footer.help')} />
+              <FooterLink href="/docs" icon={<FileText size={16} />} label={t('footer.faq')} />
+              <FooterLink href="mailto:info@cryptotracker.com" icon={<Mail size={16} />} label={t('footer.contact')} />
+            </ul>
+            
+            <h3 
+              className="font-semibold text-white mb-4"
+              style={{
+                fontSize: DESIGN_TOKENS.typography.fontSize.lg,
+                marginBottom: `${DESIGN_TOKENS.spacing.scale[4]}px`,
+                marginTop: `${DESIGN_TOKENS.spacing.scale[6]}px`
+              }}
+            >
+              {t('footer.legal')}
+            </h3>
+            <ul 
+              className="flex flex-col gap-2"
+            >
+              <FooterLink href="/docs" label={t('footer.privacy')} />
+              <FooterLink href="/docs" label={t('footer.terms')} />
+              <FooterLink href="/docs" label={t('footer.about')} />
             </ul>
           </div>
         </div>
 
         {/* Copyright */}
         <div 
-          className="border-t border-gray-300 dark:border-gray-700 text-center text-gray-600 dark:text-gray-400"
+          className="border-t border-white/10 text-center text-slate-400 dark:text-slate-500 mt-8 pt-6"
           style={{
             marginTop: `${DESIGN_TOKENS.spacing.scale[8]}px`,
             paddingTop: `${DESIGN_TOKENS.spacing.scale[6]}px`
           }}
         >
-          <p>&copy; {new Date().getFullYear()} Crypto Tracker. All rights reserved.</p>
+          <p className="text-sm">
+            &copy; {new Date().getFullYear()} {t('footer.title')}. {t('footer.allRightsReserved')}.
+          </p>
         </div>
       </div>
     </footer>
+  );
+}
+
+function FooterLink({ 
+  href, 
+  icon, 
+  label 
+}: { 
+  href: string; 
+  icon?: React.ReactNode; 
+  label: string;
+}) {
+  const isExternal = href.startsWith('http') || href.startsWith('mailto:');
+  
+  const linkClassName = "text-slate-400 dark:text-slate-500 hover:text-blue-400 dark:hover:text-blue-400 transition-colors flex items-center gap-2 group text-sm";
+
+  if (isExternal) {
+    return (
+      <li>
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={linkClassName}
+        >
+          {icon && (
+            <span className="group-hover:scale-110 transition-transform">
+              {icon}
+            </span>
+          )}
+          <span>{label}</span>
+        </a>
+      </li>
+    );
+  }
+
+  return (
+    <li>
+      <Link
+        href={href}
+        className={linkClassName}
+      >
+        {icon && (
+          <span className="group-hover:scale-110 transition-transform">
+            {icon}
+          </span>
+        )}
+        <span>{label}</span>
+      </Link>
+    </li>
   );
 }

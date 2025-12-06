@@ -80,9 +80,9 @@ export default function DominancePieChart() {
   };
 
   return (
-    <div className="rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+    <div className="rounded-lg shadow p-6 border border-gray-200 dark:border-gray-900 bg-white dark:bg-slate-900">
       {/* Header */}
-      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">🥧 Market Dominance</h3>
+      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6"> Market Dominance</h3>
 
       {/* Pie Chart */}
       <ResponsiveContainer width="100%" height={300}>
@@ -102,15 +102,6 @@ export default function DominancePieChart() {
             ))}
           </Pie>
           <Tooltip content={<CustomTooltip />} />
-          <Legend 
-            verticalAlign="bottom" 
-            height={36}
-            formatter={(value, entry) => (
-              <span className="text-gray-700 dark:text-gray-300">
-                {value}: <strong>{(entry.payload?.value as number)?.toFixed(2)}%</strong>
-              </span>
-            )}
-          />
         </PieChart>
       </ResponsiveContainer>
 

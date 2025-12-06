@@ -91,7 +91,7 @@ export default function GlobalMetrics() {
           marginBottom: `${DESIGN_TOKENS.spacing.scale[6]}px`
         }}
       >
-        📊 Global Crypto Metrics
+         Global Crypto Metrics
       </h3>
 
       {/* Grid metrics */}
@@ -115,9 +115,9 @@ export default function GlobalMetrics() {
               className="font-medium opacity-90 text-gray-900 dark:text-white"
               style={{ fontSize: DESIGN_TOKENS.typography.fontSize.sm }}
             >
-              ₿ {t('metrics.btcDominance')}
+               {t('metrics.btcDominance')}
             </h4>
-            <span style={{ fontSize: DESIGN_TOKENS.typography.fontSize['2xl'] }}>₿</span>
+            <span style={{ fontSize: DESIGN_TOKENS.typography.fontSize['2xl'] }}></span>
           </div>
           <div 
             className="font-bold text-gray-900 dark:text-white"
@@ -143,9 +143,9 @@ export default function GlobalMetrics() {
               className="font-medium opacity-90 text-gray-900 dark:text-white"
               style={{ fontSize: DESIGN_TOKENS.typography.fontSize.sm }}
             >
-              Ξ {t('metrics.ethDominance')}
+              {t('metrics.ethDominance')}
             </h4>
-            <span style={{ fontSize: DESIGN_TOKENS.typography.fontSize['2xl'] }}>Ξ</span>
+            <span style={{ fontSize: DESIGN_TOKENS.typography.fontSize['2xl'] }}></span>
           </div>
           <div 
             className="font-bold text-gray-900 dark:text-white"
@@ -171,9 +171,9 @@ export default function GlobalMetrics() {
               className="font-medium opacity-90 text-gray-900 dark:text-white"
               style={{ fontSize: DESIGN_TOKENS.typography.fontSize.sm }}
             >
-              💰 {t('metrics.totalMarketCap')}
+              {t('metrics.totalMarketCap')}
             </h4>
-            <span style={{ fontSize: DESIGN_TOKENS.typography.fontSize['2xl'] }}>💰</span>
+            <span style={{ fontSize: DESIGN_TOKENS.typography.fontSize['2xl'] }}></span>
           </div>
           <div 
             className="font-bold text-gray-900 dark:text-white"
@@ -208,9 +208,9 @@ export default function GlobalMetrics() {
               className="font-medium opacity-90 text-gray-900 dark:text-white"
               style={{ fontSize: DESIGN_TOKENS.typography.fontSize.sm }}
             >
-              📈 {t('metrics.totalVolume24h')}
+              {t('metrics.totalVolume24h')}
             </h4>
-            <span style={{ fontSize: DESIGN_TOKENS.typography.fontSize['2xl'] }}>📈</span>
+            <span style={{ fontSize: DESIGN_TOKENS.typography.fontSize['2xl'] }}></span>
           </div>
           <div 
             className="font-bold text-gray-900 dark:text-white"

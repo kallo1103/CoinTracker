@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -7,171 +7,113 @@ import MetaMaskButton from "./MetaMaskButton";
 import { useState } from "react";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { LogIn, X } from "lucide-react";
-import { DESIGN_TOKENS } from '@/config/design-tokens';
-import { getBrandColor } from '@/utils/theme';
 
 export default function AuthButton() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [showOptions, setShowOptions] = useState(false);
-  const { isCollapsed } = useNavbar(); // Lấy trạng thái sidebar
+  const { isCollapsed } = useNavbar();
 
-
-  // Loading state - responsive cho cả sidebar đóng/mở
+  // Loading state
   if (status === "loading") {
     return (
-      <div className={`flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg animate-pulse ${
-        isCollapsed ? 'justify-center px-2' : ''
+      <div className={`flex items-center gap-2 bg-white/5 rounded-xl animate-pulse border border-white/10 ${
+        isCollapsed ? 'p-2 justify-center' : 'px-4 py-2 w-full'
       }`}>
-        <div className={`${isCollapsed ? 'w-10 h-10' : 'w-8 h-8'} bg-gray-300 rounded-full`}></div>
-        {!isCollapsed && <div className="w-20 h-4 bg-gray-300 rounded"></div>}
+        <div className="w-8 h-8 bg-white/10 rounded-full"></div>
+        {!isCollapsed && <div className="w-20 h-4 bg-white/10 rounded"></div>}
       </div>
     );
   }
 
-  // Logged in - show user info - responsive cho cả sidebar đóng/mở
+  // Logged in
   if (session) {
     return (
       <button
         onClick={() => router.push("/profile")}
-        className={`flex items-center gap-2 px-3 sm:px-4 py-2 bg-white rounded-lg transition-all shadow-sm border border-gray-200 hover:shadow-md ${
-          isCollapsed 
-            ? 'w-15 h-12 justify-start px-2' 
-            : 'w-full max-w-[300px] h-[60px] mx-auto'
-        }`}
-        title={isCollapsed ? `Profile - ${session.user?.name || 'User'}` : ''}
+        className={`
+          flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-500/30 
+          rounded-xl transition-all duration-300 group
+          ${isCollapsed ? 'p-2 justify-center' : 'w-full px-4 py-3'}
+        `}
+        title={isCollapsed ? `Profile - ${session.user?.name}` : ''}
       >
         {session.user?.image ? (
           <Image
             src={session.user.image}
             alt={session.user.name || "User"}
-            width={isCollapsed ? 28 : 32}
-            height={isCollapsed ? 28 : 32}
-            className="rounded-full flex-shrink-0"
+            width={32}
+            height={32}
+            className="rounded-full ring-2 ring-transparent group-hover:ring-blue-500/50 transition-all"
             unoptimized
           />
         ) : (
-          <div className={`${
-            isCollapsed ? 'w-7 h-7 text-xs' : 'w-10 h-10 text-sm'
-          } bg-gradient-to-br from-indigo-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0`}>
+          <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-blue-500/20">
             {session.user?.name?.charAt(0).toUpperCase() || "U"}
           </div>
         )}
-        {isCollapsed ? (
-          <span className="font-medium text-gray-700 text-xs truncate ml-1">
-            {session.user?.name || 'User'}
-          </span>
-        ) : (
-          <span className="font-medium text-gray-700 text-sm sm:text-base whitespace-nowrap overflow-hidden">
-            {session.user?.name || 'User'}
-          </span>
+        
+        {!isCollapsed && (
+          <div className="flex flex-col items-start overflow-hidden">
+            <span className="text-sm font-medium text-slate-200 truncate max-w-[120px] group-hover:text-white transition-colors">
+              {session.user?.name || 'User'}
+            </span>
+          </div>
         )}
       </button>
     );
   }
 
-  // Not logged in - show sign in options - responsive cho cả sidebar đóng/mở
+  // Not logged in
   return (
-    <div className="relative">
+    <div className="relative w-full">
       {!showOptions ? (
         <button
           onClick={() => setShowOptions(true)}
-          className={`text-white rounded-lg transition-all font-medium shadow-md hover:shadow-lg flex items-center ${
-            isCollapsed 
-              ? 'w-12 h-12 justify-center' 
-              : 'w-full max-w-[200px] mx-auto'
-          }`}
-          style={{
-            background: `linear-gradient(135deg, ${getBrandColor('primary')} 0%, ${getBrandColor('secondary')} 100%)`,
-            padding: isCollapsed 
-              ? `${DESIGN_TOKENS.spacing.scale[2]}px` 
-              : `${DESIGN_TOKENS.spacing.scale[2]}px ${DESIGN_TOKENS.spacing.scale[6]}px`,
-            borderRadius: DESIGN_TOKENS.borderRadius.lg,
-            fontSize: isCollapsed ? DESIGN_TOKENS.typography.fontSize.sm : DESIGN_TOKENS.typography.fontSize.base,
-            gap: `${DESIGN_TOKENS.spacing.scale[2]}px`
-          }}
-          title={isCollapsed ? "Đăng nhập" : ''}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = `linear-gradient(135deg, ${getBrandColor('primaryHover')} 0%, ${getBrandColor('secondaryHover')} 100%)`;
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = `linear-gradient(135deg, ${getBrandColor('primary')} 0%, ${getBrandColor('secondary')} 100%)`;
-          }}
+          className={`
+            bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 
+            text-white rounded-xl transition-all shadow-lg shadow-blue-900/20 hover:shadow-blue-500/30 hover:-translate-y-0.5
+            flex items-center justify-center
+            ${isCollapsed ? 'w-12 h-12 p-0' : 'w-full px-6 py-3 gap-2 font-medium'}
+          `}
+          title={isCollapsed ? "Sign in" : ''}
         >
-          <LogIn 
-            style={{
-              width: isCollapsed ? '24px' : '20px',
-              height: isCollapsed ? '24px' : '20px'
-            }}
-          />
-          {!isCollapsed && "Sign in"}
+          <LogIn size={20} />
+          {!isCollapsed && "Sign In"}
         </button>
       ) : (
-        <div 
-          className={`bg-gray-800 shadow-xl border border-gray-700 ${
-            isCollapsed 
-              ? 'absolute left-16 bottom-0 w-64 z-50' 
-              : 'w-full max-w-[280px] sm:min-w-[250px]'
-          }`}
-          style={{
-            borderRadius: DESIGN_TOKENS.borderRadius.lg,
-            padding: `${DESIGN_TOKENS.spacing.scale[4]}px`,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: `${DESIGN_TOKENS.spacing.scale[3]}px`
-          }}
-        >
-          {/* Header */}
-          <div 
-            className="flex items-center justify-between"
-            style={{ marginBottom: `${DESIGN_TOKENS.spacing.scale[3]}px` }}
-          >
-            <h3 
-              className="text-white font-semibold"
-              style={{ fontSize: DESIGN_TOKENS.typography.fontSize.base }}
-            >
-              Choose Method
-            </h3>
-            <button
-              onClick={() => setShowOptions(false)}
-              className="text-gray-400 hover:text-white"
-            >
-              <X style={{ width: '16px', height: '16px' }} />
+        <div className={`
+          bg-slate-900/95 backdrop-blur-xl border border-white/10 shadow-2xl rounded-2xl p-4
+          flex flex-col gap-3 z-[60]
+          ${isCollapsed ? 'fixed left-24 bottom-8 w-72 origin-bottom-left' : 'w-full absolute bottom-0 left-0 origin-bottom'}
+          animate-in slide-in-from-bottom-2 fade-in duration-200
+        `}>
+          <div className="flex items-center justify-between mb-1">
+            <h3 className="text-white font-semibold text-sm">Connect Wallet</h3>
+            <button onClick={() => setShowOptions(false)} className="text-slate-400 hover:text-white transition-colors">
+              <X size={16} />
             </button>
           </div>
 
-          {/* Google Sign In */}
           <button
             onClick={() => signIn("google", { callbackUrl: "/profile" })}
-            className="w-full bg-white hover:bg-gray-100 text-gray-800 transition-all font-medium shadow-sm flex items-center justify-center"
-            style={{
-              padding: `${DESIGN_TOKENS.spacing.scale[2]}px ${DESIGN_TOKENS.spacing.scale[4]}px`,
-              borderRadius: DESIGN_TOKENS.borderRadius.lg,
-              gap: `${DESIGN_TOKENS.spacing.scale[2]}px`
-            }}
+            className="flex items-center justify-center gap-3 w-full bg-white hover:bg-gray-50 text-slate-900 font-medium px-4 py-2.5 rounded-xl transition-all hover:scale-[1.02]"
           >
-            <svg style={{ width: '20px', height: '20px' }} fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"/>
+            <svg className="w-5 h-5" viewBox="0 0 24 24">
+              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
+              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
             </svg>
-            Google
+            Continue with Google
           </button>
 
-          {/* Divider */}
-          <div 
-            className="flex items-center"
-            style={{ gap: `${DESIGN_TOKENS.spacing.scale[2]}px` }}
-          >
-            <div className="flex-1 h-px bg-gray-600"></div>
-            <span 
-              className="text-gray-400"
-              style={{ fontSize: DESIGN_TOKENS.typography.fontSize.xs }}
-            >
-              OR
-            </span>
-            <div className="flex-1 h-px bg-gray-600"></div>
+          <div className="flex items-center gap-2 text-xs text-slate-500">
+            <div className="h-px bg-white/10 flex-1"></div>
+            <span>OR</span>
+            <div className="h-px bg-white/10 flex-1"></div>
           </div>
 
-          {/* MetaMask */}
           <MetaMaskButton onConnect={(address) => {
             console.log("Connected:", address);
             setShowOptions(false);

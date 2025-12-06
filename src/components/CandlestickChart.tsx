@@ -219,7 +219,7 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white">🕯️ {symbol} Candlestick Chart</h3>
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white"> {symbol} Candlestick Chart</h3>
           <p className="text-sm text-gray-500">{days} {t('chart.recentDays')}</p>
         </div>
         <div className="text-right">

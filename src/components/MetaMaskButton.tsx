@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { BrowserProvider } from "ethers";
+import { Wallet } from "lucide-react";
 
-// Định nghĩa kiểu cho MetaMask Ethereum provider
 interface EthereumProvider {
   isMetaMask?: boolean;
   request: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
@@ -11,7 +11,6 @@ interface EthereumProvider {
   removeListener?: (event: string, callback: (...args: unknown[]) => void) => void;
 }
 
-// Mở rộng kiểu Window để bao gồm ethereum
 declare global {
   interface Window {
     ethereum?: EthereumProvider;
@@ -27,15 +26,13 @@ export default function MetaMaskButton({ onConnect }: MetaMaskButtonProps) {
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Kiểm tra MetaMask đã cài đặt chưa
   const isMetaMaskInstalled = () => {
     return typeof window !== "undefined" && typeof window.ethereum !== "undefined";
   };
 
-  // Connect to MetaMask
   const connectWallet = async () => {
     if (!isMetaMaskInstalled()) {
-      setError("MetaMask is not installed! Please install MetaMask extension.");
+      setError("MetaMask is not installed!");
       window.open("https://metamask.io/download/", "_blank");
       return;
     }
@@ -44,23 +41,18 @@ export default function MetaMaskButton({ onConnect }: MetaMaskButtonProps) {
       setIsConnecting(true);
       setError(null);
 
-      // Yêu cầu truy cập tài khoản
       const provider = new BrowserProvider(window.ethereum!);
       const accounts = await provider.send("eth_requestAccounts", []);
       
       if (accounts.length > 0) {
         const address = accounts[0];
         setAccount(address);
-        
-        // Save to localStorage
         localStorage.setItem("walletAddress", address);
         
-        // Callback
         if (onConnect) {
           onConnect(address);
         }
 
-        // Đăng nhập với NextAuth
         await signInWithWallet(address);
       }
     } catch (err) {
@@ -72,23 +64,17 @@ export default function MetaMaskButton({ onConnect }: MetaMaskButtonProps) {
     }
   };
 
-  // Đăng nhập với địa chỉ ví qua NextAuth
   const signInWithWallet = async (address: string) => {
     try {
-      // Tạo thông điệp để ký
       const message = `Sign in to Crypto Tracker\n\nAddress: ${address}\nTimestamp: ${new Date().toISOString()}`;
       
       const provider = new BrowserProvider(window.ethereum!);
       const signer = await provider.getSigner();
       
-      console.log("Requesting signature from MetaMask...");
       const signature = await signer.signMessage(message);
-      console.log("Signature received:", signature.substring(0, 10) + "...");
 
-      // Sign in via NextAuth with credentials provider
       const { signIn } = await import("next-auth/react");
       
-      console.log("Attempting to sign in with NextAuth...");
       const result = await signIn("metamask", {
         address: address.toLowerCase(),
         message,
@@ -96,59 +82,37 @@ export default function MetaMaskButton({ onConnect }: MetaMaskButtonProps) {
         redirect: false,
       });
 
-      console.log("Sign in result:", result);
-
       if (result?.ok) {
-        console.log("Sign in successful, redirecting to profile...");
-        // Chuyển hướng tới profile
         window.location.href = "/profile";
       } else {
-        console.error("Sign in failed:", result?.error);
         setError(result?.error || "Authentication failed");
       }
     } catch (err) {
       console.error("Error signing message:", err);
-      // Kiểm tra lỗi MetaMask
-      if (err && typeof err === 'object' && 'code' in err) {
-        const errorCode = (err as { code: number }).code;
-        if (errorCode === 4001) {
-          setError("You rejected the signature request");
-        } else if (errorCode === -32603) {
-          setError("Internal error occurred");
-        } else {
-          const errorMessage = err instanceof Error ? err.message : "Unable to verify signature";
-          setError(errorMessage);
-        }
-      } else {
-        const errorMessage = err instanceof Error ? err.message : "Unable to verify signature";
-        setError(errorMessage);
-      }
+      const errorMessage = err instanceof Error ? err.message : "Unable to verify signature";
+      setError(errorMessage);
     }
   };
 
-  // Disconnect wallet
   const disconnectWallet = () => {
     setAccount(null);
     localStorage.removeItem("walletAddress");
   };
 
-  // Shorten wallet address
   const shortenAddress = (address: string) => {
     return `${address.slice(0, 6)}...${address.slice(-4)}`;
   };
 
   if (account) {
     return (
-      <div className="flex items-center gap-2">
-        <div className="px-4 py-2 bg-gradient-to-r from-orange-500 to-yellow-500 text-white rounded-lg font-medium shadow-sm flex items-center gap-2">
-          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm7.5 12c0 .414-.336.75-.75.75h-3.75v3.75c0 .414-.336.75-.75.75s-.75-.336-.75-.75v-3.75H9.75c-.414 0-.75-.336-.75-.75s.336-.75.75-.75h3.75V7.5c0-.414.336-.75.75-.75s.75.336.75.75v3.75h3.75c.414 0 .75.336.75.75z"/>
-          </svg>
-          <span className="font-mono text-sm">{shortenAddress(account)}</span>
+      <div className="flex items-center gap-2 w-full">
+        <div className="flex-1 px-4 py-2.5 bg-gradient-to-r from-orange-500/20 to-orange-600/20 border border-orange-500/30 text-orange-200 rounded-xl font-mono text-sm shadow-sm flex items-center justify-center gap-2">
+          <Wallet className="w-4 h-4 text-orange-500" />
+          {shortenAddress(account)}
         </div>
         <button
           onClick={disconnectWallet}
-          className="px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors text-sm"
+          className="p-2.5 bg-red-500/20 hover:bg-red-500/30 text-red-400 border border-red-500/30 rounded-xl transition-colors"
           title="Disconnect"
         >
           ✕
@@ -158,66 +122,41 @@ export default function MetaMaskButton({ onConnect }: MetaMaskButtonProps) {
   }
 
   return (
-    <div>
+    <div className="w-full">
       <button
         onClick={connectWallet}
         disabled={isConnecting}
-        className="px-4 py-2.5 bg-orange-400 text-white rounded-lg transition-all font-medium shadow-md hover:shadow-lg flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed mx-auto"
+        className="w-full px-4 py-3 bg-gradient-to-r from-[#f6851b] to-[#e2761b] hover:brightness-110 text-white rounded-xl transition-all font-bold shadow-lg shadow-orange-900/20 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed group"
       >
         {isConnecting ? (
           <>
-            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-            Connecting...
+            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+            <span>Connecting...</span>
           </>
         ) : (
           <>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" id="Metamask-Icon--Streamline-Svg-Logos" height="24" width="24">
-  <desc>
-    Metamask Icon Streamline Icon: https://streamlinehq.com
-  </desc>
-  <path fill="#e27625" d="m19.147225 16.855225 4.4568 0.084825 -1.5576 5.291375 -5.438275 -1.49735 2.539075 -3.87885Z" strokeWidth="0.25"></path>
-  <path fill="#e27625" d="m4.852525 16.855225 2.529675 3.878875 -5.429175 1.497425 -1.5481175 -5.291475 4.4476175 -0.084825Z" strokeWidth="0.25"></path>
-  <path fill="#e27625" d="m10.543275 7.372 0.1822 5.882675 -5.450075 -0.247975 1.550225 -2.33875 0.019625 -0.02255L10.543275 7.372Z" strokeWidth="0.25"></path>
-  <path fill="#e27625" d="m13.4003 7.30645 3.75445 3.33925 0.019425 0.022375 1.550275 2.33875 -5.448825 0.247925 0.124675 -5.9483Z" strokeWidth="0.25"></path>
-  <path fill="#e27625" d="m7.541775 16.87225 2.9759 2.318675 -3.456875 1.669025 0.480975 -3.9877Z" strokeWidth="0.25"></path>
-  <path fill="#e27625" d="m16.458725 16.871875 0.471 3.988075 -3.447175 -1.669175 2.976175 -2.3189Z" strokeWidth="0.25"></path>
-  <path fill="#d5bfb2" d="m13.558475 18.9724 3.4981 1.69385 -3.253925 1.546475 0.033775 -1.022125 -0.27795 -2.2182Z" strokeWidth="0.25"></path>
-  <path fill="#d5bfb2" d="m10.44055 18.97315 -0.26705 2.2007 0.0219 1.037625 -3.26155 -1.54525 3.5067 -1.693075Z" strokeWidth="0.25"></path>
-  <path fill="#233447" d="m9.430425 14.02245 0.914125 1.921125 -3.11225 -0.911675 2.198125 -1.00945Z" strokeWidth="0.25"></path>
-  <path fill="#233447" d="m14.56965 14.02265 2.20845 1.009175 -3.12235 0.91145 0.9139 -1.920625Z" strokeWidth="0.25"></path>
-  <path fill="#cc6228" d="m7.779875 16.852725 -0.5031 4.1345 -2.696325 -4.044125 3.199425 -0.090375Z" strokeWidth="0.25"></path>
-  <path fill="#cc6228" d="m16.22045 16.852775 3.199525 0.0904L16.7135 20.9874l-0.49305 -4.134625Z" strokeWidth="0.25"></path>
-  <path fill="#cc6228" d="m18.803175 12.773 -2.328475 2.37305 -1.795225 -0.820375 -0.85955 1.8069 -0.56345 -3.1072 5.5467 -0.252375Z" strokeWidth="0.25"></path>
-  <path fill="#cc6228" d="m5.19555 12.77295 5.547675 0.2524 -0.563475 3.107225 -0.8597 -1.8067 -1.785775 0.8202 -2.338725 -2.373125Z" strokeWidth="0.25"></path>
-  <path fill="#e27525" d="m5.038825 12.286075 2.6344 2.6732 0.0913 2.63905 -2.7257 -5.31225Z" strokeWidth="0.25"></path>
-  <path fill="#e27525" d="M18.963975 12.28125 16.2334 17.603l0.1028 -2.643775L18.963975 12.28125Z" strokeWidth="0.25"></path>
-  <path fill="#e27525" d="m10.6146 12.448725 0.106025 0.667375 0.262 1.6625 -0.168425 5.10625 -0.79635 -4.1019 -0.000275 -0.0424 0.597025 -3.291825Z" strokeWidth="0.25"></path>
-  <path fill="#e27525" d="m13.384 12.439575 0.5986 3.301025 -0.00025 0.0424 -0.79835 4.11215 -0.0316 -1.028525 -0.124575 -4.1182 0.356175 -2.30885Z" strokeWidth="0.25"></path>
-  <path fill="#f5841f" d="m16.5705 14.8529 -0.08915 2.2929 -2.77905 2.16525 -0.5618 -0.39695 0.62975 -3.243675 2.80025 -0.817525Z" strokeWidth="0.25"></path>
-  <path fill="#f5841f" d="m7.439075 14.852975 2.790625 0.817525 0.629725 3.243625 -0.561825 0.396925 -2.7792 -2.165425 -0.079325 -2.29265Z" strokeWidth="0.25"></path>
-  <path fill="#c0ac9d" d="m6.4021 20.15985 3.555475 1.68465 -0.01505 -0.719375L10.24 20.864h3.51895l0.30825 0.26025 -0.0227 0.718875 3.532925 -1.679025 -1.719125 1.420625L13.7795 23.0125H10.211525l-2.07745 -1.433625 -1.731975 -1.419025Z" strokeWidth="0.25"></path>
-  <path fill="#161616" d="m13.303775 18.748225 0.5027 0.3551 0.2946 2.35045 -0.426325 -0.36H10.326425l-0.418225 0.36725 0.284925 -2.357525 0.502875 -0.355275h2.607775Z" strokeWidth="0.25"></path>
-  <path fill="#763e1a" d="m22.539625 1.19397 1.2104 3.631255 -0.7559 3.67155 0.538275 0.41525 -0.728375 0.555725 0.547375 0.42275 -0.72485 0.660175 0.445025 0.322275 -1.181025 1.379325 -4.844125 -1.4104 -0.041975 -0.0225 -3.490775 -2.9447L22.539625 1.19397Z" strokeWidth="0.25"></path>
-  <path fill="#763e1a" d="M1.460435 1.19397 10.4864 7.874675l-3.49075 2.9447 -0.042 0.0225 -4.844145 1.4104 -1.181015 -1.379325 0.44467 -0.322025 -0.72453 -0.6604 0.5463775 -0.422325 -0.73926 -0.5573 0.55858 -0.4155L0.25 4.82535 1.460435 1.19397Z" strokeWidth="0.25"></path>
-  <path fill="#f5841f" d="m16.809475 10.533375 5.132675 1.49435 1.667525 5.1393 -4.39925 0 -3.031225 0.03825 2.204425 -4.296825 -1.57415 -2.375075Z" strokeWidth="0.25"></path>
-  <path fill="#f5841f" d="m7.19055 10.533375 -1.574425 2.375075 2.204725 4.296825 -3.029725 -0.03825H0.3996575l1.65816 -5.13925 5.1327325 -1.4944Z" strokeWidth="0.25"></path>
-  <path fill="#f5841f" d="m15.248075 4.026975 -1.43565 3.8774 -0.30465 5.238 -0.116575 1.64175 -0.00925 4.193975H10.617825l-0.008975 -4.1861 -0.11695 -1.651075 -0.3048 -5.23655 -1.4354 -3.8774h6.496375Z" strokeWidth="0.25"></path>
-</svg>
-            Connect MetaMask
+            <div className="w-6 h-6 relative group-hover:scale-110 transition-transform">
+                {/* Simplified Fox-like shape for MetaMask */}
+               <svg viewBox="0 0 32 32" className="w-full h-full" fill="currentColor">
+                 <path d="M27.3 7.3L24.1 3.5 16 0 7.9 3.5 4.7 7.3 1 16l6 8 9 5 9-5 6-8-3.7-8.7zM8.4 22l-3.5-4.7 2.2-7.3 4.8 1.7-3.5 10.3zm7.6 5l-5.4-3 2.1-6 3.3 1 3.3-1 2.1 6-5.4 3zm7.6-5l-3.5-10.3 4.8-1.7 2.2 7.3L23.6 22z" fill="white"/>
+               </svg>
+            </div>
+            <span>Connect MetaMask</span>
           </>
         )}
       </button>
 
       {error && (
-        <p className="text-red-500 text-sm mt-2 text-center">{error}</p>
+        <p className="text-red-400 text-xs mt-2 text-center bg-red-500/10 py-1 px-2 rounded-lg border border-red-500/20">
+          {error}
+        </p>
       )}
 
       {!isMetaMaskInstalled() && (
-        <p className="text-gray-500 text-xs mt-2 text-center">
-          Don&apos;t have MetaMask? <a href="https://metamask.io/download/" target="_blank" rel="noopener noreferrer" className="text-orange-500 hover:underline">Download here</a>
+        <p className="text-slate-500 text-xs mt-3 text-center">
+          New to Web3? <a href="https://metamask.io/download/" target="_blank" rel="noopener noreferrer" className="text-orange-400 hover:text-orange-300 hover:underline transition-colors">Install MetaMask</a>
         </p>
       )}
     </div>
   );
 }
-

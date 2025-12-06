@@ -2,14 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { API_CONFIG } from '@/config/api';
-import { DESIGN_TOKENS } from '@/config/design-tokens';
-import { DEFAULT_LIMITS } from '@/config/constants';
 import { formatPrice, formatPercent, formatMarketCap } from '@/utils/formatters';
-import { getPriceChangeColor, getStatusColor } from '@/utils/theme';
+import { getPriceChangeColor } from '@/utils/theme';
+import { Card } from '@/components/ui/Card';
 
-// Interface cho dữ liệu crypto từ CoinGecko
 interface CryptoData {
   id: string;
   name: string;
@@ -24,16 +23,31 @@ interface CryptoData {
 }
 
 interface CryptoListProps {
-  limit?: number; // Số lượng coins muốn hiển thị
+  limit?: number;
 }
 
-export default function CryptoList({ limit = DEFAULT_LIMITS.cryptoList }: CryptoListProps) {
+function Avatar({ src, alt, className }: { src: string; alt: string; className?: string }) {
+  const [imgSrc, setImgSrc] = useState(src);
+
+  return (
+    <Image
+      src={imgSrc}
+      alt={alt}
+      width={40}
+      height={40}
+      className={className}
+      unoptimized
+      onError={() => setImgSrc('/favicon.svg')}
+    />
+  );
+}
+
+export default function CryptoList({ limit = 10 }: CryptoListProps) {
   const { t } = useLanguage();
   const [cryptos, setCryptos] = useState<CryptoData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch dữ liệu crypto khi component mount
   useEffect(() => {
     async function fetchCryptos() {
       try {
@@ -43,11 +57,11 @@ export default function CryptoList({ limit = DEFAULT_LIMITS.cryptoList }: Crypto
         if (result.success) {
           setCryptos(result.data);
         } else {
-          setError(result.error || 'Không thể tải dữ liệu cryptocurrency');
+          setError(result.error || 'Failed to load data');
         }
       } catch (err) {
-        setError('Không thể kết nối đến server');
-        console.error('Error fetching crypto data:', err);
+        setError('Network error');
+        console.error(err);
       } finally {
         setLoading(false);
       }
@@ -56,24 +70,16 @@ export default function CryptoList({ limit = DEFAULT_LIMITS.cryptoList }: Crypto
     fetchCryptos();
   }, [limit]);
 
-  // Render phần trăm thay đổi với style
   const renderPercentChange = (percent: number) => {
-    const { color, isPositive } = getPriceChangeColor(percent);
-    const bgColor = isPositive 
-      ? getStatusColor('success', 'light')
-      : getStatusColor('error', 'light');
-    
+    const { isPositive } = getPriceChangeColor(percent);
     return (
-      <span 
-        className="inline-flex items-center font-medium rounded-full"
-        style={{
-          padding: `${DESIGN_TOKENS.spacing.scale[1]}px ${DESIGN_TOKENS.spacing.scale[2]}px`,
-          fontSize: DESIGN_TOKENS.typography.fontSize.xs,
-          backgroundColor: bgColor,
-          color: color,
-          borderRadius: DESIGN_TOKENS.borderRadius.full
-        }}
-      >
+      <span className={`
+        inline-flex items-center font-medium px-2.5 py-0.5 rounded-full text-xs
+        ${isPositive 
+          ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' 
+          : 'bg-red-500/10 text-red-400 border border-red-500/20'
+        }
+      `}>
         {isPositive ? '▲' : '▼'} {formatPercent(percent)}
       </span>
     );
@@ -81,212 +87,80 @@ export default function CryptoList({ limit = DEFAULT_LIMITS.cryptoList }: Crypto
 
   if (loading) {
     return (
-      <div 
-        className="flex justify-center items-center"
-        style={{ 
-          padding: `${DESIGN_TOKENS.spacing.scale[12]}px 0`
-        }}
-      >
-        <div 
-          className="animate-spin rounded-full border-b-2 border-gray-600 dark:border-white"
-          style={{
-            width: '48px',
-            height: '48px',
-            borderRadius: DESIGN_TOKENS.borderRadius.full
-          }}
-        ></div>
-        <span 
-          className="text-gray-600 dark:text-gray-300"
-          style={{ 
-            marginLeft: `${DESIGN_TOKENS.spacing.scale[3]}px`,
-            fontSize: DESIGN_TOKENS.typography.fontSize.base
-          }}
-        >
-          {t('common.loadingData')}
-        </span>
+      <div className="flex justify-center items-center py-20">
+        <div className="relative">
+          <div className="w-12 h-12 rounded-full border-4 border-blue-500/30 border-t-blue-500 animate-spin"></div>
+          <div className="absolute inset-0 w-12 h-12 rounded-full border-4 border-purple-500/20 animate-pulse"></div>
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6 text-center">
-        <div className="text-red-600 dark:text-red-400 text-4xl mb-2">❌</div>
-        <p className="text-red-600 dark:text-red-400 font-medium">{error}</p>
-      </div>
+      <Card className="bg-red-500/5 border-red-500/20 text-center">
+        <div className="text-red-400 text-4xl mb-2">❌</div>
+        <p className="text-red-400 font-medium">{error}</p>
+      </Card>
     );
   }
 
   return (
-    <div className="overflow-x-auto">
-      <table 
-        className="min-w-full bg-white dark:bg-slate-900 backdrop-blur-sm shadow-xl border border-gray-200 dark:border-white/20"
-        style={{ 
-          borderRadius: DESIGN_TOKENS.borderRadius['2xl']
-        }}
-      >
-        <thead className="bg-gray-100 dark:bg-gradient-to-r dark:from-slate-800 dark:to-slate-900">
-          <tr>
-            <th 
-              className="text-left font-semibold text-gray-700 dark:text-white uppercase tracking-wider"
-              style={{
-                padding: `${DESIGN_TOKENS.spacing.scale[4]}px ${DESIGN_TOKENS.spacing.scale[6]}px`,
-                fontSize: DESIGN_TOKENS.typography.fontSize.xs
-              }}
-            >
-              #
-            </th>
-            <th 
-              className="text-left font-semibold text-gray-700 dark:text-white uppercase tracking-wider"
-              style={{
-                padding: `${DESIGN_TOKENS.spacing.scale[4]}px ${DESIGN_TOKENS.spacing.scale[6]}px`,
-                fontSize: DESIGN_TOKENS.typography.fontSize.xs
-              }}
-            >
-              {t('common.name')}
-            </th>
-            <th 
-              className="text-left font-semibold text-gray-700 dark:text-white uppercase tracking-wider"
-              style={{
-                padding: `${DESIGN_TOKENS.spacing.scale[4]}px ${DESIGN_TOKENS.spacing.scale[6]}px`,
-                fontSize: DESIGN_TOKENS.typography.fontSize.xs
-              }}
-            >
-              {t('common.price')}
-            </th>
-            <th 
-              className="text-left font-semibold text-gray-700 dark:text-white uppercase tracking-wider"
-              style={{
-                padding: `${DESIGN_TOKENS.spacing.scale[4]}px ${DESIGN_TOKENS.spacing.scale[6]}px`,
-                fontSize: DESIGN_TOKENS.typography.fontSize.xs
-              }}
-            >
-              24h
-            </th>
-            <th 
-              className="text-left font-semibold text-gray-700 dark:text-white uppercase tracking-wider"
-              style={{
-                padding: `${DESIGN_TOKENS.spacing.scale[4]}px ${DESIGN_TOKENS.spacing.scale[6]}px`,
-                fontSize: DESIGN_TOKENS.typography.fontSize.xs
-              }}
-            >
-              7d
-            </th>
-            <th 
-              className="text-left font-semibold text-gray-700 dark:text-white uppercase tracking-wider"
-              style={{
-                padding: `${DESIGN_TOKENS.spacing.scale[4]}px ${DESIGN_TOKENS.spacing.scale[6]}px`,
-                fontSize: DESIGN_TOKENS.typography.fontSize.xs
-              }}
-            >
-              {t('common.marketCap')}
-            </th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-          {cryptos.map((crypto) => (
-            <tr 
-              key={crypto.id} 
-              className="hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors group"
-              style={{ transitionDuration: DESIGN_TOKENS.transition.duration.base }}
-            >
-              <td 
-                className="whitespace-nowrap font-medium text-gray-500 dark:text-gray-400"
-                style={{
-                  padding: `${DESIGN_TOKENS.spacing.scale[4]}px ${DESIGN_TOKENS.spacing.scale[6]}px`,
-                  fontSize: DESIGN_TOKENS.typography.fontSize.sm
-                }}
-              >
-                {crypto.market_cap_rank}
-              </td>
-              <td 
-                className="whitespace-nowrap"
-                style={{
-                  padding: `${DESIGN_TOKENS.spacing.scale[4]}px ${DESIGN_TOKENS.spacing.scale[6]}px`
-                }}
-              >
-                <Link 
-                  href={`/coin/${crypto.id}`} 
-                  className="flex items-center group-hover:bg-gray-700/20 rounded-lg transition-colors"
-                  style={{
-                    padding: `${DESIGN_TOKENS.spacing.scale[2]}px`,
-                    margin: `-${DESIGN_TOKENS.spacing.scale[2]}px`,
-                    borderRadius: DESIGN_TOKENS.borderRadius.lg,
-                    transitionDuration: DESIGN_TOKENS.transition.duration.base
-                  }}
-                >
-                  <img
-                    src={crypto.image}
-                    alt={crypto.name}
-                    className="rounded-full ring-2 ring-gray-100 group-hover:ring-gray-400 dark:group-hover:ring-white transition-all"
-                    style={{
-                      height: '40px',
-                      width: '40px',
-                      marginRight: `${DESIGN_TOKENS.spacing.scale[4]}px`,
-                      transitionDuration: DESIGN_TOKENS.transition.duration.base,
-                      borderRadius: DESIGN_TOKENS.borderRadius.full
-                    }}
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = '/favicon.svg';
-                    }}
-                  />
-                  <div>
-                    <div 
-                      className="font-semibold text-gray-900 dark:text-white transition-colors"
-                      style={{ fontSize: DESIGN_TOKENS.typography.fontSize.sm }}
-                    >
-                      {crypto.name}
-                    </div>
-                    <div 
-                      className="text-gray-500 dark:text-gray-400 uppercase font-medium"
-                      style={{ fontSize: DESIGN_TOKENS.typography.fontSize.sm }}
-                    >
-                      {crypto.symbol}
-                    </div>
-                  </div>
-                </Link>
-              </td>
-              <td 
-                className="whitespace-nowrap font-semibold text-gray-900 dark:text-white"
-                style={{
-                  padding: `${DESIGN_TOKENS.spacing.scale[4]}px ${DESIGN_TOKENS.spacing.scale[6]}px`,
-                  fontSize: DESIGN_TOKENS.typography.fontSize.sm
-                }}
-              >
-                {formatPrice(crypto.current_price)}
-              </td>
-              <td 
-                className="whitespace-nowrap"
-                style={{
-                  padding: `${DESIGN_TOKENS.spacing.scale[4]}px ${DESIGN_TOKENS.spacing.scale[6]}px`,
-                  fontSize: DESIGN_TOKENS.typography.fontSize.sm
-                }}
-              >
-                {renderPercentChange(crypto.price_change_percentage_24h)}
-              </td>
-              <td 
-                className="whitespace-nowrap"
-                style={{
-                  padding: `${DESIGN_TOKENS.spacing.scale[4]}px ${DESIGN_TOKENS.spacing.scale[6]}px`,
-                  fontSize: DESIGN_TOKENS.typography.fontSize.sm
-                }}
-              >
-                {renderPercentChange(crypto.price_change_percentage_7d)}
-              </td>
-              <td 
-                className="whitespace-nowrap font-medium text-gray-900 dark:text-white"
-                style={{
-                  padding: `${DESIGN_TOKENS.spacing.scale[4]}px ${DESIGN_TOKENS.spacing.scale[6]}px`,
-                  fontSize: DESIGN_TOKENS.typography.fontSize.sm
-                }}
-              >
-                {formatMarketCap(crypto.market_cap)}
-              </td>
+    <Card className="overflow-hidden p-0 border-0 bg-slate-900 shadow-none">
+      <div className="overflow-x-auto">
+        <table className="min-w-full border-collapse">
+          <thead className="backdrop-blur-sm">
+            <tr>
+              {['#', t('common.name'), t('common.price'), '24h', '7d', t('common.marketCap')].map((head, i) => (
+                <th key={i} className="px-6 py-4 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider first:rounded-tl-xl last:rounded-tr-xl">
+                  {head}
+                </th>
+              ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody className="divide-y divide-white/5 bg-slate-900/5 backdrop-blur-md">
+            {cryptos.map((crypto) => (
+              <tr 
+                key={crypto.id} 
+                className="hover:bg-white/5 transition-colors duration-200 group"
+              >
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500 font-medium">
+                  {crypto.market_cap_rank}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <Link href={`/coin/${crypto.id}`} className="flex items-center group/link">
+                    <Avatar
+                      src={crypto.image}
+                      alt={crypto.name}
+                      className="w-10 h-10 rounded-full ring-2 ring-transparent group-hover/link:ring-blue-500/50 transition-all mr-4"
+                    />
+                    <div>
+                      <div className="font-bold text-slate-100 group-hover/link:text-blue-400 transition-colors">
+                        {crypto.name}
+                      </div>
+                      <div className="text-xs text-slate-500 font-medium uppercase tracking-wide">
+                        {crypto.symbol}
+                      </div>
+                    </div>
+                  </Link>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap font-semibold text-slate-200">
+                  {formatPrice(crypto.current_price)}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {renderPercentChange(crypto.price_change_percentage_24h)}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {renderPercentChange(crypto.price_change_percentage_7d)}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300 font-mono">
+                  {formatMarketCap(crypto.market_cap)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </Card>
   );
 }
-
