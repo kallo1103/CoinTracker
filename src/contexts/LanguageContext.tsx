@@ -207,7 +207,7 @@ const translations = {
     'search.tip4': 'Click vào kết quả để xem thông tin chi tiết của coin',
     
     // Home Page
-    'home.title': '📊 Dashboard Cryptocurrency',
+    'home.title': 'Dashboard Cryptocurrency',
     'home.topCryptos': 'Top 10 Cryptocurrencies',
     
     // Common - Extended
@@ -328,6 +328,31 @@ const translations = {
     'dominance.bitcoin': 'Bitcoin',
     'dominance.ethereum': 'Ethereum',
     'dominance.others': 'Khác',
+    
+    // Footer
+    'footer.title': 'Crypto Tracker',
+    'footer.description': 'Nền tảng theo dõi giá cryptocurrency thời gian thực',
+    'footer.navigation': 'Điều hướng',
+    'footer.resources': 'Tài nguyên',
+    'footer.support': 'Hỗ trợ',
+    'footer.legal': 'Pháp lý',
+    'footer.copyright': 'Bản quyền',
+    'footer.allRightsReserved': 'Tất cả quyền được bảo lưu',
+    'footer.dashboard': 'Dashboard',
+    'footer.search': 'Tìm kiếm',
+    'footer.exchange': 'Sàn giao dịch',
+    'footer.news': 'Tin tức',
+    'footer.docs': 'Tài liệu',
+    'footer.profile': 'Hồ sơ',
+    'footer.settings': 'Cài đặt',
+    'footer.statistics': 'Thống kê',
+    'footer.help': 'Trung tâm trợ giúp',
+    'footer.faq': 'Câu hỏi thường gặp',
+    'footer.contact': 'Liên hệ',
+    'footer.api': 'Tài liệu API',
+    'footer.privacy': 'Chính sách bảo mật',
+    'footer.terms': 'Điều khoản sử dụng',
+    'footer.about': 'Về chúng tôi',
   },
   en: {
     // Navigation
@@ -522,7 +547,7 @@ const translations = {
     'search.tip4': 'Click on the result to view detailed information about the coin',
     
     // Home Page
-    'home.title': '📊 Cryptocurrency Dashboard',
+    'home.title': 'Cryptocurrency Dashboard',
     'home.topCryptos': 'Top 10 Cryptocurrencies',
     
     // Common - Extended
@@ -643,6 +668,31 @@ const translations = {
     'dominance.bitcoin': 'Bitcoin',
     'dominance.ethereum': 'Ethereum',
     'dominance.others': 'Others',
+    
+    // Footer
+    'footer.title': 'Crypto Tracker',
+    'footer.description': 'Real-time cryptocurrency price tracking platform',
+    'footer.navigation': 'Navigation',
+    'footer.resources': 'Resources',
+    'footer.support': 'Support',
+    'footer.legal': 'Legal',
+    'footer.copyright': 'Copyright',
+    'footer.allRightsReserved': 'All rights reserved',
+    'footer.dashboard': 'Dashboard',
+    'footer.search': 'Search',
+    'footer.exchange': 'Exchange',
+    'footer.news': 'News',
+    'footer.docs': 'Documentation',
+    'footer.profile': 'Profile',
+    'footer.settings': 'Settings',
+    'footer.statistics': 'Statistics',
+    'footer.help': 'Help Center',
+    'footer.faq': 'FAQ',
+    'footer.contact': 'Contact',
+    'footer.api': 'API Documentation',
+    'footer.privacy': 'Privacy Policy',
+    'footer.terms': 'Terms of Service',
+    'footer.about': 'About Us',
   }
 };
 
