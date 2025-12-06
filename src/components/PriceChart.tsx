@@ -179,7 +179,7 @@ export default function PriceChart({ symbol = 'BTC', days = DEFAULT_LIMITS.histo
               type="monotone" 
               dataKey="close" 
               stroke={gradientColors.stroke}
-              strokeWidth={DESIGN_TOKENS.chart.strokeWidth.normal}
+              strokeWidth={DESIGN_TOKENS?.chart?.strokeWidth?.normal || 2}
               fill={`url(#color${symbol})`}
             />
           </AreaChart>
@@ -206,7 +206,7 @@ export default function PriceChart({ symbol = 'BTC', days = DEFAULT_LIMITS.histo
               type="monotone" 
               dataKey="close" 
               stroke={gradientColors.stroke}
-              strokeWidth={DESIGN_TOKENS.chart.strokeWidth.normal}
+              strokeWidth={DESIGN_TOKENS?.chart?.strokeWidth?.normal || 2}
               dot={false}
               name="Price"
             />

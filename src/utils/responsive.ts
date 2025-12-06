@@ -65,13 +65,22 @@ export const useResponsive = () => {
 export const getResponsiveChartHeight = (windowWidth?: number): number => {
   const width = windowWidth || (typeof window !== 'undefined' ? window.innerWidth : BREAKPOINTS.lg);
 
+  // Đảm bảo DESIGN_TOKENS.chart và heights tồn tại
+  const chartHeights = DESIGN_TOKENS?.chart?.heights;
+  if (!chartHeights) {
+    // Fallback values nếu không có config
+    if (width < BREAKPOINTS.md) return 250;
+    if (width < BREAKPOINTS.lg) return 350;
+    return 400;
+  }
+
   if (width < BREAKPOINTS.md) {
-    return DESIGN_TOKENS.chart.heights.mobile;
+    return chartHeights.mobile;
   }
   if (width < BREAKPOINTS.lg) {
-    return DESIGN_TOKENS.chart.heights.tablet;
+    return chartHeights.tablet;
   }
-  return DESIGN_TOKENS.chart.heights.desktop;
+  return chartHeights.desktop;
 };
 
 /**
