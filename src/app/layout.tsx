@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import MainContent from "@/components/MainContent";
+import ConditionalLayout from "@/components/ConditionalLayout";
 import { NavbarProvider } from "@/contexts/NavbarContext";
 import Providers from "@/components/Providers";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -36,16 +34,9 @@ export default function RootLayout({
       <body className="antialiased min-h-screen bg-white dark:bg-black text-gray-900 dark:text-gray-100">
         <Providers>
           <NavbarProvider>
-            {/* Navigation Bar dọc bên trái */}
-            <Header />
-            
-            {/* Main Content với margin-left để tránh navigation bar */}
-            <MainContent>
+            <ConditionalLayout>
               {children}
-            </MainContent>
-            
-            {/* Footer - Footer */}
-            <Footer />
+            </ConditionalLayout>
           </NavbarProvider>
         </Providers>
         {/* Vercel Speed Insights - theo dõi hiệu suất ứng dụng */}

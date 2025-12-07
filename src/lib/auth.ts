@@ -5,6 +5,7 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { verifyMessage } from "ethers";
 import { prisma } from "./prisma";
+import bcrypt from "bcryptjs";
 
 // Mở rộng kiểu User và Session để bao gồm các trường tùy chỉnh
 declare module "next-auth" {
@@ -35,6 +36,41 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+    }),
+
+    CredentialsProvider({
+      id: "credentials",
+      name: "Credentials",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" }
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error("Vui lòng nhập email và mật khẩu");
+        }
+
+        const user = await prisma.user.findUnique({
+          where: { email: credentials.email }
+        });
+
+        if (!user || !user.password) {
+          throw new Error("Email không tồn tại hoặc chưa thiết lập mật khẩu");
+        }
+
+        const isValid = await bcrypt.compare(credentials.password, user.password);
+
+        if (!isValid) {
+          throw new Error("Mật khẩu không đúng");
+        }
+
+        return {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          image: user.image,
+        };
+      }
     }),
     
     // MetaMask Provider - Xác thực bằng wallet signature

@@ -599,7 +599,7 @@ export default function DocsPage() {
           <div className="text-center mt-8 text-gray-600 dark:text-gray-400">
             <p>Cập nhật lần cuối: 01/10/2025</p>
             <p className="mt-2">
-              <Link href="/" className="text-blue-600 hover:underline">← ← Back to Home</Link>
+              <Link href="/app" className="text-blue-600 hover:underline">← ← Back to Dashboard</Link>
             </p>
           </div>
         </section>

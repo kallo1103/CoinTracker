@@ -15,7 +15,7 @@ export default function SearchPage() {
         {/* Header */}
         <div className="mb-8">
           <Link 
-            href="/profile" 
+            href="/app" 
             className="inline-flex items-center px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-gray-900 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white hover:bg-white dark:hover:bg-gray-700 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 mb-6 group border border-gray-200 dark:border-gray-700"
           >
             <svg className="h-5 w-5 mr-2 group-hover:-translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">

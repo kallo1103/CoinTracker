@@ -108,7 +108,7 @@ export default function Footer() {
             <ul 
               className="flex flex-col gap-2"
             >
-              <FooterLink href="/" icon={<BarChart3 size={16} />} label={t('footer.dashboard')} />
+              <FooterLink href="/app" icon={<BarChart3 size={16} />} label={t('footer.dashboard')} />
               <FooterLink href="/search" icon={<Search size={16} />} label={t('footer.search')} />
               <FooterLink href="/exchange" icon={<Building2 size={16} />} label={t('footer.exchange')} />
               <FooterLink href="/crypto-news" icon={<Newspaper size={16} />} label={t('footer.news')} />

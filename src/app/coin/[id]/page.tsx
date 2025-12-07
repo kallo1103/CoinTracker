@@ -24,6 +24,7 @@ import {
 import { Card } from '@/components/ui/Card';
 import { formatPrice, formatPercent, formatMarketCap } from '@/utils/formatters';
 import { getPriceChangeColor } from '@/utils/theme';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // Interface cho dữ liệu chi tiết coin từ CoinGecko
 interface CoinData {
@@ -97,6 +98,7 @@ interface CoinProfileResponse {
 export default function CoinProfile() {
   const params = useParams();
   const coinId = params.id as string;
+  const { t } = useLanguage();
   
   const [coin, setCoin] = useState<CoinData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -168,10 +170,10 @@ export default function CoinProfile() {
           <h2 className="text-xl font-semibold text-red-400 mb-2">Lỗi tải dữ liệu</h2>
           <p className="text-red-400 mb-4">{error}</p>
           <Link 
-            href="/profile" 
+            href="/app" 
             className="inline-flex items-center px-4 py-2 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 rounded-md transition-colors border border-blue-500/20"
           >
-            ← Quay lại Dashboard
+            ← {t('coin.backToDashboard')}
           </Link>
         </Card>
       </div>
@@ -184,11 +186,11 @@ export default function CoinProfile() {
         {/* Header */}
         <div className="mb-8">
           <Link 
-            href="/profile" 
+            href="/app" 
             className="inline-flex items-center px-4 py-2 glass-card text-slate-300 hover:text-white hover:translate-y-[-2px] transition-all duration-300 mb-6 group"
           >
             <ArrowLeft className="h-5 w-5 mr-2 group-hover:-translate-x-1 transition-transform duration-200" />
-            Quay lại Dashboard
+            {t('coin.backToDashboard')}
           </Link>
           
           <Card className="p-8" hoverEffect>

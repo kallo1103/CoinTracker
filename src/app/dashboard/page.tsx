@@ -152,12 +152,12 @@ export default function DashboardPage() {
         {/* Action buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button
-            onClick={() => router.push("/")}
+            onClick={() => router.push("/app")}
             className="group px-8 py-4 bg-gray-200 dark:bg-gray-800/80 backdrop-blur-sm text-gray-900 dark:text-indigo-300 rounded-2xl font-semibold hover:bg-gray-300 dark:hover:bg-gray-700 transition-all duration-300 shadow-xl hover:shadow-2xl border-2 border-gray-400 dark:border-indigo-500 hover:border-gray-500 dark:hover:border-indigo-400 hover:-translate-y-1"
           >
             <span className="flex items-center">
               <ChevronLeft className="h-5 w-5 mr-2 group-hover:-translate-x-1 transition-transform duration-200" />
-              Back to Home
+              {t('dashboard.backToDashboard')}
             </span>
           </button>
           

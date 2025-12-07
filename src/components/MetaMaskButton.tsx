@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { BrowserProvider } from "ethers";
 import { Wallet } from "lucide-react";
+import Image from "next/image";
 
 interface EthereumProvider {
   isMetaMask?: boolean;
@@ -136,10 +137,13 @@ export default function MetaMaskButton({ onConnect }: MetaMaskButtonProps) {
         ) : (
           <>
             <div className="w-6 h-6 relative group-hover:scale-110 transition-transform">
-                {/* Simplified Fox-like shape for MetaMask */}
-               <svg viewBox="0 0 32 32" className="w-full h-full" fill="currentColor">
-                 <path d="M27.3 7.3L24.1 3.5 16 0 7.9 3.5 4.7 7.3 1 16l6 8 9 5 9-5 6-8-3.7-8.7zM8.4 22l-3.5-4.7 2.2-7.3 4.8 1.7-3.5 10.3zm7.6 5l-5.4-3 2.1-6 3.3 1 3.3-1 2.1 6-5.4 3zm7.6-5l-3.5-10.3 4.8-1.7 2.2 7.3L23.6 22z" fill="white"/>
-               </svg>
+              <Image
+                src="/MetaMask-icon-fox-developer.svg"
+                alt="MetaMask"
+                width={24}
+                height={24}
+                className="w-full h-full"
+              />
             </div>
             <span>Connect MetaMask</span>
           </>

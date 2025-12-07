@@ -174,12 +174,12 @@ export default function ProfilePage() {
         {/* Action buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button
-            onClick={() => router.push("/")}
+            onClick={() => router.push("/app")}
             className="group px-8 py-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-indigo-600 dark:text-indigo-300 rounded-2xl font-semibold hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-1"
           >
             <span className="flex items-center">
               <ArrowLeft className="h-5 w-5 mr-2 group-hover:-translate-x-1 transition-transform duration-200" />
-              {t('profile.backToHome')}
+              {t('dashboard.backToDashboard')}
             </span>
           </button>
           
