@@ -1,22 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { BrowserProvider } from "ethers";
+import { BrowserProvider, Eip1193Provider } from "ethers";
 import { Wallet } from "lucide-react";
 import Image from "next/image";
-
-interface EthereumProvider {
-  isMetaMask?: boolean;
-  request: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
-  on?: (event: string, callback: (...args: unknown[]) => void) => void;
-  removeListener?: (event: string, callback: (...args: unknown[]) => void) => void;
-}
-
-declare global {
-  interface Window {
-    ethereum?: EthereumProvider;
-  }
-}
 
 interface MetaMaskButtonProps {
   onConnect?: (address: string) => void;
@@ -42,7 +29,7 @@ export default function MetaMaskButton({ onConnect }: MetaMaskButtonProps) {
       setIsConnecting(true);
       setError(null);
 
-      const provider = new BrowserProvider(window.ethereum!);
+      const provider = new BrowserProvider(window.ethereum as Eip1193Provider);
       const accounts = await provider.send("eth_requestAccounts", []);
       
       if (accounts.length > 0) {
@@ -68,14 +55,14 @@ export default function MetaMaskButton({ onConnect }: MetaMaskButtonProps) {
   const signInWithWallet = async (address: string) => {
     try {
       const message = `Sign in to Crypto Tracker\n\nAddress: ${address}\nTimestamp: ${new Date().toISOString()}`;
-      
-      const provider = new BrowserProvider(window.ethereum!);
+
+      const provider = new BrowserProvider(window.ethereum as Eip1193Provider);
       const signer = await provider.getSigner();
-      
+
       const signature = await signer.signMessage(message);
 
       const { signIn } = await import("next-auth/react");
-      
+
       const result = await signIn("metamask", {
         address: address.toLowerCase(),
         message,

@@ -13,14 +13,6 @@ import { createPortal } from "react-dom";
 
 type AuthMode = 'LOGIN' | 'REGISTER' | 'FORGOT_PASSWORD';
 
-// Declare types for window
-declare global {
-  interface Window {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    recaptchaVerifier: any;
-  }
-}
-
 export default function AuthButton({ large }: { large?: boolean }) {
   const { data: session, status } = useSession();
   const router = useRouter();
