@@ -112,6 +112,10 @@ export default function AuthButton({ large }: { large?: boolean }) {
   };
 
   const onCaptchVerify = () => {
+    if (!auth) {
+      alert("Firebase chưa được cấu hình. Không thể gửi OTP.");
+      return;
+    }
     if (!window.recaptchaVerifier) {
       window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
         'size': 'invisible',
@@ -121,6 +125,10 @@ export default function AuthButton({ large }: { large?: boolean }) {
   };
 
   const handleSendOtp = async () => {
+    if (!auth) {
+      alert("Firebase chưa được cấu hình. Vui lòng liên hệ quản trị viên.");
+      return;
+    }
     if (!formData.phoneNumber) {
       alert("Vui lòng nhập số điện thoại");
       return;
@@ -129,8 +137,8 @@ export default function AuthButton({ large }: { large?: boolean }) {
     onCaptchVerify();
     const appVerifier = window.recaptchaVerifier;
     // Format basic VN phone
-    const formatPh = formData.phoneNumber.startsWith('+') 
-      ? formData.phoneNumber 
+    const formatPh = formData.phoneNumber.startsWith('+')
+      ? formData.phoneNumber
       : "+84" + formData.phoneNumber.replace(/^0/, '');
 
     try {
@@ -300,13 +308,15 @@ export default function AuthButton({ large }: { large?: boolean }) {
                     >
                       {loading ? "Loading..." : "Login"}
                     </button>
-                    <button 
-                      type="button" 
-                      onClick={() => setMode('FORGOT_PASSWORD')} 
-                      className="text-sm text-blue-400 hover:text-blue-300 text-left"
-                    >
-                      Forgot password?
-                    </button>
+                    {auth && (
+                      <button
+                        type="button"
+                        onClick={() => setMode('FORGOT_PASSWORD')}
+                        className="text-sm text-blue-400 hover:text-blue-300 text-left"
+                      >
+                        Forgot password?
+                      </button>
+                    )}
                   </form>
                 )}
 
@@ -350,20 +360,20 @@ export default function AuthButton({ large }: { large?: boolean }) {
                   </form>
                 )}
 
-                {mode === 'FORGOT_PASSWORD' && (
+                {mode === 'FORGOT_PASSWORD' && auth && (
                   <div className="flex flex-col gap-3">
                     {!otpSent ? (
                       <>
-                        <input 
-                          name="phoneNumber" 
-                          placeholder="Enter Phone Number" 
-                          onChange={handleChange} 
-                          className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:border-blue-500 outline-none" 
+                        <input
+                          name="phoneNumber"
+                          placeholder="Enter Phone Number"
+                          onChange={handleChange}
+                          className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:border-blue-500 outline-none"
                         />
                         <div id="recaptcha-container"></div>
-                        <button 
-                          onClick={handleSendOtp} 
-                          disabled={loading} 
+                        <button
+                          onClick={handleSendOtp}
+                          disabled={loading}
                           className="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-2 rounded-lg transition-colors disabled:opacity-50"
                         >
                           {loading ? "Sending OTP..." : "Send OTP"}
@@ -371,28 +381,34 @@ export default function AuthButton({ large }: { large?: boolean }) {
                       </>
                     ) : (
                       <>
-                        <input 
-                          name="otp" 
-                          placeholder="Enter OTP Code" 
-                          onChange={handleChange} 
-                          className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:border-blue-500 outline-none" 
+                        <input
+                          name="otp"
+                          placeholder="Enter OTP Code"
+                          onChange={handleChange}
+                          className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:border-blue-500 outline-none"
                         />
-                        <input 
-                          type="password" 
-                          name="newPassword" 
-                          placeholder="New Password" 
-                          onChange={handleChange} 
-                          className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:border-blue-500 outline-none" 
+                        <input
+                          type="password"
+                          name="newPassword"
+                          placeholder="New Password"
+                          onChange={handleChange}
+                          className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:border-blue-500 outline-none"
                         />
-                        <button 
-                          onClick={handleVerifyOtpAndReset} 
-                          disabled={loading} 
+                        <button
+                          onClick={handleVerifyOtpAndReset}
+                          disabled={loading}
                           className="w-full bg-purple-600 hover:bg-purple-500 text-white font-medium py-2 rounded-lg transition-colors disabled:opacity-50"
                         >
                           {loading ? "Verifying..." : "Confirm Reset"}
                         </button>
                       </>
                     )}
+                  </div>
+                )}
+
+                {mode === 'FORGOT_PASSWORD' && !auth && (
+                  <div className="text-center text-sm text-slate-400 p-4">
+                    Password reset via phone is not available. Please contact support for password recovery.
                   </div>
                 )}
 
