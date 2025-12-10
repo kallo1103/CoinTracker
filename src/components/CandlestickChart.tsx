@@ -186,7 +186,7 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
 
   if (loading) {
     return (
-      <div className="rounded-lg shadow p-6 border border-gray-200 dark:border-gray-900 bg-white dark:bg-slate-900">
+      <div className="rounded-lg shadow p-6 border border-gray-200bg-slate-900">
         <div className="animate-pulse">
           <div className="h-4 bg-gray-200 rounded w-1/4 mb-4"></div>
           <div className="h-96 bg-gray-200 rounded"></div>
@@ -215,15 +215,15 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
   const redCandles = candleData.length - greenCandles;
 
   return (
-    <div className="rounded-lg shadow p-6 border border-gray-200 dark:border-gray-900 bg-white dark:bg-slate-900">
+    <div className="rounded-lg shadow p-6 bg-slate-900">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white"> {symbol} Candlestick Chart</h3>
+          <h3 className="text-xl font-bold text-white"> {symbol} Candlestick Chart</h3>
           <p className="text-sm text-gray-500">{days} {t('chart.recentDays')}</p>
         </div>
         <div className="text-right">
-          <p className="text-2xl font-bold text-gray-900 dark:text-white">
+          <p className="text-2xl font-bold text-white">
             ${lastPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </p>
           <p className={`text-sm font-medium ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
@@ -235,8 +235,8 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
       {/* Stats Bar */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 p-4 rounded-lg bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-gray-700">
         <div className="text-center">
-          <p className="text-xs text-gray-900 dark:text-white mb-1">{t('chart.open')}</p>
-          <p className="font-semibold text-gray-900 dark:text-white text-sm">${firstPrice.toFixed(2)}</p>
+          <p className="text-xs text-white mb-1">{t('chart.open')}</p>
+          <p className="font-semibold text-white text-sm">${firstPrice.toFixed(2)}</p>
         </div>
         <div className="text-center">
           <p className="text-xs text-gray-500 mb-1">{t('chart.high')}</p>
@@ -251,8 +251,8 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
           </p>
         </div>
         <div className="text-center">
-          <p className="text-xs text-gray-900 dark:text-white mb-1">{t('chart.close')}</p>
-          <p className="font-semibold text-gray-900 dark:text-white text-sm">${lastPrice.toFixed(2)}</p>
+          <p className="text-xs text-white mb-1">{t('chart.close')}</p>
+          <p className="font-semibold text-white text-sm">${lastPrice.toFixed(2)}</p>
         </div>
       </div>
 

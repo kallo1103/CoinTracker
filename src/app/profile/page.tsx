@@ -52,7 +52,7 @@ export default function ProfilePage() {
       <div className="max-w-4xl mx-auto">
         {/* Header with welcome message */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2 flex items-center justify-center gap-3">
+          <h1 className="text-4xl font-bold text-white mb-2 flex items-center justify-center gap-3">
             <User className="w-10 h-10" />
             {t('profile.title')}
           </h1>
@@ -94,7 +94,7 @@ export default function ProfilePage() {
 
               {/* Detailed information */}
               <div className="flex-1 text-center sm:text-left">
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                <h3 className="text-2xl font-bold text-white mb-2">
                   {session.user?.name || "User"}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300 mb-4 flex items-center justify-center sm:justify-start gap-2">
@@ -144,7 +144,7 @@ export default function ProfilePage() {
             <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl mb-4 group-hover:scale-110 transition-transform duration-200">
               <ProfileIcon className="w-6 h-6 text-white" />
             </div>
-            <h3 className="font-bold text-gray-900 dark:text-white mb-2 group-hover:text-indigo-400 transition-colors">{t('profile.edit')}</h3>
+            <h3 className="font-bold text-white mb-2 group-hover:text-indigo-400 transition-colors">{t('profile.edit')}</h3>
             <p className="text-sm text-gray-600 dark:text-gray-300">{t('profile.manageInfo')}</p>
           </button>
 
@@ -155,7 +155,7 @@ export default function ProfilePage() {
             <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl mb-4 group-hover:scale-110 transition-transform duration-200">
               <Settings className="w-6 h-6 text-white" />
             </div>
-            <h3 className="font-bold text-gray-900 dark:text-white mb-2 group-hover:text-purple-400 transition-colors">{t('profile.settings')}</h3>
+            <h3 className="font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">{t('profile.settings')}</h3>
             <p className="text-sm text-gray-600 dark:text-gray-300">{t('profile.customizeAccount')}</p>
           </button>
 
@@ -166,7 +166,7 @@ export default function ProfilePage() {
             <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl mb-4 group-hover:scale-110 transition-transform duration-200">
               <BarChart3 className="w-6 h-6 text-white" />
             </div>
-            <h3 className="font-bold text-gray-900 dark:text-white mb-2 group-hover:text-green-400 transition-colors">{t('profile.statistics')}</h3>
+            <h3 className="font-bold text-white mb-2 group-hover:text-green-400 transition-colors">{t('profile.statistics')}</h3>
             <p className="text-sm text-gray-600 dark:text-gray-300">{t('profile.viewActivity')}</p>
           </button>
         </div>

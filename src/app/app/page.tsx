@@ -14,8 +14,8 @@ export default function AppPage() {
   const { t } = useLanguage();
   
   return (
-    <div className="container mx-auto px-4 py-12 min-h-screen">
-      <h1 className="text-4xl font-bold mb-8 text-gray-900 dark:text-white">{t('home.title')}</h1>
+    <div className="container bg-black mx-auto px-4 py-12 min-h-screen">
+      {/* <h1 className="text-4xl font-bold mb-8 text-white">{t('home.title')}</h1> */}
       
       {/* Global Metrics - Bitcoin Dominance, Market Cap, etc */}
       <div className="mb-12">
@@ -53,7 +53,7 @@ export default function AppPage() {
 
       {/* Top Cryptocurrencies List */}
       <div className="mb-12">
-        <h2 className="text-2xl font-semibold mb-4  text-gray-900 dark:text-white">{t('home.topCryptos')}</h2>
+        <h2 className="text-2xl font-semibold mb-4  text-white">{t('home.topCryptos')}</h2>
         <CryptoList limit={10} />
       </div>
     </div>

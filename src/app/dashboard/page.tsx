@@ -40,7 +40,7 @@ export default function DashboardPage() {
       <div className="max-w-4xl mx-auto">
         {/* Header with welcome message */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+          <h1 className="text-4xl font-bold text-white mb-2">
             🎉 {t('dashboard.welcome')}
           </h1>
             <p className="text-gray-600 dark:text-gray-300">
@@ -81,7 +81,7 @@ export default function DashboardPage() {
 
               {/* Detailed information */}
               <div className="flex-1 text-center sm:text-left">
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                <h3 className="text-2xl font-bold text-white mb-2">
                   {session.user?.name || "User"}
                 </h3>
                 <p className="text-gray-700 dark:text-gray-300 mb-4 flex items-center justify-center sm:justify-start gap-2">
@@ -128,7 +128,7 @@ export default function DashboardPage() {
             <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-gray-700 to-gray-900 dark:from-gray-200 dark:to-white rounded-xl mb-4 group-hover:scale-110 transition-transform duration-200">
               <User className="w-6 h-6 text-white dark:text-gray-900" />
             </div>
-            <h3 className="font-bold text-gray-900 dark:text-white mb-2 transition-colors">{t('dashboard.profile')}</h3>
+            <h3 className="font-bold text-white mb-2 transition-colors">{t('dashboard.profile')}</h3>
             <p className="text-sm text-gray-600 dark:text-gray-300">{t('profile.manageInfo')}</p>
           </div>
 
@@ -136,7 +136,7 @@ export default function DashboardPage() {
             <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-600 dark:from-purple-400 dark:to-pink-400 rounded-xl mb-4 group-hover:scale-110 transition-transform duration-200">
               <Settings className="w-6 h-6 text-white dark:text-gray-900" />
             </div>
-            <h3 className="font-bold text-gray-900 dark:text-white mb-2 transition-colors">{t('dashboard.settings')}</h3>
+            <h3 className="font-bold text-white mb-2 transition-colors">{t('dashboard.settings')}</h3>
             <p className="text-sm text-gray-600 dark:text-gray-300">{t('profile.customizeAccount')}</p>
           </div>
 
@@ -144,7 +144,7 @@ export default function DashboardPage() {
             <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 dark:from-green-400 dark:to-emerald-400 rounded-xl mb-4 group-hover:scale-110 transition-transform duration-200">
               <BarChart2 className="w-6 h-6 text-white dark:text-gray-900" />
             </div>
-            <h3 className="font-bold text-gray-900 dark:text-white mb-2 transition-colors">{t('profile.statistics')}</h3>
+            <h3 className="font-bold text-white mb-2 transition-colors">{t('profile.statistics')}</h3>
             <p className="text-sm text-gray-600 dark:text-gray-300">{t('profile.viewActivity')}</p>
           </div>
         </div>

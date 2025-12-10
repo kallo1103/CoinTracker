@@ -69,7 +69,7 @@ export default function DominancePieChart() {
       const data = payload[0];
       return (
         <div className="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
-          <p className="font-medium text-gray-900 dark:text-white">{data.name}</p>
+          <p className="font-medium text-white">{data.name}</p>
           <p className="text-lg font-bold" style={{ color: data.payload.color }}>
             {data.value.toFixed(2)}%
           </p>
@@ -80,9 +80,9 @@ export default function DominancePieChart() {
   };
 
   return (
-    <div className="rounded-lg shadow p-6 border border-gray-200 dark:border-gray-900 bg-white dark:bg-slate-900">
+    <div className="rounded-lg shadow p-6 bg-slate-900">
       {/* Header */}
-      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6"> Market Dominance</h3>
+      <h3 className="text-xl font-bold text-white mb-6"> Market Dominance</h3>
 
       {/* Pie Chart */}
       <ResponsiveContainer width="100%" height={300}>
@@ -117,7 +117,7 @@ export default function DominancePieChart() {
         </div>
         <div className="text-center">
           <div className="text-sm text-gray-600 dark:text-gray-400">Others</div>
-          <div className="text-xl font-bold text-gray-900 dark:text-white">
+          <div className="text-xl font-bold text-white">
             {(100 - data.btc_dominance - data.eth_dominance).toFixed(2)}%
           </div>
         </div>

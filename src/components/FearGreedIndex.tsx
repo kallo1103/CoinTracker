@@ -76,14 +76,14 @@ export default function FearGreedIndex() {
 
   return (
     <div 
-      className="rounded-lg shadow border border-gray-200 dark:border-gray-900 bg-white dark:bg-slate-900"
+      className="rounded-lg shadow bg-slate-900"
       style={{ 
         borderRadius: DESIGN_TOKENS.borderRadius.lg,
         padding: `${DESIGN_TOKENS.spacing.scale[6]}px`
       }}
     >
       <h3 
-        className="font-semibold text-gray-900 dark:text-white flex items-center"
+        className="font-semibold text-white flex items-center"
         style={{ 
           fontSize: DESIGN_TOKENS.typography.fontSize.lg,
           marginBottom: `${DESIGN_TOKENS.spacing.scale[4]}px`,

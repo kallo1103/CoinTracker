@@ -203,7 +203,7 @@ export default function CoinProfile() {
                   height={80}
                   className="h-20 w-20 rounded-full ring-4 ring-white/10 shadow-lg"
                   unoptimized
-                  onError={(e) => {
+                  onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
                     (e.target as HTMLImageElement).src = '/favicon.svg';
                   }}
                 />

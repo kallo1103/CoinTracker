@@ -35,9 +35,9 @@ export default function SearchPage() {
         </div>
 
         {/* Search Component */}
-        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl shadow-2xl p-8 mb-8 border border-gray-200 dark:border-gray-700/20 relative z-50">
+        <div className="bg-slate-900 backdrop-blur-sm rounded-3xl shadow-2xl p-8 mb-8 relative z-50">
           <div className="text-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+            <h2 className="text-2xl font-bold text-white mb-2">
               {t('search.searchCoin')}
             </h2>
             <p className="text-gray-300">
@@ -50,9 +50,9 @@ export default function SearchPage() {
         </div>
 
         {/* Popular Searches */}
-        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl shadow-2xl p-8 mb-8 border border-gray-200 dark:border-gray-700/20">
+        <div className="bg-slate-900 backdrop-blur-sm rounded-3xl shadow-2xl p-8 mb-8">
           <div className="text-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+            <h2 className="text-2xl font-bold text-white mb-2">
               Top Cryptocurrencies
             </h2>
             <p className="text-gray-300">

@@ -59,15 +59,9 @@ export default function LandingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-blue-50/30 to-purple-50/30 dark:from-black dark:via-slate-900 dark:to-slate-950">
+    <div className="min-h-screen bg-black">
       {/* Hero Section */}
       <section className="relative overflow-hidden pt-20 pb-32 px-4 sm:px-6 lg:px-8">
-        {/* Background decoration */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-400/20 rounded-full blur-3xl"></div>
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-400/20 rounded-full blur-3xl"></div>
-        </div>
-
         <div className="relative max-w-7xl mx-auto">
           <div className="text-center">
             {/* Badge */}
@@ -77,16 +71,16 @@ export default function LandingPage() {
             </div>
 
             {/* Main Heading */}
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+            <h1 className="py-1 text-5xl sm:text-6xl lg:text-7xl font-extrabold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
               {t('landing.hero.title')}
             </h1>
 
             {/* Subtitle */}
-            <p className="text-xl sm:text-2xl text-gray-600 dark:text-gray-300 mb-4 max-w-3xl mx-auto">
+            <p className="text-xl sm:text-2xl text-gray-600 dark:text-gray-300 mb-4 max-w-2xl mx-auto">
               {t('landing.hero.subtitle')}
             </p>
 
-            <p className="text-lg text-gray-500 dark:text-gray-400 mb-12 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-500 dark:text-gray-400 mb-12 max-w-3xl mx-auto">
               {t('landing.hero.description')}
             </p>
 
@@ -106,11 +100,11 @@ export default function LandingPage() {
             </div>
 
             {/* Benefits List */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
+            <div className="hidden lg:flex flex-row justify-center items-center gap-8 max-w-4xl mx-auto">
               {benefits.map((benefit, index) => (
                 <div
                   key={index}
-                  className="flex items-center gap-2 text-gray-700 dark:text-gray-300"
+                  className="flex items-center justify-center gap-2 text-gray-700"
                 >
                   <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0" />
                   <span className="text-sm sm:text-base">{benefit}</span>
@@ -122,10 +116,10 @@ export default function LandingPage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-black">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+            <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
               {t('landing.features.title')}
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
@@ -142,7 +136,7 @@ export default function LandingPage() {
                 <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform duration-300">
                   {feature.icon}
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                <h3 className="text-xl font-bold text-white mb-3">
                   {feature.title}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400">
@@ -173,6 +167,89 @@ export default function LandingPage() {
             </Link>
           </div>
         </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-black">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-12">
+            {t('landing.faq.title')}
+          </h2>
+            <div className="space-y-8 text-left">
+              <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-lg p-8">
+                <h3 className="text-xl font-bold text-white mb-3">
+                  {t('landing.faq.q1.question')}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  {t('landing.faq.q1.answer')}
+                </p>
+              </div>
+              <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-lg p-8">
+                <h3 className="text-xl font-bold text-white mb-3">
+                  {t('landing.faq.q2.question')}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  {t('landing.faq.q2.answer')}
+                </p>
+              </div>
+              <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-lg p-8">
+                <h3 className="text-xl font-bold text-white mb-3">
+                  {t('landing.faq.q3.question')}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  {t('landing.faq.q3.answer')}
+                </p>
+              </div>
+              <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-lg p-8">
+                <h3 className="text-xl font-bold text-white mb-3">
+                  {t('landing.faq.q4.question')}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  {t('landing.faq.q4.answer')}
+                </p>
+              </div>
+              <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-lg p-8">
+                <h3 className="text-xl font-bold text-white mb-3">
+                  {t('landing.faq.q5.question')}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  {t('landing.faq.q5.answer')}
+                </p>
+              </div>
+              <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-lg p-8">
+                <h3 className="text-xl font-bold text-white mb-3">
+                  {t('landing.faq.q6.question')}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  {t('landing.faq.q6.answer')}
+                </p>
+              </div>
+              <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-lg p-8">
+                <h3 className="text-xl font-bold text-white mb-3">
+                  {t('landing.faq.q7.question')}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  {t('landing.faq.q7.answer')}
+                </p>
+              </div>
+              <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-lg p-8">
+                <h3 className="text-xl font-bold text-white mb-3">
+                  {t('landing.faq.q8.question')}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  {t('landing.faq.q8.answer')}
+                </p>
+              </div>
+              <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-lg p-8">
+                <h3 className="text-xl font-bold text-white mb-3">
+                  {t('landing.faq.q9.question')}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  {t('landing.faq.q9.answer')}
+                </p>
+              </div>
+            </div>
+          </div>
       </section>
     </div>
   );

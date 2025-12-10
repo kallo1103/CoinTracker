@@ -10,7 +10,7 @@ export default function MainContent({ children }: { children: React.ReactNode })
   
   return (
     <main 
-      className="min-h-screen bg-white dark:bg-black transition-all"
+      className="min-h-screen bg-black transition-all"
       style={{
         marginLeft: `${getContentMarginLeft(isCollapsed)}px`,
         transitionDuration: DESIGN_TOKENS.transition.duration.slow

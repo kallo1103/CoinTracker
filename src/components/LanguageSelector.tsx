@@ -26,7 +26,7 @@ export default function LanguageSelector() {
       <span className="text-lg">
         {currentLanguage.flag}
       </span>
-      <span className="text-sm font-semibold text-gray-800 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
+      <span className="text-sm font-semibold text-white transition-colors">
         {currentLanguage.abbr}
       </span>
     </button>

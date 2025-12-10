@@ -52,10 +52,10 @@ export default function FearGreedChart() {
       let textColor = 'text-gray-900';
       if (data.value <= 25) {
         bgColor = 'bg-red-500';
-        textColor = 'text-gray-900 dark:text-white';
+        textColor = 'text-white';
       } else if (data.value <= 45) {
         bgColor = 'bg-orange-500';
-        textColor = 'text-gray-900 dark:text-white';
+        textColor = 'text-white';
       } else if (data.value <= 55) {
         bgColor = 'bg-yellow-500';
       } else if (data.value <= 75) {
@@ -100,15 +100,15 @@ export default function FearGreedChart() {
   const change = currentValue - previousValue;
 
   return (
-    <div className="rounded-lg shadow p-6 border border-gray-200 dark:border-gray-900 bg-white dark:bg-slate-900">
+    <div className="rounded-lg shadow p-6 bg-slate-900">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white"> Fear & Greed History</h3>
+          <h3 className="text-xl font-bold text-white"> Fear & Greed History</h3>
           <p className="text-sm text-gray-500 dark:text-gray-400">30 {t('chart.recentDays')}</p>
         </div>
         <div className="text-right">
-          <p className="text-2xl font-bold text-gray-900 dark:text-white">{currentValue}</p>
+          <p className="text-2xl font-bold text-white">{currentValue}</p>
           <p className={`text-sm font-medium ${change >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
             {change >= 0 ? '▲' : '▼'} {Math.abs(change).toFixed(0)} (7d)
           </p>

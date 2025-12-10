@@ -104,10 +104,10 @@ export default function SettingsPage() {
             onClick={() => router.push("/profile")}
             className="p-2 bg-gray-200 dark:bg-gray-800 rounded-xl hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors"
           >
-            <ArrowLeft className="w-6 h-6 text-gray-900 dark:text-white" />
+            <ArrowLeft className="w-6 h-6 text-white" />
           </button>
           <div>
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-3">
+            <h1 className="text-4xl font-bold text-white mb-2 flex items-center gap-3">
               <Settings className="w-10 h-10" />
               {t('settings.title')}
             </h1>
@@ -136,13 +136,13 @@ export default function SettingsPage() {
             <div className="p-2 bg-gray-700/50 dark:bg-gray-600/50 rounded-xl">
               <Palette className="w-6 h-6 text-gray-300 dark:text-white" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{t('settings.appearance')}</h2>
+            <h2 className="text-2xl font-bold text-white">{t('settings.appearance')}</h2>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Language Control */}
             <div>
-              <label className="block text-gray-900 dark:text-white font-medium mb-3">{t('settings.language')}</label>
+              <label className="block text-white font-medium mb-3">{t('settings.language')}</label>
               <div className="flex items-center gap-3">
                 <LanguageSelector />
                 <span className="text-sm text-gray-600 dark:text-gray-300">
@@ -161,13 +161,13 @@ export default function SettingsPage() {
               <div className="p-2 bg-gray-700/50 dark:bg-gray-600/50 rounded-xl">
                 <Bell className="w-6 h-6 text-gray-300 dark:text-white" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{t('settings.notifications')}</h2>
+              <h2 className="text-2xl font-bold text-white">{t('settings.notifications')}</h2>
             </div>
             
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-gray-900 dark:text-white font-medium">{t('settings.priceAlerts')}</h3>
+                  <h3 className="text-white font-medium">{t('settings.priceAlerts')}</h3>
                   <p className="text-sm text-gray-600 dark:text-gray-300">{t('settings.priceAlertsDesc')}</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
@@ -183,7 +183,7 @@ export default function SettingsPage() {
 
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-gray-900 dark:text-white font-medium">{t('settings.newsUpdates')}</h3>
+                  <h3 className="text-white font-medium">{t('settings.newsUpdates')}</h3>
                   <p className="text-sm text-gray-600 dark:text-gray-300">{t('settings.newsUpdatesDesc')}</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
@@ -199,7 +199,7 @@ export default function SettingsPage() {
 
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-gray-900 dark:text-white font-medium">{t('settings.marketChanges')}</h3>
+                  <h3 className="text-white font-medium">{t('settings.marketChanges')}</h3>
                   <p className="text-sm text-gray-600 dark:text-gray-300">{t('settings.marketChangesDesc')}</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
@@ -221,16 +221,16 @@ export default function SettingsPage() {
               <div className="p-2 bg-green-500/20 rounded-xl">
                 <Shield className="w-6 h-6 text-green-400" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{t('settings.privacy')}</h2>
+              <h2 className="text-2xl font-bold text-white">{t('settings.privacy')}</h2>
             </div>
             
             <div className="space-y-4">
               <div>
-                <h3 className="text-gray-900 dark:text-white font-medium mb-2">{t('settings.profileVisibility')}</h3>
+                <h3 className="text-white font-medium mb-2">{t('settings.profileVisibility')}</h3>
                 <select
                   value={settings.privacy.profileVisibility}
                   onChange={(e) => updateSetting('privacy', 'profileVisibility', e.target.value)}
-                  className="w-full p-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
                   <option value="public">{t('settings.public')}</option>
                   <option value="friends">{t('settings.friends')}</option>
@@ -240,7 +240,7 @@ export default function SettingsPage() {
 
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-gray-900 dark:text-white font-medium">{t('settings.dataSharing')}</h3>
+                  <h3 className="text-white font-medium">{t('settings.dataSharing')}</h3>
                   <p className="text-sm text-gray-600 dark:text-gray-300">{t('settings.dataSharingDesc')}</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
@@ -262,13 +262,13 @@ export default function SettingsPage() {
               <div className="p-2 bg-red-500/20 rounded-xl">
                 <Shield className="w-6 h-6 text-red-400" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{t('settings.security')}</h2>
+              <h2 className="text-2xl font-bold text-white">{t('settings.security')}</h2>
             </div>
             
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-gray-900 dark:text-white font-medium">{t('settings.twoFactor')}</h3>
+                  <h3 className="text-white font-medium">{t('settings.twoFactor')}</h3>
                   <p className="text-sm text-gray-600 dark:text-gray-300">{t('settings.twoFactorDesc')}</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
@@ -283,11 +283,11 @@ export default function SettingsPage() {
               </div>
 
               <div>
-                <h3 className="text-gray-900 dark:text-white font-medium mb-2">{t('settings.sessionTimeout')}</h3>
+                <h3 className="text-white font-medium mb-2">{t('settings.sessionTimeout')}</h3>
                 <select
                   value={settings.security.sessionTimeout}
                   onChange={(e) => updateSetting('security', 'sessionTimeout', parseInt(e.target.value))}
-                  className="w-full p-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
                   <option value={15}>15 phút</option>
                   <option value={30}>30 phút</option>

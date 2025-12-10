@@ -31,7 +31,7 @@ export default function RootLayout({
         <link rel="alternate icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/favicon.svg" />
       </head>
-      <body className="antialiased min-h-screen bg-white dark:bg-black text-gray-900 dark:text-gray-100">
+      <body className="antialiased min-h-screen bg-white dark:bg-black text-white">
         <Providers>
           <NavbarProvider>
             <ConditionalLayout>

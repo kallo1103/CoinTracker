@@ -25,7 +25,7 @@ export default function Header() {
 
   return (
     <header 
-      className="fixed left-0 top-0 h-full bg-slate-900/80 dark:bg-black/60 backdrop-blur-xl border-r border-white/10 shadow-2xl z-50 transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
+      className="fixed left-0 top-0 h-full bg-black backdrop-blur-xl border-r border-white/10 shadow-2xl z-50 transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
       style={{ width: `${sidebarWidth}px` }}
     >
       <div className="flex flex-col h-full p-4">

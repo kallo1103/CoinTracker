@@ -183,7 +183,7 @@ export default function ProfileEditPage() {
                 </div>
               )}
               {isEditing && (
-                <button className="absolute -bottom-2 -right-2 bg-gray-800 hover:bg-gray-700 dark:bg-white dark:hover:bg-gray-200 dark:text-gray-900 text-white p-2 rounded-full shadow-lg transition-colors">
+                <button className="absolute -bottom-2 -right-2 bg-gray-800 hover:bg-gray-700 dark:bg-white dark:hover:bg-gray-200 dark:text-white text-white p-2 rounded-full shadow-lg transition-colors">
                   <Camera className="w-4 h-4" />
                 </button>
               )}

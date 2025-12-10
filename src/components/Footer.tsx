@@ -28,7 +28,7 @@ export default function Footer() {
   
   return (
     <footer 
-      className="bg-slate-900/80 dark:bg-black/60 backdrop-blur-xl text-slate-300 dark:text-slate-400 mt-auto transition-all border-t border-white/10"
+      className="bg-black backdrop-blur-xl text-slate-300 dark:text-slate-400 mt-auto transition-all border-t border-white/10"
       style={{
         marginLeft: `${getContentMarginLeft(isCollapsed)}px`,
         transitionDuration: DESIGN_TOKENS.transition.duration.slow

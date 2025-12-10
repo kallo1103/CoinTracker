@@ -116,7 +116,7 @@ export default function ExchangeList({ limit = 50 }: ExchangeListProps) {
           </div>
           <div>
             <p className="text-gray-400 text-xs md:text-sm">{t('exchange.totalVolume')}</p>
-            <p className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">
+            <p className="text-xl md:text-2xl font-bold text-white">
               {formatBTC(exchanges.reduce((sum, ex) => sum + ex.volume_24h_btc, 0))}
             </p>
           </div>

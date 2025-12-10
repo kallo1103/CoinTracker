@@ -66,7 +66,7 @@ export default function PriceChart({ symbol = 'BTC', days = DEFAULT_LIMITS.histo
       return (
         <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
           <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">{data.date}</p>
-          <p className="text-lg font-bold text-gray-900 dark:text-white">
+          <p className="text-lg font-bold text-white">
             ${data.close.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </p>
           <div className="mt-2 space-y-1 text-xs text-gray-600 dark:text-gray-400">
@@ -111,14 +111,14 @@ export default function PriceChart({ symbol = 'BTC', days = DEFAULT_LIMITS.histo
 
   return (
     <div 
-      className="rounded-lg shadow p-6 border border-gray-200 dark:border-gray-900 bg-white dark:bg-slate-900"
+      className="rounded-lg shadow p-6 bg-slate-900"
       style={{ borderRadius: DESIGN_TOKENS.borderRadius.lg }}
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
           <h3 
-            className="text-xl font-bold text-gray-900 dark:text-white"
+            className="text-xl font-bold text-white"
             style={{ fontSize: DESIGN_TOKENS.typography.fontSize.xl }}
           >
             {symbol} Price Chart
@@ -132,7 +132,7 @@ export default function PriceChart({ symbol = 'BTC', days = DEFAULT_LIMITS.histo
         </div>
         <div className="text-right">
           <p 
-            className="text-2xl font-bold text-gray-900 dark:text-white"
+            className="text-2xl font-bold text-white"
             style={{ fontSize: DESIGN_TOKENS.typography.fontSize['2xl'] }}
           >
             ${lastPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}

@@ -85,7 +85,7 @@ export default function GlobalMetrics() {
     <div style={{ marginBottom: `${DESIGN_TOKENS.spacing.scale[6]}px` }}>
       {/* Tiêu đề */}
       <h3 
-        className="text-2xl font-semibold text-gray-900 dark:text-white mb-6"
+        className="text-2xl font-semibold text-white mb-6"
         style={{ 
           fontSize: DESIGN_TOKENS.typography.fontSize['2xl'],
           marginBottom: `${DESIGN_TOKENS.spacing.scale[6]}px`
@@ -101,7 +101,7 @@ export default function GlobalMetrics() {
       >
         {/* Bitcoin Dominance */}
         <div 
-          className="rounded-lg bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white"
+          className="rounded-lg bg-slate-900 text-white"
           style={{ 
             borderRadius: DESIGN_TOKENS.borderRadius.lg,
             padding: `${DESIGN_TOKENS.spacing.scale[6]}px`
@@ -112,7 +112,7 @@ export default function GlobalMetrics() {
             style={{ marginBottom: `${DESIGN_TOKENS.spacing.scale[2]}px` }}
           >
             <h4 
-              className="font-medium opacity-90 text-gray-900 dark:text-white"
+              className="font-medium opacity-90 text-white"
               style={{ fontSize: DESIGN_TOKENS.typography.fontSize.sm }}
             >
                {t('metrics.btcDominance')}
@@ -120,7 +120,7 @@ export default function GlobalMetrics() {
             <span style={{ fontSize: DESIGN_TOKENS.typography.fontSize['2xl'] }}></span>
           </div>
           <div 
-            className="font-bold text-gray-900 dark:text-white"
+            className="font-bold text-white"
             style={{ fontSize: DESIGN_TOKENS.typography.fontSize['3xl'] }}
           >
             {data.btc_dominance.toFixed(2)}%
@@ -129,7 +129,7 @@ export default function GlobalMetrics() {
 
         {/* Ethereum Dominance */}
         <div 
-          className="rounded-lg bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white"
+          className="rounded-lg bg-slate-900 text-white"
           style={{ 
             borderRadius: DESIGN_TOKENS.borderRadius.lg,
             padding: `${DESIGN_TOKENS.spacing.scale[6]}px`
@@ -140,7 +140,7 @@ export default function GlobalMetrics() {
             style={{ marginBottom: `${DESIGN_TOKENS.spacing.scale[2]}px` }}
           >
             <h4 
-              className="font-medium opacity-90 text-gray-900 dark:text-white"
+              className="font-medium opacity-90 text-white"
               style={{ fontSize: DESIGN_TOKENS.typography.fontSize.sm }}
             >
               {t('metrics.ethDominance')}
@@ -148,7 +148,7 @@ export default function GlobalMetrics() {
             <span style={{ fontSize: DESIGN_TOKENS.typography.fontSize['2xl'] }}></span>
           </div>
           <div 
-            className="font-bold text-gray-900 dark:text-white"
+            className="font-bold text-white"
             style={{ fontSize: DESIGN_TOKENS.typography.fontSize['3xl'] }}
           >
             {data.eth_dominance.toFixed(2)}%
@@ -157,7 +157,7 @@ export default function GlobalMetrics() {
 
         {/* Total Market Cap */}
         <div 
-          className="rounded-lg bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white"
+          className="rounded-lg bg-slate-900 text-white"
           style={{ 
             borderRadius: DESIGN_TOKENS.borderRadius.lg,
             padding: `${DESIGN_TOKENS.spacing.scale[6]}px`
@@ -168,7 +168,7 @@ export default function GlobalMetrics() {
             style={{ marginBottom: `${DESIGN_TOKENS.spacing.scale[2]}px` }}
           >
             <h4 
-              className="font-medium opacity-90 text-gray-900 dark:text-white"
+              className="font-medium opacity-90 text-white"
               style={{ fontSize: DESIGN_TOKENS.typography.fontSize.sm }}
             >
               {t('metrics.totalMarketCap')}
@@ -176,13 +176,13 @@ export default function GlobalMetrics() {
             <span style={{ fontSize: DESIGN_TOKENS.typography.fontSize['2xl'] }}></span>
           </div>
           <div 
-            className="font-bold text-gray-900 dark:text-white"
+            className="font-bold text-white"
             style={{ fontSize: DESIGN_TOKENS.typography.fontSize['3xl'] }}
           >
             {formatCurrency(data.total_market_cap)}
           </div>
           <div 
-            className="opacity-75 text-gray-900 dark:text-white"
+            className="opacity-75 text-white"
             style={{ 
               marginTop: `${DESIGN_TOKENS.spacing.scale[2]}px`,
               fontSize: DESIGN_TOKENS.typography.fontSize.xs
@@ -194,7 +194,7 @@ export default function GlobalMetrics() {
 
         {/* Total Volume 24h */}
         <div 
-          className="rounded-lg bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white"
+          className="rounded-lg bg-slate-900 text-white"
           style={{ 
             borderRadius: DESIGN_TOKENS.borderRadius.lg,
             padding: `${DESIGN_TOKENS.spacing.scale[6]}px`
@@ -205,7 +205,7 @@ export default function GlobalMetrics() {
             style={{ marginBottom: `${DESIGN_TOKENS.spacing.scale[2]}px` }}
           >
             <h4 
-              className="font-medium opacity-90 text-gray-900 dark:text-white"
+              className="font-medium opacity-90 text-white"
               style={{ fontSize: DESIGN_TOKENS.typography.fontSize.sm }}
             >
               {t('metrics.totalVolume24h')}
@@ -213,13 +213,13 @@ export default function GlobalMetrics() {
             <span style={{ fontSize: DESIGN_TOKENS.typography.fontSize['2xl'] }}></span>
           </div>
           <div 
-            className="font-bold text-gray-900 dark:text-white"
+            className="font-bold text-white"
             style={{ fontSize: DESIGN_TOKENS.typography.fontSize['3xl'] }}
           >
             {formatCurrency(data.total_volume_24h)}
           </div>
           <div 
-            className="opacity-75 text-gray-900 dark:text-white"
+            className="opacity-75 text-white"
             style={{ 
               marginTop: `${DESIGN_TOKENS.spacing.scale[2]}px`,
               fontSize: DESIGN_TOKENS.typography.fontSize.xs
