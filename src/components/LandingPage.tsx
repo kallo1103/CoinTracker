@@ -11,41 +11,61 @@ import {
   Shield, 
   Zap,
   ArrowRight,
-  CheckCircle2
+  CheckCircle2,
+  ChevronDown
 } from 'lucide-react';
 import AuthButton from './AuthButton';
+import DarkVeil from './DarkVeil';
+import { motion } from 'motion/react';
+import { useState } from 'react';
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
 
 export default function LandingPage() {
   const { t } = useLanguage();
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const features = [
     {
-      icon: <BarChart3 className="w-8 h-8" />,
+      icon: <BarChart3 className="w-6 h-6" />,
       title: t('landing.feature1.title'),
       description: t('landing.feature1.description'),
     },
     {
-      icon: <TrendingUp className="w-8 h-8" />,
+      icon: <TrendingUp className="w-6 h-6" />,
       title: t('landing.feature2.title'),
       description: t('landing.feature2.description'),
     },
     {
-      icon: <Search className="w-8 h-8" />,
+      icon: <Search className="w-6 h-6" />,
       title: t('landing.feature3.title'),
       description: t('landing.feature3.description'),
     },
     {
-      icon: <Building2 className="w-8 h-8" />,
+      icon: <Building2 className="w-6 h-6" />,
       title: t('landing.feature4.title'),
       description: t('landing.feature4.description'),
     },
     {
-      icon: <Newspaper className="w-8 h-8" />,
+      icon: <Newspaper className="w-6 h-6" />,
       title: t('landing.feature5.title'),
       description: t('landing.feature5.description'),
     },
     {
-      icon: <Shield className="w-8 h-8" />,
+      icon: <Shield className="w-6 h-6" />,
       title: t('landing.feature6.title'),
       description: t('landing.feature6.description'),
     },
@@ -58,200 +78,216 @@ export default function LandingPage() {
     t('landing.benefit4'),
   ];
 
+  const faqs = [
+    { q: t('landing.faq.q1.question'), a: t('landing.faq.q1.answer') },
+    { q: t('landing.faq.q2.question'), a: t('landing.faq.q2.answer') },
+    { q: t('landing.faq.q3.question'), a: t('landing.faq.q3.answer') },
+    { q: t('landing.faq.q4.question'), a: t('landing.faq.q4.answer') },
+    { q: t('landing.faq.q5.question'), a: t('landing.faq.q5.answer') },
+    { q: t('landing.faq.q6.question'), a: t('landing.faq.q6.answer') },
+    { q: t('landing.faq.q7.question'), a: t('landing.faq.q7.answer') },
+    { q: t('landing.faq.q8.question'), a: t('landing.faq.q8.answer') },
+    { q: t('landing.faq.q9.question'), a: t('landing.faq.q9.answer') },
+  ];
+
   return (
-    <div className="min-h-screen bg-black">
+    <div className="dark min-h-screen bg-black text-white overflow-hidden selection:bg-primary/30">
+      
+      {/* Dark Veil Animated Background */}
+      <DarkVeil />
+
+      {/* Top Navigation */}
+      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-black/50 backdrop-blur-md border-b border-white/10">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+            <Zap className="w-5 h-5 text-white fill-white" />
+          </div>
+          <span className="font-bold text-xl tracking-tight">Crypto<span className="text-primary">Tracker</span></span>
+        </div>
+        <div>
+           <AuthButton />
+        </div>
+      </nav>
+
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-20 pb-32 px-4 sm:px-6 lg:px-8">
-        <div className="relative max-w-7xl mx-auto">
-          <div className="text-center">
+      <section className="relative z-10 pt-32 pb-32 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto text-center">
+          
+          <motion.div 
+            initial="hidden"
+            animate="visible"
+            variants={staggerContainer}
+            className="flex flex-col items-center"
+          >
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-sm font-medium mb-8">
-              <Zap className="w-4 h-4" />
+            <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-card border-primary/20 text-primary text-sm font-medium mb-8 backdrop-blur-md">
+              <Zap className="w-4 h-4 fill-primary" />
               <span>{t('landing.badge')}</span>
-            </div>
+            </motion.div>
 
             {/* Main Heading */}
-            <h1 className="py-1 text-5xl sm:text-6xl lg:text-7xl font-extrabold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-              {t('landing.hero.title')}
-            </h1>
+            <motion.h1 variants={fadeInUp} className="text-5xl sm:text-7xl lg:text-8xl font-black mb-6 tracking-tight">
+              <span className="bg-gradient-to-r from-white via-blue-100 to-gray-400 bg-clip-text text-transparent">
+                {t('landing.hero.title')}
+              </span>
+            </motion.h1>
 
             {/* Subtitle */}
-            <p className="text-xl sm:text-2xl text-gray-600 dark:text-gray-300 mb-4 max-w-2xl mx-auto">
+            <motion.p variants={fadeInUp} className="text-xl sm:text-2xl text-gray-300 mb-12 max-w-2xl mx-auto leading-relaxed">
               {t('landing.hero.subtitle')}
-            </p>
-
-            <p className="text-lg text-gray-500 dark:text-gray-400 mb-12 max-w-3xl mx-auto">
-              {t('landing.hero.description')}
-            </p>
+              <br className="hidden sm:block" />
+              <span className="text-sm mt-4 block text-gray-400">{t('landing.hero.description')}</span>
+            </motion.p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
-              <Link
+            <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+              <Link 
                 href="/app"
-                className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-2xl font-semibold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 flex items-center gap-2"
+                className="group relative px-8 py-4 bg-primary text-primary-foreground rounded-xl font-bold text-lg hover:shadow-[0_0_40px_-10px_var(--primary)] transition-all duration-300 overflow-hidden"
               >
-                <span>{t('landing.cta.getStarted')}</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  {t('landing.cta.getStarted')}
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </span>
+                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
               </Link>
               
-              <div className="">
-                <AuthButton large />
+              <div className="glass-card rounded-xl overflow-hidden hover:bg-white/10 transition-colors">
+                 <AuthButton large />
               </div>
-            </div>
+            </motion.div>
 
             {/* Benefits List */}
-            <div className="hidden lg:flex flex-row justify-center items-center gap-8 max-w-4xl mx-auto">
+            <motion.div variants={fadeInUp} className="mt-16 flex flex-wrap justify-center gap-x-8 gap-y-4">
               {benefits.map((benefit, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-center gap-2 text-gray-700"
-                >
-                  <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0" />
-                  <span className="text-sm sm:text-base">{benefit}</span>
+                <div key={index} className="flex items-center gap-2 text-gray-300">
+                  <CheckCircle2 className="w-5 h-5 text-green-400" />
+                  <span className="text-sm font-medium">{benefit}</span>
                 </div>
               ))}
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-black">
+      <section className="relative z-10 py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl sm:text-5xl font-bold mb-6 text-glow">
               {t('landing.features.title')}
             </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
               {t('landing.features.subtitle')}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map((feature, index) => (
-              <div
+              <motion.div
                 key={index}
-                className="group p-8 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:-translate-y-2"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="group glass-card p-8 hover:border-primary/50 transition-colors duration-300"
               >
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform duration-300">
+                <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
                   {feature.icon}
                 </div>
-                <h3 className="text-xl font-bold text-white mb-3">
+                <h3 className="text-xl font-bold mb-3 text-foreground group-hover:text-primary transition-colors">
                   {feature.title}
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400">
+                <p className="text-gray-300 leading-relaxed">
                   {feature.description}
                 </p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Final CTA Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-12 shadow-2xl">
-            <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
-              {t('landing.finalCta.title')}
-            </h2>
-            <p className="text-xl text-blue-100 mb-8">
-              {t('landing.finalCta.description')}
-            </p>
-            <Link
-              href="/app"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-blue-600 rounded-2xl font-semibold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
-            >
-              <span>{t('landing.cta.exploreNow')}</span>
-              <ArrowRight className="w-5 h-5" />
-            </Link>
+      {/* FAQ Section */}
+      <section className="relative z-10 py-24 px-4 sm:px-6 lg:px-8 ">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">{t('landing.faq.title')}</h2>
+          </div>
+          
+          <div className="space-y-4">
+            {faqs.map((faq, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="glass-card overflow-hidden"
+              >
+                <button
+                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                  className="w-full flex items-center justify-between p-6 text-left hover:bg-white/5 transition-colors"
+                >
+                  <span className="font-semibold text-lg pr-8">{faq.q}</span>
+                  <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform duration-300 ${openFaq === index ? 'rotate-180' : ''}`} />
+                </button>
+                
+                <div className={`grid transition-[grid-template-rows] duration-300 ease-out ${openFaq === index ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
+                  <div className="overflow-hidden">
+                     <p className="p-6 pt-0 text-gray-300 leading-relaxed border-t border-white/5">
+                      {faq.a}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-black">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-12">
-            {t('landing.faq.title')}
-          </h2>
-            <div className="space-y-8 text-left">
-              <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-lg p-8">
-                <h3 className="text-xl font-bold text-white mb-3">
-                  {t('landing.faq.q1.question')}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  {t('landing.faq.q1.answer')}
-                </p>
-              </div>
-              <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-lg p-8">
-                <h3 className="text-xl font-bold text-white mb-3">
-                  {t('landing.faq.q2.question')}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  {t('landing.faq.q2.answer')}
-                </p>
-              </div>
-              <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-lg p-8">
-                <h3 className="text-xl font-bold text-white mb-3">
-                  {t('landing.faq.q3.question')}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  {t('landing.faq.q3.answer')}
-                </p>
-              </div>
-              <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-lg p-8">
-                <h3 className="text-xl font-bold text-white mb-3">
-                  {t('landing.faq.q4.question')}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  {t('landing.faq.q4.answer')}
-                </p>
-              </div>
-              <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-lg p-8">
-                <h3 className="text-xl font-bold text-white mb-3">
-                  {t('landing.faq.q5.question')}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  {t('landing.faq.q5.answer')}
-                </p>
-              </div>
-              <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-lg p-8">
-                <h3 className="text-xl font-bold text-white mb-3">
-                  {t('landing.faq.q6.question')}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  {t('landing.faq.q6.answer')}
-                </p>
-              </div>
-              <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-lg p-8">
-                <h3 className="text-xl font-bold text-white mb-3">
-                  {t('landing.faq.q7.question')}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  {t('landing.faq.q7.answer')}
-                </p>
-              </div>
-              <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-lg p-8">
-                <h3 className="text-xl font-bold text-white mb-3">
-                  {t('landing.faq.q8.question')}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  {t('landing.faq.q8.answer')}
-                </p>
-              </div>
-              <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-lg p-8">
-                <h3 className="text-xl font-bold text-white mb-3">
-                  {t('landing.faq.q9.question')}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  {t('landing.faq.q9.answer')}
-                </p>
-              </div>
+      {/* Final CTA */}
+      <section className="relative z-10 py-32 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto">
+          <div className="relative rounded-3xl overflow-hidden p-12 sm:p-20 text-center border border-white/10">
+            {/* Subtle gradient overlay matching Dark Veil theme */}
+            <div 
+              className="absolute inset-0" 
+              style={{
+                background: 'linear-gradient(135deg, rgba(79, 70, 229, 0.2) 0%, rgba(147, 51, 234, 0.2) 50%, rgba(99, 102, 241, 0.15) 100%)'
+              }}
+            />
+            
+            {/* Additional radial gradient for depth */}
+            <div 
+              className="absolute inset-0"
+              style={{
+                background: 'radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.15) 0%, transparent 70%)'
+              }}
+            />
+            
+            {/* Glassmorphism background */}
+            <div className="absolute inset-0 glass-card backdrop-blur-3xl -z-10" />
+            
+            {/* Content */}
+            <div className="relative z-10">
+              <h2 className="text-4xl sm:text-5xl font-black mb-8 text-white text-glow">
+                {t('landing.finalCta.title')}
+              </h2>
+              <p className="text-xl text-gray-200 mb-10 max-w-2xl mx-auto">
+                {t('landing.finalCta.description')}
+              </p>
+              
+              <Link
+                href="/app"
+                className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl font-bold text-lg shadow-[0_0_30px_-5px_rgba(139,92,246,0.5)] hover:shadow-[0_0_50px_-5px_rgba(139,92,246,0.8)] hover:scale-105 transition-all duration-300"
+              >
+                <span>{t('landing.cta.exploreNow')}</span>
+                <ArrowRight className="w-5 h-5" />
+              </Link>
             </div>
           </div>
+        </div>
       </section>
+
     </div>
   );
 }
-

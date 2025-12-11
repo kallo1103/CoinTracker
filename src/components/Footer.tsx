@@ -28,7 +28,7 @@ export default function Footer() {
   
   return (
     <footer 
-      className="bg-black backdrop-blur-xl text-slate-300 dark:text-slate-400 mt-auto transition-all border-t border-white/10"
+      className="bg-background/90 backdrop-blur-xl text-muted-foreground mt-auto transition-all border-t border-border"
       style={{
         marginLeft: `${getContentMarginLeft(isCollapsed)}px`,
         transitionDuration: DESIGN_TOKENS.transition.duration.slow
@@ -55,7 +55,7 @@ export default function Footer() {
               {t('footer.title')}
             </h3>
             <p 
-              className="text-slate-400 dark:text-slate-500 text-sm leading-relaxed"
+              className="text-muted-foreground text-sm leading-relaxed"
               style={{
                 marginBottom: `${DESIGN_TOKENS.spacing.scale[4]}px`
               }}
@@ -68,7 +68,7 @@ export default function Footer() {
                 href="https://github.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-slate-400 hover:text-blue-400 transition-colors p-2 hover:bg-white/5 rounded-lg"
+                className="text-muted-foreground hover:text-primary transition-colors p-2 hover:bg-primary/10 rounded-lg"
                 aria-label="GitHub"
               >
                 <Github size={18} />
@@ -77,7 +77,7 @@ export default function Footer() {
                 href="https://twitter.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-slate-400 hover:text-blue-400 transition-colors p-2 hover:bg-white/5 rounded-lg"
+                className="text-muted-foreground hover:text-primary transition-colors p-2 hover:bg-primary/10 rounded-lg"
                 aria-label="Twitter"
               >
                 <Twitter size={18} />
@@ -86,7 +86,7 @@ export default function Footer() {
                 href="https://linkedin.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-slate-400 hover:text-blue-400 transition-colors p-2 hover:bg-white/5 rounded-lg"
+                className="text-muted-foreground hover:text-primary transition-colors p-2 hover:bg-primary/10 rounded-lg"
                 aria-label="LinkedIn"
               >
                 <Linkedin size={18} />
@@ -97,7 +97,7 @@ export default function Footer() {
           {/* Column 2 - Navigation */}
           <div>
             <h3 
-              className="font-semibold text-white mb-4"
+              className="font-semibold text-foreground mb-4"
               style={{
                 fontSize: DESIGN_TOKENS.typography.fontSize.lg,
                 marginBottom: `${DESIGN_TOKENS.spacing.scale[4]}px`
@@ -119,7 +119,7 @@ export default function Footer() {
           {/* Column 3 - Resources */}
           <div>
             <h3 
-              className="font-semibold text-white mb-4"
+              className="font-semibold text-foreground mb-4"
               style={{
                 fontSize: DESIGN_TOKENS.typography.fontSize.lg,
                 marginBottom: `${DESIGN_TOKENS.spacing.scale[4]}px`
@@ -140,7 +140,7 @@ export default function Footer() {
           {/* Column 4 - Support & Legal */}
           <div>
             <h3 
-              className="font-semibold text-white mb-4"
+              className="font-semibold text-foreground mb-4"
               style={{
                 fontSize: DESIGN_TOKENS.typography.fontSize.lg,
                 marginBottom: `${DESIGN_TOKENS.spacing.scale[4]}px`
@@ -157,7 +157,7 @@ export default function Footer() {
             </ul>
             
             <h3 
-              className="font-semibold text-white mb-4"
+              className="font-semibold text-foreground mb-4"
               style={{
                 fontSize: DESIGN_TOKENS.typography.fontSize.lg,
                 marginBottom: `${DESIGN_TOKENS.spacing.scale[4]}px`,
@@ -178,7 +178,7 @@ export default function Footer() {
 
         {/* Copyright */}
         <div 
-          className="border-t border-white/10 text-center text-slate-400 dark:text-slate-500 mt-8 pt-6"
+          className="border-t border-border text-center text-muted-foreground mt-8 pt-6"
           style={{
             marginTop: `${DESIGN_TOKENS.spacing.scale[8]}px`,
             paddingTop: `${DESIGN_TOKENS.spacing.scale[6]}px`
@@ -204,7 +204,7 @@ function FooterLink({
 }) {
   const isExternal = href.startsWith('http') || href.startsWith('mailto:');
   
-  const linkClassName = "text-slate-400 dark:text-slate-500 hover:text-blue-400 dark:hover:text-blue-400 transition-colors flex items-center gap-2 group text-sm";
+  const linkClassName = "text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group text-sm";
 
   if (isExternal) {
     return (

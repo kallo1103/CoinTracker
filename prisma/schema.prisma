@@ -55,8 +55,36 @@ model User {
   walletAddress String?   @unique @map("wallet_address") // MetaMask wallet address
   accounts      Account[]
   sessions      Session[]
+  portfolio     Portfolio?
 
   @@map("users")
+}
+
+model Portfolio {
+  id        String   @id @default(cuid())
+  userId    String   @unique @map("user_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assets    Asset[]
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("portfolios")
+}
+
+model Asset {
+  id          String    @id @default(cuid())
+  portfolioId String    @map("portfolio_id")
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  coinId      String    @map("coin_id") // CoinGecko ID (e.g. "bitcoin", "ethereum")
+  symbol      String // e.g. "btc", "eth"
+  name        String // e.g. "Bitcoin"
+  quantity    Float
+  buyPrice    Float     @map("buy_price") // Price per coin at purchase
+  buyDate     DateTime  @default(now()) @map("buy_date")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  @@map("assets")
 }
 
 model VerificationToken {

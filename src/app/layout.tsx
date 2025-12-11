@@ -24,14 +24,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* Dùng favicon từ thư mục public - hỗ trợ SVG và ICO */}
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="alternate icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/favicon.svg" />
       </head>
-      <body className="antialiased min-h-screen bg-white dark:bg-black text-white">
+      <body className="antialiased min-h-screen text-white">
         <Providers>
           <NavbarProvider>
             <ConditionalLayout>
