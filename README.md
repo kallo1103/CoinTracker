@@ -2,11 +2,11 @@
 
 Real-time cryptocurrency price tracking platform built with **Next.js 15**, **NextAuth**, **Prisma**, and integrated with multiple free crypto APIs.
 
-![Next.js](https://img.shields.io/badge/Next.js-15.5.4-black?style=flat&logo=next.js)
+![Next.js](https://img.shields.io/badge/Next.js-15.5.7-black?style=flat&logo=next.js)
 ![React](https://img.shields.io/badge/React-19.1.0-blue?style=flat&logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=flat&logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.x-38bdf8?style=flat&logo=tailwind-css)
-![Prisma](https://img.shields.io/badge/Prisma-6.16.3-2D3748?style=flat&logo=prisma)
+![Prisma](https://img.shields.io/badge/Prisma-6.18.0-2D3748?style=flat&logo=prisma)
 
 ## ✨ Key Features
 
@@ -54,17 +54,19 @@ Real-time cryptocurrency price tracking platform built with **Next.js 15**, **Ne
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **Framework:** Next.js 15.5.4 (App Router)
+- **Framework:** Next.js 15.5.7 (App Router)
 - **React:** 19.1.0
 - **TypeScript:** 5.x
 - **Styling:** Tailwind CSS 4.x
+- **Animations:** Motion (Framer Motion)
 - **Charts:** Recharts 3.2.1
 - **Icons:** Lucide React 0.546.0
+- **Testing:** Vitest
 
 ### Backend
 - **API Routes:** Next.js API Routes
-- **Authentication:** NextAuth 4.24.11 + Prisma Adapter 2.10.0
-- **Database:** Prisma 6.16.3 + SQLite (dev) / PostgreSQL (prod)
+- **Authentication:** NextAuth 4.24.11 + Prisma Adapter 2.10.0 / Firebase Auth
+- **Database:** Prisma 6.18.0 + SQLite (dev) / PostgreSQL (prod)
 - **Wallet:** Ethers.js 6.15.0
 
 ### APIs
@@ -144,6 +146,15 @@ pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### Run Tests
+```bash
+npm test
+# or
+yarn test
+# or
+pnpm test
+```
 
 ## 🎯 Current Application Features
 
@@ -238,7 +249,7 @@ Copy the result to `NEXTAUTH_SECRET` in `.env.local`
 - [x] News caching system
 
 ### 🚧 In Progress / TODO
-- [ ] User portfolio tracking
+- [x] User portfolio tracking
 - [ ] Price alerts & notifications
 - [ ] More chart types (Bar, Scatter, etc.)
 - [ ] Performance optimization
