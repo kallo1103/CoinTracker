@@ -11,8 +11,6 @@ import {
   Search, 
   Clock, 
   Star,
-  Calendar,
-  DollarSign,
   Activity,
   Target,
   Award
@@ -22,7 +20,7 @@ export default function StatisticsPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [timeRange, setTimeRange] = useState('7d');
-  const [stats, setStats] = useState({
+  const [stats] = useState({
     overview: {
       totalViews: 1247,
       searches: 89,

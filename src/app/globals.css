@@ -11,8 +11,10 @@
   */
 
   /* Backgrounds */
-  --background: oklch(1 0 0); /* Light fallback */
-  --foreground: oklch(0.13 0.02 260); /* Deep Navy Text */
+  --background: oklch(1 0 0);
+  /* Light fallback */
+  --foreground: oklch(0.13 0.02 260);
+  /* Deep Navy Text */
 
   --card: oklch(0.98 0 0);
   --card-foreground: oklch(0.13 0.02 260);
@@ -68,10 +70,12 @@
 /* Dark Theme (Default/Preferred) */
 .dark {
   /* Deep Space / Midnight Backgrounds */
-  --background: oklch(0.12 0.04 265); /* Dark Blue/Black */
+  --background: oklch(0.12 0.04 265);
+  /* Dark Blue/Black */
   --foreground: oklch(0.98 0 0);
 
-  --card: oklch(0.16 0.04 265); /* Slightly lighter card */
+  --card: oklch(0.16 0.04 265);
+  /* Slightly lighter card */
   --card-foreground: oklch(0.98 0 0);
 
   --popover: oklch(0.16 0.04 265);
@@ -117,9 +121,17 @@
 
 /* Animations */
 @keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
 }
 
 .animate-float {
@@ -127,8 +139,17 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% { opacity: 1; box-shadow: 0 0 15px hsl(var(--primary) / 0.5); }
-  50% { opacity: 0.7; box-shadow: 0 0 5px hsl(var(--primary) / 0.2); }
+
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 15px hsl(var(--primary) / 0.5);
+  }
+
+  50% {
+    opacity: 0.7;
+    box-shadow: 0 0 5px hsl(var(--primary) / 0.2);
+  }
 }
 
 .animate-pulse-glow {
@@ -178,23 +199,27 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
 }
 
 @layer components {
+
   /* Glassmorphism Card */
   .glass-card {
     @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl shadow-lg;
   }
 
   .dark .glass-card {
-    @apply bg-black/40 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.36)];
+    @apply bg-black/40 backdrop-blur-xl border border-white/10;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.36);
   }
 
   /* Neon Text Utility */
   .text-glow {
-     text-shadow: 0 0 10px currentColor; /* uses the text color for the glow */
+    text-shadow: 0 0 10px currentColor;
+    /* uses the text color for the glow */
   }
 }

@@ -236,20 +236,30 @@ export default function AuthButton({ large }: { large?: boolean }) {
       <button
         onClick={() => setShowModal(true)}
         className={`
-          bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 
-          text-white transition-all shadow-lg shadow-blue-900/20 hover:shadow-blue-500/30
-          flex items-center justify-center
+          flex items-center justify-center transition-all duration-300
           ${isCollapsed 
-            ? 'w-12 h-12 p-0 rounded-xl' 
+            ? 'w-12 h-12 p-0 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white shadow-lg shadow-blue-900/20 hover:shadow-blue-500/30' 
             : large
-              ? 'px-8 py-4 text-lg font-semibold rounded-2xl gap-2 shadow-xl hover:shadow-2xl hover:-translate-y-1'
-              : 'w-full px-6 py-3 gap-2 font-medium rounded-xl hover:-translate-y-0.5'
+              ? 'group relative px-8 py-4 bg-primary text-primary-foreground rounded-xl font-bold text-lg hover:shadow-[0_0_40px_-10px_var(--primary)] overflow-hidden'
+              : 'w-full px-6 py-3 gap-2 font-medium rounded-xl hover:-translate-y-0.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white shadow-lg shadow-blue-900/20 hover:shadow-blue-500/30'
           }
         `}
         title={isCollapsed ? "Sign in" : ''}
       >
-        <LogIn size={20} />
-        {!isCollapsed && "Sign In"}
+        {large ? (
+          <>
+            <span className="relative z-10 flex items-center justify-center gap-2">
+              <LogIn size={20} />
+              Sign In
+            </span>
+            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+          </>
+        ) : (
+          <>
+            <LogIn size={20} />
+            {!isCollapsed && "Sign In"}
+          </>
+        )}
       </button>
 
       {/* Modal Overlay - Rendered via Portal to ensure it's centered on screen, not sidebar */}

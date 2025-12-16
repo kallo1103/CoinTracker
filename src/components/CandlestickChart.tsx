@@ -233,7 +233,7 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
       </div>
 
       {/* Stats Bar */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 p-4 rounded-lg bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-gray-700">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 p-4 rounded-lg bg-gray-900 border border-gray-800">
         <div className="text-center">
           <p className="text-xs text-white mb-1">{t('chart.open')}</p>
           <p className="font-semibold text-white text-sm">${firstPrice.toFixed(2)}</p>

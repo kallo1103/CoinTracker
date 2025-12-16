@@ -23,7 +23,7 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ message: "Đổi mật khẩu thành công" });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: "Lỗi hệ thống" }, { status: 500 });
   }
 }

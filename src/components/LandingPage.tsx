@@ -152,9 +152,7 @@ export default function LandingPage() {
                 <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
               </Link>
               
-              <div className="glass-card rounded-xl overflow-hidden hover:bg-white/10 transition-colors">
-                 <AuthButton large />
-              </div>
+              <AuthButton large />
             </motion.div>
 
             {/* Benefits List */}

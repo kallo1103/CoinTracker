@@ -2,6 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { ExchangeLogo } from '@/components/OptimizedImage';
+import { apiClient } from '@/lib/apiClient';
+import { API_CONFIG, buildEndpoint } from '@/config/api';
+import { logger } from '@/utils/logger';
 
 // Interface cho dữ liệu exchange từ CoinGecko
 interface Exchange {
@@ -53,17 +57,17 @@ export default function ExchangeList({ limit = 50 }: ExchangeListProps) {
     const fetchExchanges = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`/api/exchange/list?limit=${limit}`);
-        const json = await response.json();
+        const url = buildEndpoint(API_CONFIG.endpoints.exchange.list, { limit });
+        const response = await apiClient.get<Exchange[]>(url);
 
-        if (json.success) {
-          setExchanges(json.data);
+        if (response.success && response.data) {
+          setExchanges(response.data);
           setError(null);
         } else {
-          setError(json.error || 'Không thể tải dữ liệu');
+          setError(response.error || 'Không thể tải dữ liệu');
         }
       } catch (err) {
-        console.error('Error fetching exchanges:', err);
+        logger.error('Error fetching exchanges:', err);
         setError('Lỗi kết nối đến server');
       } finally {
         setLoading(false);
@@ -158,13 +162,11 @@ export default function ExchangeList({ limit = 50 }: ExchangeListProps) {
                   <td className="px-6 py-4">
                     <div className="flex items-center space-x-3">
                       {exchange.image && (
-                        <img 
+                        <ExchangeLogo 
                           src={exchange.image} 
-                          alt={exchange.name}
-                          className="w-8 h-8 rounded-full"
-                          onError={(e) => {
-                            e.currentTarget.style.display = 'none';
-                          }}
+                          name={exchange.name}
+                          size={32}
+                          className="rounded-full"
                         />
                       )}
                       <div>
@@ -227,13 +229,11 @@ export default function ExchangeList({ limit = 50 }: ExchangeListProps) {
             <div className="flex items-start justify-between mb-3">
               <div className="flex items-center space-x-3 flex-1">
                 {exchange.image && (
-                  <img 
+                  <ExchangeLogo 
                     src={exchange.image} 
-                    alt={exchange.name}
-                    className="w-10 h-10 rounded-full flex-shrink-0"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                    }}
+                    name={exchange.name}
+                    size={40}
+                    className="rounded-full flex-shrink-0"
                   />
                 )}
                 <div className="flex-1 min-w-0">

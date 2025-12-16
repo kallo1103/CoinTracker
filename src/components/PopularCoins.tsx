@@ -3,6 +3,11 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { AlertCircle } from 'lucide-react';
+import { CoinImage } from '@/components/OptimizedImage';
+import { apiClient } from '@/lib/apiClient';
+import { API_CONFIG, buildEndpoint } from '@/config/api';
+import { logger } from '@/utils/logger';
+
 
 // Interface cho dữ liệu coin từ CoinGecko
 interface CoinData {
@@ -28,17 +33,17 @@ export default function PopularCoins({ limit = 8 }: PopularCoinsProps) {
   useEffect(() => {
     async function fetchPopularCoins() {
       try {
-        const response = await fetch(`/api/coins/markets?limit=${limit}`);
-        const result = await response.json();
+        const url = buildEndpoint(API_CONFIG.endpoints.coins.markets, { limit });
+        const response = await apiClient.get<CoinData[]>(url);
         
-        if (result.success) {
-          setCoins(result.data);
+        if (response.success && response.data) {
+          setCoins(response.data);
         } else {
-          setError(result.error || 'Không thể tải dữ liệu coin');
+          setError(response.error || 'Không thể tải dữ liệu coin');
         }
       } catch (err) {
         setError('Không thể kết nối đến server');
-        console.error('Error fetching popular coins:', err);
+        logger.error('Error fetching popular coins:', err);
       } finally {
         setLoading(false);
       }
@@ -108,25 +113,12 @@ export default function PopularCoins({ limit = 8 }: PopularCoinsProps) {
         >
           <div className="text-center">
             <div className="relative mb-3">
-              <img
-                src={coin.image}
-                alt={coin.name}
-                className="w-12 h-12 rounded-full mx-auto ring-2 ring-gray-600 group-hover:ring-blue-400 transition-all duration-200"
-                onError={(e) => {
-                  // Fallback to symbol if image fails to load
-                  const target = e.target as HTMLImageElement;
-                  target.style.display = 'none';
-                  const fallback = target.nextElementSibling as HTMLElement;
-                  if (fallback) fallback.style.display = 'flex';
-                }}
+              <CoinImage 
+                src={coin.image} 
+                symbol={coin.symbol}
+                size={48}
+                className="rounded-full mx-auto ring-2 ring-gray-600 group-hover:ring-blue-400 transition-all duration-200"
               />
-              {/* Fallback avatar */}
-              <div 
-                className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full mx-auto items-center justify-center text-white font-bold text-lg hidden"
-                style={{ display: 'none' }}
-              >
-                {coin.symbol.charAt(0)}
-              </div>
               {coin.market_cap_rank <= 3 && (
                 <div className="absolute -top-1 -right-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-lg">
                   {coin.market_cap_rank}

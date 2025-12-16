@@ -4,6 +4,7 @@ import ConditionalLayout from "@/components/ConditionalLayout";
 import { NavbarProvider } from "@/contexts/NavbarContext";
 import Providers from "@/components/Providers";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 export const metadata: Metadata = {
   title: "Crypto Tracker",
@@ -34,9 +35,11 @@ export default function RootLayout({
       <body className="antialiased min-h-screen text-white">
         <Providers>
           <NavbarProvider>
-            <ConditionalLayout>
-              {children}
-            </ConditionalLayout>
+            <ErrorBoundary>
+              <ConditionalLayout>
+                {children}
+              </ConditionalLayout>
+            </ErrorBoundary>
           </NavbarProvider>
         </Providers>
         {/* Vercel Speed Insights - theo dõi hiệu suất ứng dụng */}

@@ -1,11 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { API_CONFIG } from '@/config/api';
 import { DESIGN_TOKENS } from '@/config/design-tokens';
 import { formatCurrency, formatPercent } from '@/utils/formatters';
 import { getPriceChangeColor } from '@/utils/theme';
+import { apiClient } from '@/lib/apiClient';
+import { logger } from '@/utils/logger';
 
 // Interface cho Global Metrics data
 interface GlobalMetricsData {
@@ -24,31 +26,35 @@ export default function GlobalMetrics() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const fetchData = useCallback(async () => {
+    try {
+      const response = await apiClient.get<GlobalMetricsData>(
+        API_CONFIG.endpoints.globalMetrics
+      );
+      
+      if (response.success && response.data) {
+        setData(response.data);
+        setError(null);
+      } else {
+        setError(response.error || 'Failed to fetch global metrics');
+      }
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Error loading data';
+      setError(message);
+      logger.error('GlobalMetrics fetch error:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   // Fetch dữ liệu Global Metrics
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch(API_CONFIG.endpoints.globalMetrics);
-        const result = await response.json();
-        
-        if (result.success) {
-          setData(result.data);
-        } else {
-          setError(result.error);
-        }
-      } catch (err) {
-        setError('Error loading data');
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    }
-
     fetchData();
+    
     // Refresh interval từ config
     const interval = setInterval(fetchData, API_CONFIG.polling.frequent);
     return () => clearInterval(interval);
-  }, []);
+  }, [fetchData]);
 
   // Format phần trăm với màu
   const renderPercentChange = (percent: number) => {
@@ -76,7 +82,13 @@ export default function GlobalMetrics() {
   if (error || !data) {
     return (
       <div className="border border-red-200 dark:border-red-800 rounded-lg p-4 bg-red-50 dark:bg-red-900/20">
-        <p className="text-red-600 dark:text-red-400">❌ {error || 'Không có dữ liệu'}</p>
+        <p className="text-red-600 dark:text-red-400">❌ {error || t('common.noData')}</p>
+        <button 
+          onClick={fetchData}
+          className="mt-2 text-sm text-blue-500 hover:text-blue-600 underline"
+        >
+          {t('common.tryAgain')}
+        </button>
       </div>
     );
   }
@@ -91,7 +103,7 @@ export default function GlobalMetrics() {
           marginBottom: `${DESIGN_TOKENS.spacing.scale[6]}px`
         }}
       >
-         Global Crypto Metrics
+         {t('metrics.title')}
       </h3>
 
       {/* Grid metrics */}
@@ -117,13 +129,20 @@ export default function GlobalMetrics() {
             >
                {t('metrics.btcDominance')}
             </h4>
-            <span style={{ fontSize: DESIGN_TOKENS.typography.fontSize['2xl'] }}></span>
+            {/* Icon BTC */}
+            <span className="text-orange-500" style={{ fontSize: DESIGN_TOKENS.typography.fontSize['xl'] }}>₿</span>
           </div>
           <div 
-            className="font-bold text-white"
+            className="font-bold text-white relative"
             style={{ fontSize: DESIGN_TOKENS.typography.fontSize['3xl'] }}
           >
             {data.btc_dominance.toFixed(2)}%
+            <div className="w-full bg-gray-800 h-1.5 mt-3 rounded-full overflow-hidden">
+              <div 
+                className="bg-orange-500 h-full rounded-full transition-all duration-1000" 
+                style={{ width: `${Math.min(data.btc_dominance, 100)}%` }}
+              ></div>
+            </div>
           </div>
         </div>
 
@@ -145,13 +164,20 @@ export default function GlobalMetrics() {
             >
               {t('metrics.ethDominance')}
             </h4>
-            <span style={{ fontSize: DESIGN_TOKENS.typography.fontSize['2xl'] }}></span>
+            {/* Icon ETH */}
+            <span className="text-blue-400" style={{ fontSize: DESIGN_TOKENS.typography.fontSize['xl'] }}>♦</span>
           </div>
           <div 
-            className="font-bold text-white"
+            className="font-bold text-white relative"
             style={{ fontSize: DESIGN_TOKENS.typography.fontSize['3xl'] }}
           >
             {data.eth_dominance.toFixed(2)}%
+            <div className="w-full bg-gray-800 h-1.5 mt-3 rounded-full overflow-hidden">
+              <div 
+                className="bg-blue-500 h-full rounded-full transition-all duration-1000" 
+                style={{ width: `${Math.min(data.eth_dominance, 100)}%` }}
+              ></div>
+            </div>
           </div>
         </div>
 
@@ -173,7 +199,7 @@ export default function GlobalMetrics() {
             >
               {t('metrics.totalMarketCap')}
             </h4>
-            <span style={{ fontSize: DESIGN_TOKENS.typography.fontSize['2xl'] }}></span>
+            <span className="text-green-500" style={{ fontSize: DESIGN_TOKENS.typography.fontSize['xl'] }}>$</span>
           </div>
           <div 
             className="font-bold text-white"
@@ -210,10 +236,10 @@ export default function GlobalMetrics() {
             >
               {t('metrics.totalVolume24h')}
             </h4>
-            <span style={{ fontSize: DESIGN_TOKENS.typography.fontSize['2xl'] }}></span>
+            <span className="text-purple-400" style={{ fontSize: DESIGN_TOKENS.typography.fontSize['xl'] }}>📊</span>
           </div>
           <div 
-            className="font-bold text-white"
+            className="font-bold text-white relative"
             style={{ fontSize: DESIGN_TOKENS.typography.fontSize['3xl'] }}
           >
             {formatCurrency(data.total_volume_24h)}
@@ -225,7 +251,7 @@ export default function GlobalMetrics() {
               fontSize: DESIGN_TOKENS.typography.fontSize.xs
             }}
           >
-            {data.active_cryptocurrencies.toLocaleString()} cryptocurrencies
+            {data.active_cryptocurrencies.toLocaleString()} {t('common.cryptocurrencies')}
           </div>
         </div>
       </div>

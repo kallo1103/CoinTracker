@@ -6,7 +6,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { API_CONFIG } from '@/config/api';
 import { DESIGN_TOKENS } from '@/config/design-tokens';
 import { FEAR_GREED_THRESHOLDS } from '@/config/constants';
-import { getSentimentColor, getFearGreedBgClass, getFearGreedTextClass } from '@/utils/theme';
+import { getFearGreedBgClass, getFearGreedTextClass } from '@/utils/theme';
 import { formatDateTime } from '@/utils/formatters';
 
 // Interface cho dữ liệu Fear & Greed Index

@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import { logger } from '@/utils/logger';
 
 type NewsItem = {
   id: string;
@@ -22,12 +23,12 @@ export default function CryptoNewsList({ items }: { items: NewsItem[] }) {
     // Nếu không có URL hoặc URL không hợp lệ, chặn hành động mặc định
     if (!url || url === '#' || url === '') {
       e.preventDefault();
-      console.warn('⚠️ Link tin tức không hợp lệ');
+      logger.warn('⚠️ Link tin tức không hợp lệ');
       return;
     }
     
     // Link hợp lệ sẽ mở trong tab mới (target="_blank")
-    console.log('🔗 Mở tin tức:', url);
+    logger.debug('🔗 Mở tin tức:', url);
   };
 
   return (
@@ -86,5 +87,3 @@ export default function CryptoNewsList({ items }: { items: NewsItem[] }) {
     </ul>
   );
 }
-
-

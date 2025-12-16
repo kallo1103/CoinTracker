@@ -28,7 +28,7 @@ export default function Footer() {
   
   return (
     <footer 
-      className="bg-background/90 backdrop-blur-xl text-muted-foreground mt-auto transition-all border-t border-border"
+      className="bg-black backdrop-blur-xl text-white mt-auto transition-all border-t border-white/10"
       style={{
         marginLeft: `${getContentMarginLeft(isCollapsed)}px`,
         transitionDuration: DESIGN_TOKENS.transition.duration.slow
@@ -68,7 +68,7 @@ export default function Footer() {
                 href="https://github.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors p-2 hover:bg-primary/10 rounded-lg"
+                className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-lg"
                 aria-label="GitHub"
               >
                 <Github size={18} />
@@ -77,7 +77,7 @@ export default function Footer() {
                 href="https://twitter.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors p-2 hover:bg-primary/10 rounded-lg"
+                className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-lg"
                 aria-label="Twitter"
               >
                 <Twitter size={18} />
@@ -86,7 +86,7 @@ export default function Footer() {
                 href="https://linkedin.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors p-2 hover:bg-primary/10 rounded-lg"
+                className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-lg"
                 aria-label="LinkedIn"
               >
                 <Linkedin size={18} />
@@ -178,7 +178,7 @@ export default function Footer() {
 
         {/* Copyright */}
         <div 
-          className="border-t border-border text-center text-muted-foreground mt-8 pt-6"
+          className="border-t border-white/10 text-center text-gray-400 mt-8 pt-6"
           style={{
             marginTop: `${DESIGN_TOKENS.spacing.scale[8]}px`,
             paddingTop: `${DESIGN_TOKENS.spacing.scale[6]}px`
@@ -204,7 +204,7 @@ function FooterLink({
 }) {
   const isExternal = href.startsWith('http') || href.startsWith('mailto:');
   
-  const linkClassName = "text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group text-sm";
+  const linkClassName = "text-gray-400 hover:text-white transition-colors flex items-center gap-2 group text-sm";
 
   if (isExternal) {
     return (

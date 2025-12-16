@@ -25,7 +25,7 @@ export default function Header() {
 
   return (
     <header 
-      className="fixed left-0 top-0 h-full bg-sidebar/95 backdrop-blur-xl border-r border-sidebar-border shadow-2xl z-50 transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
+      className="fixed left-0 top-0 h-full bg-black backdrop-blur-xl border-r border-white/10 shadow-2xl z-50 transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
       style={{ width: `${sidebarWidth}px` }}
     >
       <div className="flex flex-col h-full p-4">
@@ -38,7 +38,7 @@ export default function Header() {
           )}
           <button
             onClick={toggleNavbar}
-            className="p-2 text-muted-foreground hover:text-sidebar-foreground hover:bg-sidebar-accent rounded-xl transition-colors"
+            className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-xl transition-colors"
             title={isCollapsed ? "Expand navbar" : "Collapse navbar"}
           >
             {isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
@@ -76,12 +76,12 @@ function NavLink({ href, icon, label, isCollapsed }: { href: string; icon: React
     <Link 
       href={href} 
       className={`
-        flex items-center text-muted-foreground hover:text-sidebar-foreground hover:bg-sidebar-accent hover:border-sidebar-accent border border-transparent rounded-xl transition-all duration-200 group
+        flex items-center text-gray-300 hover:text-white hover:bg-white/10 hover:border-white/10 border border-transparent rounded-xl transition-all duration-200 group
         ${isCollapsed ? 'justify-center p-3' : 'px-4 py-3'}
       `}
       title={isCollapsed ? label : ""}
     >
-      <span className={`transition-transform duration-200 ${!isCollapsed ? 'mr-3 group-hover:scale-110 group-hover:text-blue-400' : 'group-hover:scale-110 group-hover:text-blue-400'}`}>
+      <span className={`transition-transform duration-200 ${!isCollapsed ? 'mr-3 group-hover:scale-110 group-hover:text-white' : 'group-hover:scale-110 group-hover:text-white'}`}>
         {icon}
       </span>
       {!isCollapsed && <span className="font-medium">{label}</span>}
