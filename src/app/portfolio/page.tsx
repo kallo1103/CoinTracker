@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Plus, Trash2, TrendingUp, TrendingDown, Wallet, Loader2 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion"; // Corrected from motion/react
+import { motion, AnimatePresence } from "motion/react";
 import { CoinImage } from "@/components/OptimizedImage";
 
 interface Asset {
