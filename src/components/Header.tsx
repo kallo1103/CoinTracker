@@ -12,7 +12,8 @@ import {
   Search, 
   Building2, 
   BookOpen, 
-  Newspaper 
+  Newspaper,
+  PieChart
 } from "lucide-react";
 import { getSidebarWidth } from '@/utils/responsive';
 
@@ -48,6 +49,7 @@ export default function Header() {
         {/* Navigation Menu */}
         <nav className="flex flex-col gap-2 flex-1">
           <NavLink href="/app" icon={<BarChart3 size={20} />} label={t('nav.dashboard')} isCollapsed={isCollapsed} />
+          <NavLink href="/portfolio" icon={<PieChart size={20} />} label="Portfolio" isCollapsed={isCollapsed} />
           <NavLink href="/search" icon={<Search size={20} />} label={t('nav.search')} isCollapsed={isCollapsed} />
           <NavLink href="/exchange" icon={<Building2 size={20} />} label={t('nav.exchange')} isCollapsed={isCollapsed} />
           <NavLink href="/docs" icon={<BookOpen size={20} />} label={t('nav.docs')} isCollapsed={isCollapsed} />
