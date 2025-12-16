@@ -30,7 +30,7 @@ declare module "next-auth/jwt" {
 export const authOptions: NextAuthOptions = {
   // Sử dụng Prisma adapter để lưu sessions vào database
   adapter: PrismaAdapter(prisma) as Adapter,
-  
+
   // Cấu hình các providers (nhà cung cấp xác thực)
   providers: [
     GoogleProvider({
@@ -72,7 +72,7 @@ export const authOptions: NextAuthOptions = {
         };
       }
     }),
-    
+
     // MetaMask Provider - Xác thực bằng wallet signature
     CredentialsProvider({
       id: "metamask",
@@ -144,12 +144,12 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
-  
+
   // Cấu hình session
   session: {
     strategy: "jwt", // Sử dụng JWT thay vì database sessions
   },
-  
+
   // Callbacks để tùy chỉnh behavior
   callbacks: {
     // Callback khi tạo JWT token
@@ -163,7 +163,7 @@ export const authOptions: NextAuthOptions = {
       }
       return token;
     },
-    
+
     // Callback khi tạo session
     async session({ session, token }) {
       if (session.user) {
@@ -175,7 +175,7 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
-    
+
     // Redirect sau khi đăng nhập thành công
     async redirect({ url, baseUrl }) {
       // Nếu URL là callback URL, redirect về profile
@@ -189,16 +189,16 @@ export const authOptions: NextAuthOptions = {
       return baseUrl;
     },
   },
-  
+
   // Cấu hình pages tùy chỉnh
   pages: {
     signIn: '/',
     error: '/', // Error page
   },
-  
+
   // Secret key để mã hóa tokens
   secret: process.env.NEXTAUTH_SECRET,
-  
+
   // Debug mode (chỉ bật trong development)
   debug: process.env.NODE_ENV === 'development',
 };
