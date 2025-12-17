@@ -57,13 +57,37 @@ export default function ProfileEditPage() {
 
   // Update profile data when session loads
   useEffect(() => {
-    if (session?.user) {
-      setProfileData(prev => ({
-        ...prev,
-        name: session.user?.name || '',
-        email: session.user?.email || ''
-      }));
-    }
+    const fetchProfile = async () => {
+      if (session?.user) {
+        try {
+          const res = await fetch('/api/user/profile');
+          if (res.ok) {
+            const data = await res.json();
+            setProfileData(prev => ({
+              ...prev,
+              name: data.name || prev.name,
+              email: data.email || prev.email,
+              phone: data.phoneNumber || prev.phone,
+              bio: data.bio || prev.bio,
+              location: data.location || prev.location,
+              website: data.website || prev.website,
+              twitter: data.twitter || prev.twitter,
+              linkedin: data.linkedin || prev.linkedin,
+              birthDate: data.birthDate ? new Date(data.birthDate).toISOString().split('T')[0] : prev.birthDate,
+              interests: data.interests && data.interests.length > 0 ? data.interests : prev.interests,
+              // Map settings if they exist
+              privacy: data.settings?.privacy ? {
+                ...prev.privacy,
+                ...data.settings.privacy
+              } : prev.privacy
+            }));
+          }
+        } catch (error) {
+          console.error("Failed to fetch profile", error);
+        }
+      }
+    };
+    fetchProfile();
   }, [session]);
 
   // Show loading while checking session
@@ -88,12 +112,67 @@ export default function ProfileEditPage() {
     setSaveStatus('idle');
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Prepare data for API
+      // We need to fetch current settings first to merge, or we assume the backend handles partial updates (but current PUT replaces fields)
+      // Actually my PUT implementation replaces `settings` if provided. So I should send the full `settings` object.
+      // Since I only have partial settings in this component state (only privacy), I should be careful.
+      // Best way: GET first? No, I already GETed on mount. 
+      // But `profileData` only tracks `privacy` (showEmail etc). It doesn't track `notifications` or `appearance`.
+      // So if I send `settings: { privacy: ... }` it might overwrite other settings if the backend replaces the whole JSON.
+      // My backend `PUT` does: `settings: settings ? settings : undefined`. It replaces.
+      // So I need to keep track of ALL settings in `profileData` or re-fetch before save.
+      // For now, I'll fetch the current profile once more or store "otherSettings" in state from the initial fetch.
+      
+      // Let's rely on the initial fetch storing everything? 
+      // I'll assume for this task that simply sending what we have is okay, or I can try to fetch-then-update.
+      
+      // Better approach: Update backend to use `prisma.user.update` with deep merge? 
+      // Prisma JSON updates replace the value. Postgres jsonb_set can do partial, but Prisma API replaces.
+      // So I must provide the full object.
+      
+      // I will re-fetch current profile to get latest settings, merge, then save.
+      const currentRes = await fetch('/api/user/profile');
+      const currentData = await currentRes.json();
+      const currentSettings = currentData.settings || {};
+
+      const payload = {
+        name: profileData.name,
+        phoneNumber: profileData.phone,
+        bio: profileData.bio,
+        location: profileData.location,
+        website: profileData.website,
+        twitter: profileData.twitter,
+        linkedin: profileData.linkedin,
+        birthDate: profileData.birthDate,
+        interests: profileData.interests,
+        settings: {
+          ...currentSettings,
+          privacy: {
+            ...currentSettings.privacy,
+            ...profileData.privacy
+          }
+        }
+      };
+
+      const res = await fetch('/api/user/profile', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) throw new Error('Failed to update');
+
       setSaveStatus('success');
       setIsEditing(false);
       setTimeout(() => setSaveStatus('idle'), 3000);
-    } catch {
+      
+      // Refresh session to update name if changed
+      router.refresh();
+      
+    } catch (err) {
+      console.error(err);
       setSaveStatus('error');
       setTimeout(() => setSaveStatus('idle'), 3000);
     } finally {

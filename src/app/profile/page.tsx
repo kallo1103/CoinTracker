@@ -2,7 +2,7 @@
 
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import CryptoSearch from "@/components/CryptoSearch";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -23,12 +23,45 @@ export default function ProfilePage() {
   const router = useRouter();
   const { t } = useLanguage();
 
+  interface ProfileData {
+    name?: string;
+    email?: string;
+    image?: string;
+    bio?: string;
+    location?: string;
+    website?: string;
+    twitter?: string;
+    linkedin?: string;
+    birthDate?: string;
+    interests?: string[];
+  }
+
+  const [profileData, setProfileData] = useState<ProfileData | null>(null);
+
   // Redirect to home if not authenticated
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/");
     }
   }, [status, router]);
+
+  // Fetch latest profile data
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (session?.user) {
+        try {
+          const res = await fetch('/api/user/profile');
+          if (res.ok) {
+            const data = await res.json();
+            setProfileData(data);
+          }
+        } catch (error) {
+          console.error("Failed to fetch profile", error);
+        }
+      }
+    };
+    fetchProfile();
+  }, [session]);
 
   // Show loading while checking session
   if (status === "loading") {
@@ -46,6 +79,14 @@ export default function ProfilePage() {
   if (!session) {
     return null;
   }
+
+  // Use profileData if available, otherwise fallback to session
+  const displayName = profileData?.name || session.user?.name || "User";
+  const displayEmail = profileData?.email || session.user?.email;
+  // Use session image as fallback or if profileData has image (logic depends on where image comes from, assuming session image is reliable for Google auth, but user might have broken link if custom)
+  // Actually, auth.ts updates user image in DB, so profileData.image should be correct.
+  const displayImage = profileData?.image || session.user?.image;
+  const userInitial = displayName.charAt(0).toUpperCase();
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
@@ -73,10 +114,10 @@ export default function ProfilePage() {
             <div className="flex flex-col sm:flex-row items-center gap-6">
               {/* Avatar */}
               <div className="relative">
-                {session.user?.image ? (
+                {displayImage ? (
                   <Image
-                    src={session.user.image}
-                    alt={session.user.name || "User avatar"}
+                    src={displayImage}
+                    alt={displayName}
                     width={120}
                     height={120}
                     className="rounded-full ring-4 ring-indigo-100"
@@ -84,7 +125,7 @@ export default function ProfilePage() {
                   />
                 ) : (
                   <div className="w-[120px] h-[120px] rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white text-4xl font-bold ring-4 ring-indigo-100">
-                    {session.user?.name?.charAt(0).toUpperCase() || "U"}
+                    {userInitial}
                   </div>
                 )}
                 <div className="absolute -bottom-2 -right-2 bg-green-500 w-8 h-8 rounded-full border-4 border-white flex items-center justify-center">
@@ -95,12 +136,26 @@ export default function ProfilePage() {
               {/* Detailed information */}
               <div className="flex-1 text-center sm:text-left">
                 <h3 className="text-2xl font-bold text-white mb-2">
-                  {session.user?.name || "User"}
+                  {displayName}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300 mb-4 flex items-center justify-center sm:justify-start gap-2">
                   <Mail className="w-5 h-5" />
-                  {session.user?.email}
+                  {displayEmail}
                 </p>
+                
+                {/* Display Bio if available */}
+                {profileData?.bio && (
+                    <p className="text-gray-500 dark:text-gray-400 mb-4 italic">
+                        &quot;{profileData.bio}&quot;
+                    </p>
+                )}
+                
+                {/* Display Location if available */}
+                {profileData?.location && (
+                    <p className="text-gray-500 dark:text-gray-400 mb-4 text-sm">
+                        📍 {profileData.location}
+                    </p>
+                )}
 
                 {/* Additional stats or info */}
                 <div className="flex gap-4 justify-center sm:justify-start">

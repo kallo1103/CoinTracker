@@ -16,50 +16,112 @@ import {
   Award
 } from "lucide-react";
 
+interface CoinStat {
+  name: string;
+  symbol: string;
+  views: number;
+}
+
+interface SearchStat {
+  query: string;
+  count: number;
+}
+
+interface DailyStat {
+  date: string;
+  views: number;
+  searches: number;
+}
+
+interface Achievement {
+  title: string;
+  description: string;
+  icon: string;
+  earned: boolean;
+}
+
+const ALL_ACHIEVEMENTS: Achievement[] = [
+  { title: 'Người dùng mới', description: 'Đăng ký tài khoản', icon: '👋', earned: true }, // Always true if viewing profile
+  { title: 'Nhà đầu tư', description: 'Xem 100 coin', icon: '💰', earned: false },
+  { title: 'Nhà nghiên cứu', description: 'Tìm kiếm 50 lần', icon: '🔍', earned: false },
+  { title: 'Chuyên gia', description: 'Dành 10 giờ trên app', icon: '🎓', earned: false },
+  { title: 'Người sưu tập', description: 'Yêu thích 25 coin', icon: '⭐', earned: false }
+];
+
 export default function StatisticsPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [timeRange, setTimeRange] = useState('7d');
-  const [stats] = useState({
+  const [stats, setStats] = useState<{
     overview: {
-      totalViews: 1247,
-      searches: 89,
-      favorites: 23,
-      timeSpent: 12.5
+      totalViews: number;
+      searches: number;
+      favorites: number;
+      timeSpent: number;
+    };
+    activity: {
+      mostViewedCoins: CoinStat[];
+      searchHistory: SearchStat[];
+      dailyActivity: DailyStat[];
+    };
+    achievements: Achievement[];
+  }>({
+    overview: {
+      totalViews: 0,
+      searches: 0,
+      favorites: 0,
+      timeSpent: 0
     },
     activity: {
-      mostViewedCoins: [
-        { name: 'Bitcoin', symbol: 'BTC', views: 45 },
-        { name: 'Ethereum', symbol: 'ETH', views: 38 },
-        { name: 'Cardano', symbol: 'ADA', views: 29 },
-        { name: 'Solana', symbol: 'SOL', views: 22 },
-        { name: 'Polkadot', symbol: 'DOT', views: 18 }
-      ],
-      searchHistory: [
-        { query: 'bitcoin price', count: 12 },
-        { query: 'ethereum news', count: 8 },
-        { query: 'crypto market', count: 6 },
-        { query: 'defi tokens', count: 5 },
-        { query: 'nft projects', count: 4 }
-      ],
-      dailyActivity: [
-        { date: '2024-01-01', views: 45, searches: 8 },
-        { date: '2024-01-02', views: 52, searches: 12 },
-        { date: '2024-01-03', views: 38, searches: 6 },
-        { date: '2024-01-04', views: 61, searches: 15 },
-        { date: '2024-01-05', views: 47, searches: 9 },
-        { date: '2024-01-06', views: 55, searches: 11 },
-        { date: '2024-01-07', views: 43, searches: 7 }
-      ]
+      mostViewedCoins: [],
+      searchHistory: [],
+      dailyActivity: [],
     },
-    achievements: [
-      { title: 'Người dùng mới', description: 'Đăng ký tài khoản', icon: '👋', earned: true },
-      { title: 'Nhà đầu tư', description: 'Xem 100 coin', icon: '💰', earned: true },
-      { title: 'Nhà nghiên cứu', description: 'Tìm kiếm 50 lần', icon: '🔍', earned: true },
-      { title: 'Chuyên gia', description: 'Dành 10 giờ trên app', icon: '🎓', earned: false },
-      { title: 'Người sưu tập', description: 'Yêu thích 25 coin', icon: '⭐', earned: false }
-    ]
+    achievements: ALL_ACHIEVEMENTS
   });
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      if (session) {
+        try {
+          const res = await fetch('/api/user/stats');
+          if (res.ok) {
+            const data = await res.json();
+            
+            // Process achievements
+            const earnedAchievements = Array.isArray(data.achievements) ? data.achievements : [];
+            const processedAchievements = ALL_ACHIEVEMENTS.map(ach => {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const isEarned = earnedAchievements.some((ea: any) => ea.title === ach.title);
+                return {
+                    ...ach,
+                    earned: ach.title === 'Người dùng mới' ? true : isEarned
+                };
+            });
+
+            setStats(prev => ({
+              ...prev,
+              overview: {
+                totalViews: data.totalViews || 0,
+                searches: data.searches || 0,
+                favorites: data.favorites || 0,
+                timeSpent: data.timeSpent || 0
+              },
+              activity: {
+                mostViewedCoins: Array.isArray(data.mostViewedCoins) ? data.mostViewedCoins : [],
+                searchHistory: Array.isArray(data.searchHistory) ? data.searchHistory : [],
+                dailyActivity: Array.isArray(data.dailyActivity) ? data.dailyActivity : []
+              },
+              achievements: processedAchievements
+            }));
+          }
+        } catch (error) {
+          console.error("Failed to fetch stats", error);
+        }
+      }
+    };
+    fetchStats();
+  }, [session]);
 
   // Redirect to home if not authenticated
   useEffect(() => {

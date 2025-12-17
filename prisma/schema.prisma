@@ -53,12 +53,47 @@ model User {
   emailVerified DateTime? @map("email_verified")
   image         String?
   walletAddress String?   @unique @map("wallet_address") // MetaMask wallet address
+  
+  // Profile Fields
+  bio           String?
+  location      String?
+  website       String?
+  twitter       String?
+  linkedin      String?
+  birthDate     DateTime?
+  interests     String[]  // Postgres supports array types
+  
+  // Settings
+  settings      Json?     @default("{}")
+
+  // Relations
   accounts      Account[]
   sessions      Session[]
   portfolio     Portfolio?
   watchlist     Watchlist[]
-
+  stats         UserStats?
+  
   @@map("users")
+}
+
+model UserStats {
+  id              String   @id @default(cuid())
+  userId          String   @unique @map("user_id")
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  totalViews      Int      @default(0)
+  searches        Int      @default(0)
+  favorites       Int      @default(0)
+  timeSpent       Float    @default(0.0)
+  
+  mostViewedCoins Json?    @default("[]")
+  searchHistory   Json?    @default("[]")
+  dailyActivity   Json?    @default("[]")
+  achievements    Json?    @default("[]")
+  
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@map("user_stats")
 }
 
 model Portfolio {

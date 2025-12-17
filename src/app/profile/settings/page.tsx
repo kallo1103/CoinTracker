@@ -51,6 +51,29 @@ export default function SettingsPage() {
     }
   }, [status, router]);
 
+  // Fetch settings on load
+  useEffect(() => {
+    const fetchSettings = async () => {
+        if (session) {
+            try {
+                const res = await fetch('/api/user/profile');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.settings && Object.keys(data.settings).length > 0) {
+                        setSettings(prev => ({
+                            ...prev,
+                            ...data.settings
+                        }));
+                    }
+                }
+            } catch (e) {
+                console.error("Failed to fetch settings", e);
+            }
+        }
+    };
+    fetchSettings();
+  }, [session]);
+
   // Show loading while checking session
   if (status === "loading") {
     return (
@@ -73,11 +96,18 @@ export default function SettingsPage() {
     setSaveStatus('idle');
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const res = await fetch('/api/user/profile', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ settings: settings })
+      });
+      
+      if (!res.ok) throw new Error("Failed to save settings");
+
       setSaveStatus('success');
       setTimeout(() => setSaveStatus('idle'), 3000);
-    } catch {
+    } catch (error) {
+      console.error(error);
       setSaveStatus('error');
       setTimeout(() => setSaveStatus('idle'), 3000);
     } finally {

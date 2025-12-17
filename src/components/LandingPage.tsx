@@ -143,7 +143,7 @@ export default function LandingPage() {
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
               <Link 
                 href="/app"
-                className="group relative px-8 py-4 bg-primary text-primary-foreground rounded-xl font-bold text-lg hover:shadow-[0_0_40px_-10px_var(--primary)] transition-all duration-300 overflow-hidden"
+                className="group relative px-8 py-4 bg-primary text-primary-foreground rounded-xl font-bold text-lg hover:shadow-[0_0_40px_-10px_var(--primary)] transition-all duration-300 overflow-hidden min-w-[200px] text-center flex justify-center"
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   {t('landing.cta.getStarted')}
@@ -152,7 +152,7 @@ export default function LandingPage() {
                 <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
               </Link>
               
-              <AuthButton large />
+              <AuthButton large className="min-w-[200px]" />
             </motion.div>
 
             {/* Benefits List */}

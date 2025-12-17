@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Search, X, TrendingUp, AlertCircle, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
@@ -34,6 +34,34 @@ export default function CryptoSearch() {
   const searchRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
+  const searchCoins = useCallback(async (searchQuery: string) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(`/api/search?q=${encodeURIComponent(searchQuery)}`);
+      const result: SearchResponse = await response.json();
+      
+      if (result.success) {
+        setResults(result.data.coins.slice(0, 10));
+        setShowResults(true);
+        // Record search stat if results found
+        if (result.data.coins.length > 0) {
+            recordSearchStat(searchQuery);
+        }
+      } else {
+        setError(result.error || 'Search failed');
+        setResults([]);
+      }
+    } catch (err) {
+      setError('Network error');
+      setResults([]);
+      console.error('Search error:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       if (query.trim().length >= 2) {
@@ -45,7 +73,7 @@ export default function CryptoSearch() {
     }, 300);
 
     return () => clearTimeout(timeoutId);
-  }, [query]);
+  }, [query, searchCoins]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -58,31 +86,46 @@ export default function CryptoSearch() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const searchCoins = async (searchQuery: string) => {
-    setLoading(true);
-    setError(null);
-
+  // Record search stat
+  const recordSearchStat = async (query: string) => {
     try {
-      const response = await fetch(`/api/search?q=${encodeURIComponent(searchQuery)}`);
-      const result: SearchResponse = await response.json();
-      
-      if (result.success) {
-        setResults(result.data.coins.slice(0, 10));
-        setShowResults(true);
-      } else {
-        setError(result.error || 'Search failed');
-        setResults([]);
-      }
-    } catch (err) {
-      setError('Network error');
-      setResults([]);
-      console.error('Search error:', err);
-    } finally {
-      setLoading(false);
+      await fetch('/api/user/stats', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'search',
+          data: { query }
+        })
+      });
+    } catch (e) {
+      console.error("Failed to record search stat", e);
     }
   };
 
-  const handleCoinSelect = (coinId: string) => {
+  // Record view stat
+  const recordViewStat = async (coinId: string, name: string, symbol: string) => {
+    try {
+      await fetch('/api/user/stats', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'view_coin',
+          data: { coinId, name, symbol }
+        })
+      });
+    } catch (e) {
+        console.error("Failed to record view stat", e);
+    }
+  };
+
+
+
+  const handleCoinSelect = async (coinId: string) => {
+    const selectedCoin = results.find(c => c.id === coinId);
+    if (selectedCoin) {
+        // Optimistically record view before navigation
+        await recordViewStat(selectedCoin.id, selectedCoin.name, selectedCoin.symbol);
+    }
     setQuery('');
     setResults([]);
     setShowResults(false);

@@ -13,7 +13,7 @@ import { createPortal } from "react-dom";
 
 type AuthMode = 'LOGIN' | 'REGISTER' | 'FORGOT_PASSWORD';
 
-export default function AuthButton({ large }: { large?: boolean }) {
+export default function AuthButton({ large, className = '' }: { large?: boolean; className?: string }) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
@@ -242,7 +242,7 @@ export default function AuthButton({ large }: { large?: boolean }) {
             : large
               ? 'group relative px-8 py-4 bg-primary text-primary-foreground rounded-xl font-bold text-lg hover:shadow-[0_0_40px_-10px_var(--primary)] overflow-hidden'
               : 'w-full px-6 py-3 gap-2 font-medium rounded-xl hover:-translate-y-0.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white shadow-lg shadow-blue-900/20 hover:shadow-blue-500/30'
-          }
+          } ${className}
         `}
         title={isCollapsed ? "Sign in" : ''}
       >
