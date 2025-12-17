@@ -13,7 +13,8 @@ import {
   Building2, 
   BookOpen, 
   Newspaper,
-  PieChart
+  PieChart,
+  Heart
 } from "lucide-react";
 import { getSidebarWidth } from '@/utils/responsive';
 
@@ -54,6 +55,7 @@ export default function Header() {
           <NavLink href="/exchange" icon={<Building2 size={20} />} label={t('nav.exchange')} isCollapsed={isCollapsed} />
           <NavLink href="/docs" icon={<BookOpen size={20} />} label={t('nav.docs')} isCollapsed={isCollapsed} />
           <NavLink href="/crypto-news" icon={<Newspaper size={20} />} label={t('nav.news')} isCollapsed={isCollapsed} />
+          <NavLink href="/watchlist" icon={<Heart size={20} />} label="Watchlist" isCollapsed={isCollapsed} />
         </nav>
 
         {/* Bottom Controls */}

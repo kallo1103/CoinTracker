@@ -56,6 +56,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   portfolio     Portfolio?
+  watchlist     Watchlist[]
 
   @@map("users")
 }
@@ -94,4 +95,17 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map("verificationtokens")
+}
+
+model Watchlist {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  coinId    String   @map("coin_id") // CoinGecko ID
+  symbol    String
+  name      String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@unique([userId, coinId])
+  @@map("watchlists")
 }

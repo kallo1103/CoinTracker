@@ -3,6 +3,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { Search, X, TrendingUp, AlertCircle, ChevronRight } from 'lucide-react';
+import Image from 'next/image';
+import WatchlistButton from '@/components/WatchlistButton';
 
 interface SearchResult {
   id: string;
@@ -156,14 +158,25 @@ export default function CryptoSearch() {
                   group transition-all duration-200
                 "
               >
-                <div className="flex items-center">
-                  <div className="relative">
-                    {coin.market_cap_rank && coin.market_cap_rank <= 10 && (
-                      <div className="absolute -top-1 -right-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-lg">
-                        {coin.market_cap_rank}
-                      </div>
-                    )}
-                  </div>
+                  <div className="flex items-center">
+                    <div onClick={(e) => e.stopPropagation()} className="mr-2">
+                       <WatchlistButton 
+                          coinId={coin.id} 
+                          symbol={coin.symbol} 
+                          name={coin.name} 
+                          size={18}
+                        />
+                    </div>
+                    <div className="relative">
+                      {coin.thumb && (
+                          <Image src={coin.thumb} alt={coin.name} width={32} height={32} unoptimized className="w-8 h-8 rounded-full mr-3" />
+                      )}
+                      {coin.market_cap_rank && coin.market_cap_rank <= 10 && (
+                        <div className="absolute -top-1 -right-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-lg">
+                          {coin.market_cap_rank}
+                        </div>
+                      )}
+                    </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between">
                       <p className="text-sm font-semibold text-slate-200 group-hover:text-white transition-colors truncate">

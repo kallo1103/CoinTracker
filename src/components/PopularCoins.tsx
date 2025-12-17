@@ -117,7 +117,7 @@ export default function PopularCoins({ limit = 8 }: PopularCoinsProps) {
                 src={coin.image} 
                 symbol={coin.symbol}
                 size={48}
-                className="rounded-full mx-auto ring-2 ring-gray-600 group-hover:ring-blue-400 transition-all duration-200"
+                className="rounded-full mx-auto transition-all duration-200"
               />
               {coin.market_cap_rank <= 3 && (
                 <div className="absolute -top-1 -right-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-lg">

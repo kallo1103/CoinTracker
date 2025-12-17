@@ -5,25 +5,31 @@ import { NextResponse } from 'next/server';
 // Endpoint: /api/price-history
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
+  const coinIdParam = searchParams.get('coinId');
   const symbol = searchParams.get('symbol') || 'BTC'; // Coin symbol
   const count = searchParams.get('count') || '30'; // Số ngày
-  
+
   try {
-    // Map symbol sang CoinGecko ID
-    const coinMap: { [key: string]: string } = {
-      'BTC': 'bitcoin',
-      'ETH': 'ethereum',
-      'BNB': 'binancecoin',
-      'SOL': 'solana',
-      'ADA': 'cardano',
-      'XRP': 'ripple',
-      'DOT': 'polkadot',
-      'DOGE': 'dogecoin',
-      'MATIC': 'matic-network',
-      'LTC': 'litecoin',
-    };
-    
-    const coinId = coinMap[symbol.toUpperCase()] || 'bitcoin';
+    let coinId = coinIdParam;
+
+    if (!coinId) {
+      // Map symbol sang CoinGecko ID
+      const coinMap: { [key: string]: string } = {
+        'BTC': 'bitcoin',
+        'ETH': 'ethereum',
+        'BNB': 'binancecoin',
+        'SOL': 'solana',
+        'ADA': 'cardano',
+        'XRP': 'ripple',
+        'DOT': 'polkadot',
+        'DOGE': 'dogecoin',
+        'MATIC': 'matic-network',
+        'LTC': 'litecoin',
+      };
+
+      coinId = coinMap[symbol.toUpperCase()] || 'bitcoin';
+    }
+
     const days = count;
 
     // Gọi CoinGecko API - hoàn toàn miễn phí, không cần API key
@@ -42,7 +48,7 @@ export async function GET(request: Request) {
     }
 
     const data = await response.json();
-    
+
     // Format dữ liệu từ CoinGecko
     // Data format: [timestamp, open, high, low, close]
     const formattedData = data.map((item: number[]) => ({
@@ -54,7 +60,7 @@ export async function GET(request: Request) {
       close: item[4],
       volume: 0, // CoinGecko OHLC không bao gồm volume trong free tier
     }));
-    
+
     return NextResponse.json({
       success: true,
       symbol: symbol,
@@ -62,7 +68,7 @@ export async function GET(request: Request) {
       source: 'CoinGecko API (Free)',
       timestamp: new Date().toISOString()
     });
-    
+
   } catch (error) {
     console.error('Error fetching price history:', error);
     // Fallback to mock data nếu CoinGecko cũng lỗi
@@ -75,7 +81,7 @@ function generateMockData(symbol: string, count: number) {
   const basePrice = symbol === 'BTC' ? 65000 : symbol === 'ETH' ? 3500 : 100;
   const data = [];
   const now = Date.now();
-  
+
   for (let i = count - 1; i >= 0; i--) {
     const timestamp = now - (i * 24 * 60 * 60 * 1000); // Mỗi ngày
     const randomChange = (Math.random() - 0.5) * 0.05; // ±5% change
@@ -84,7 +90,7 @@ function generateMockData(symbol: string, count: number) {
     const close = price * (1 + (Math.random() - 0.5) * 0.02);
     const high = Math.max(open, close) * (1 + Math.random() * 0.02);
     const low = Math.min(open, close) * (1 - Math.random() * 0.02);
-    
+
     data.push({
       timestamp,
       date: new Date(timestamp).toLocaleDateString('vi-VN'),
@@ -95,7 +101,7 @@ function generateMockData(symbol: string, count: number) {
       volume: Math.random() * 1000000000,
     });
   }
-  
+
   return NextResponse.json({
     success: true,
     symbol: symbol,

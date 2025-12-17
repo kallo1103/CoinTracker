@@ -3,6 +3,7 @@
 import { SessionProvider } from "next-auth/react";
 import { ReactNode } from "react";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { WatchlistProvider } from "@/contexts/WatchlistContext";
 
 import { ThemeProvider } from "@/components/ThemeProvider";
 
@@ -17,7 +18,9 @@ export default function Providers({ children }: { children: ReactNode }) {
         disableTransitionOnChange
       >
         <LanguageProvider>
-          {children}
+          <WatchlistProvider>
+            {children}
+          </WatchlistProvider>
         </LanguageProvider>
       </ThemeProvider>
     </SessionProvider>

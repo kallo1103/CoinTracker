@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, Fragment } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Plus, Trash2, TrendingUp, TrendingDown, Wallet, Loader2 } from "lucide-react";
+import { Plus, Trash2, TrendingUp, TrendingDown, Wallet, Loader2, ChevronDown, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { CoinImage } from "@/components/OptimizedImage";
+import PortfolioHistoryChart from "@/components/PortfolioHistoryChart";
 
 interface Asset {
   id: string;
@@ -15,6 +16,16 @@ interface Asset {
   quantity: number;
   buyPrice: number;
   buyDate: string;
+}
+
+interface GroupedAsset {
+  coinId: string;
+  symbol: string;
+  name: string;
+  totalQuantity: number;
+  totalInvestment: number;
+  avgBuyPrice: number;
+  ids: string[];
 }
 
 interface CoinData {
@@ -36,6 +47,9 @@ export default function PortfolioPage() {
   const router = useRouter();
   
   const [assets, setAssets] = useState<Asset[]>([]);
+  const [groupedAssets, setGroupedAssets] = useState<GroupedAsset[]>([]);
+  const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({});
+
   const [marketData, setMarketData] = useState<Record<string, CoinData>>({});
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -82,13 +96,41 @@ export default function PortfolioPage() {
     }
   };
 
-  // Fetch Assets
+  // Fetch Assets and Aggregate
   const fetchAssets = useCallback(async () => {
     try {
       const res = await fetch("/api/portfolio/assets");
       const data = await res.json();
       if (Array.isArray(data)) {
         setAssets(data);
+        
+        // Aggregate Assets
+        const groups: Record<string, GroupedAsset> = {};
+        data.forEach((asset: Asset) => {
+           if (!groups[asset.coinId]) {
+             groups[asset.coinId] = {
+               coinId: asset.coinId,
+               symbol: asset.symbol,
+               name: asset.name,
+               totalQuantity: 0,
+               totalInvestment: 0,
+               avgBuyPrice: 0,
+               ids: []
+             };
+           }
+           const group = groups[asset.coinId];
+           group.totalQuantity += asset.quantity;
+           group.totalInvestment += (asset.quantity * asset.buyPrice);
+           group.ids.push(asset.id);
+        });
+
+        const result = Object.values(groups).map(g => ({
+          ...g,
+          avgBuyPrice: g.totalQuantity > 0 ? g.totalInvestment / g.totalQuantity : 0
+        }));
+
+        setGroupedAssets(result);
+
         if (data.length > 0) {
           const coinIds = Array.from(new Set(data.map((a: Asset) => a.coinId))).join(",");
           fetchMarketData(coinIds);
@@ -108,22 +150,22 @@ export default function PortfolioPage() {
     }
   }, [session, fetchAssets]);
 
-  // Tính toán tổng quan
+  // Tính toán tổng quan based on aggregated data
   useEffect(() => {
     let balance = 0;
     let investment = 0;
 
-    assets.forEach(asset => {
-      const coin = marketData[asset.coinId];
+    groupedAssets.forEach(group => {
+      const coin = marketData[group.coinId];
       if (coin) {
-        balance += asset.quantity * coin.current_price;
+        balance += group.totalQuantity * coin.current_price;
       }
-      investment += asset.quantity * asset.buyPrice;
+      investment += group.totalInvestment;
     });
 
     setTotalBalance(balance);
     setTotalInvestment(investment);
-  }, [assets, marketData]);
+  }, [groupedAssets, marketData]);
 
   const searchCoins = async (query: string) => {
     if (query.length < 2) {
@@ -194,6 +236,13 @@ export default function PortfolioPage() {
     }
   };
 
+  const toggleGroup = (coinId: string) => {
+    setExpandedGroups(prev => ({
+      ...prev,
+      [coinId]: !prev[coinId]
+    }));
+  };
+
   if (status === "loading" || (loading && assets.length === 0)) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -262,37 +311,46 @@ export default function PortfolioPage() {
         </motion.div>
       </div>
 
+      {groupedAssets.length > 0 && (
+        <PortfolioHistoryChart assets={groupedAssets} />
+      )}
+
       {/* Assets Table */}
       <div className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 rounded-2xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr className="bg-gray-800/50 text-gray-400 text-left text-sm">
+                <th className="p-4 font-medium w-8"></th>
                 <th className="p-4 font-medium">Asset</th>
                 <th className="p-4 font-medium text-right">Price</th>
                 <th className="p-4 font-medium text-right">Balance</th>
                 <th className="p-4 font-medium text-right">Value</th>
                 <th className="p-4 font-medium text-right">Avg. Buy Price</th>
                 <th className="p-4 font-medium text-right">Profit/Loss</th>
-                <th className="p-4 font-medium text-right">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {assets.map((asset) => {
-                const coin = marketData[asset.coinId];
+              {groupedAssets.map((group) => {
+                const coin = marketData[group.coinId];
                 const currentPrice = coin?.current_price || 0;
-                const value = asset.quantity * currentPrice;
-                const pnl = value - (asset.quantity * asset.buyPrice);
-                const pnlPercent = asset.buyPrice > 0 ? (pnl / (asset.quantity * asset.buyPrice)) * 100 : 0;
+                const value = group.totalQuantity * currentPrice;
+                const pnl = value - group.totalInvestment;
+                const pnlPercent = group.totalInvestment > 0 ? (pnl / group.totalInvestment) * 100 : 0;
+                const isExpanded = expandedGroups[group.coinId];
 
                 return (
-                  <tr key={asset.id} className="border-t border-gray-800 hover:bg-gray-800/30 transition-colors">
-                    <td className="p-4">
+                  <Fragment key={group.coinId}>
+                  <tr className={`border-t border-gray-800 hover:bg-gray-800/30 transition-colors ${isExpanded ? 'bg-gray-800/20' : ''}`} onClick={() => toggleGroup(group.coinId)}>
+                    <td className="p-4 cursor-pointer text-gray-400">
+                      {isExpanded ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+                    </td>
+                    <td className="p-4 cursor-pointer">
                       <div className="flex items-center gap-3">
-                        {coin?.image && <CoinImage src={coin.image} symbol={asset.symbol} size={32} className="rounded-full" />}
+                        {coin?.image && <CoinImage src={coin.image} symbol={group.symbol} size={32} className="rounded-full" />}
                         <div>
-                          <div className="font-bold text-white">{asset.name}</div>
-                          <div className="text-sm text-gray-500 uppercase">{asset.symbol}</div>
+                          <div className="font-bold text-white">{group.name}</div>
+                          <div className="text-sm text-gray-500 uppercase">{group.symbol}</div>
                         </div>
                       </div>
                     </td>
@@ -300,14 +358,13 @@ export default function PortfolioPage() {
                       ${currentPrice.toLocaleString()}
                     </td>
                     <td className="p-4 text-right">
-                      <div className="text-white font-medium">{asset.quantity}</div>
-                      <div className="text-sm text-gray-500 uppercase">{asset.symbol}</div>
+                      <div className="text-white font-medium">{group.totalQuantity}</div>
                     </td>
                     <td className="p-4 text-right font-bold text-white">
                       ${value.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                     </td>
                     <td className="p-4 text-right text-gray-400">
-                      ${asset.buyPrice.toLocaleString()}
+                      ${group.avgBuyPrice.toLocaleString()}
                     </td>
                     <td className="p-4 text-right">
                       <div className={`font-medium ${pnl >= 0 ? "text-green-400" : "text-red-400"}`}>
@@ -317,18 +374,42 @@ export default function PortfolioPage() {
                         {pnlPercent.toFixed(2)}%
                       </div>
                     </td>
-                    <td className="p-4 text-right">
-                      <button 
-                        onClick={() => handleDeleteAsset(asset.id)}
-                        className="p-2 hover:bg-red-500/20 text-red-400 rounded-lg transition-colors"
-                      >
-                        <Trash2 size={18} />
-                      </button>
-                    </td>
                   </tr>
+                  
+                  {/* Expanded Rows */}
+                  {isExpanded && assets.filter(a => a.coinId === group.coinId).map((asset) => {
+                     const assetPnl = (asset.quantity * currentPrice) - (asset.quantity * asset.buyPrice);
+                     const assetPnlPercent = asset.buyPrice > 0 ? (assetPnl / (asset.quantity * asset.buyPrice)) * 100 : 0;
+                     
+                     return (
+                        <tr key={asset.id} className="bg-gray-900/30 border-t border-gray-800/50">
+                            <td className="p-4"></td>
+                            <td className="p-4 pl-12 text-sm text-gray-400">Lot {new Date(asset.buyDate).toLocaleDateString()}</td>
+                            <td className="p-4 text-right">-</td>
+                            <td className="p-4 text-right text-gray-400">{asset.quantity}</td>
+                            <td className="p-4 text-right text-gray-400">${(asset.quantity * currentPrice).toLocaleString()}</td>
+                            <td className="p-4 text-right text-gray-400">${asset.buyPrice.toLocaleString()}</td>
+                            <td className="p-4 text-right text-sm">
+                                <span className={assetPnl >= 0 ? "text-green-500/80" : "text-red-500/80"}>
+                                    {assetPnlPercent.toFixed(2)}%
+                                </span>
+                            </td>
+                            <td className="p-4 text-right">
+                                <button 
+                                    onClick={(e) => { e.stopPropagation(); handleDeleteAsset(asset.id); }}
+                                    className="p-1 hover:bg-red-500/20 text-red-400 rounded transition-colors"
+                                    title="Delete this lot"
+                                >
+                                    <Trash2 size={14} />
+                                </button>
+                            </td>
+                        </tr>
+                     );
+                  })}
+                  </Fragment>
                 );
               })}
-              {assets.length === 0 && (
+              {groupedAssets.length === 0 && (
                 <tr>
                   <td colSpan={7} className="p-8 text-center text-gray-500">
                     Your portfolio is empty. Add your first asset!
