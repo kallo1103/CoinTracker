@@ -62,7 +62,10 @@ export default function SettingsPage() {
                     if (data.settings && Object.keys(data.settings).length > 0) {
                         setSettings(prev => ({
                             ...prev,
-                            ...data.settings
+                            notifications: { ...prev.notifications, ...(data.settings.notifications || {}) },
+                            privacy: { ...prev.privacy, ...(data.settings.privacy || {}) },
+                            appearance: { ...prev.appearance, ...(data.settings.appearance || {}) },
+                            security: { ...prev.security, ...(data.settings.security || {}) },
                         }));
                     }
                 }

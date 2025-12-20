@@ -4,13 +4,11 @@ import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import CryptoSearch from "@/components/CryptoSearch";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { 
   User, 
   Mail, 
   Check, 
-  Search, 
   User as ProfileIcon, 
   Settings, 
   BarChart3, 
@@ -173,7 +171,7 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        {/* Search Section */}
+        {/* Search Section
         <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl shadow-2xl p-8 mb-8 hover:shadow-3xl transition-all duration-300 relative z-50">
           <div className="text-center mb-6">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-4">
@@ -187,7 +185,7 @@ export default function ProfilePage() {
           <div className="flex justify-center">
             <CryptoSearch />
           </div>
-        </div>
+        </div> */}
 
 
         {/* Quick actions */}

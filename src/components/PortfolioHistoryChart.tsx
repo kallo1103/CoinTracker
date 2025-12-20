@@ -156,9 +156,9 @@ export default function PortfolioHistoryChart({ assets }: PortfolioHistoryChartP
   }
 
   return (
-    <div className="h-[350px] w-full bg-gray-900/50 backdrop-blur-xl border border-gray-800 p-6 rounded-xl mb-8">
-       <h3 className="text-xl font-bold text-white mb-6">Portfolio Performance (30D)</h3>
-       <div className="h-[250px] w-full">
+    <div className="w-full bg-gray-900/50 backdrop-blur-xl border border-gray-800 p-6 rounded-2xl mb-8">
+       <h3 className="text-xl font-bold text-white mb-4">Portfolio Performance (30D)</h3>
+       <div className="h-[300px] w-full">
          <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={data}>
               <defs>

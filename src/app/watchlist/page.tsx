@@ -1,52 +1,30 @@
 "use client";
 
 import { useWatchlist } from "@/contexts/WatchlistContext";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import WatchlistButton from "@/components/WatchlistButton";
 import { CoinImage } from "@/components/OptimizedImage";
 import { Loader2, TrendingUp, TrendingDown } from "lucide-react";
 import Link from "next/link";
-
-interface CoinData {
-  id: string;
-  name: string;
-  symbol: string;
-  current_price: number;
-  price_change_percentage_24h: number;
-  image: string;
-  market_cap: number;
-  total_volume: number;
-}
+import { useMarketData } from "@/hooks/useMarketData";
 
 export default function WatchlistPage() {
   const { watchlist, isLoading: isWatchlistLoading } = useWatchlist();
-  const [marketData, setMarketData] = useState<CoinData[]>([]);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    if (watchlist.length > 0) {
-      const ids = watchlist.map(w => w.coinId).join(",");
-      fetchMarketData(ids);
-    } else {
-        setMarketData([]);
-    }
+  // Derive coin IDs for market data
+  const coinIds = useMemo(() => {
+    return watchlist.map(w => w.coinId).join(",");
   }, [watchlist]);
 
-  const fetchMarketData = async (ids: string) => {
-    setIsLoading(true);
-    try {
-      const res = await fetch(`/api/coins/markets?ids=${ids}`);
-      const data = await res.json();
-      if (data.success && Array.isArray(data.data)) {
-        setMarketData(data.data);
-      }
-    } catch (error) {
-      console.error("Failed to fetch market data", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { data: marketDataList = [] } = useMarketData(coinIds);
+
+  const marketData = useMemo(() => {
+    const map: Record<string, { current_price: number; image: string; price_change_percentage_24h: number; market_cap: number; total_volume: number }> = {};
+    marketDataList.forEach(coin => {
+      map[coin.id] = coin;
+    });
+    return map;
+  }, [marketDataList]);
 
   if (isWatchlistLoading) {
     return (
@@ -90,7 +68,7 @@ export default function WatchlistPage() {
               </thead>
               <tbody>
                 {watchlist.map((item) => {
-                  const coin = marketData.find(c => c.id === item.coinId);
+                  const coin = marketData[item.coinId];
                   
                   return (
                     <tr key={item.id} className="border-t border-gray-800 hover:bg-gray-800/30 transition-colors">

@@ -19,6 +19,8 @@ export const metadata: Metadata = {
   },
 };
 
+import QueryProvider from "@/components/QueryProvider";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -34,13 +36,15 @@ export default function RootLayout({
       </head>
       <body className="antialiased min-h-screen text-white">
         <Providers>
-          <NavbarProvider>
-            <ErrorBoundary>
-              <ConditionalLayout>
-                {children}
-              </ConditionalLayout>
-            </ErrorBoundary>
-          </NavbarProvider>
+          <QueryProvider>
+            <NavbarProvider>
+              <ErrorBoundary>
+                <ConditionalLayout>
+                  {children}
+                </ConditionalLayout>
+              </ErrorBoundary>
+            </NavbarProvider>
+          </QueryProvider>
         </Providers>
         {/* Vercel Speed Insights - theo dõi hiệu suất ứng dụng */}
         <SpeedInsights />

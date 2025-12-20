@@ -1,22 +1,15 @@
 "use client";
 
-import { useState, useEffect, useCallback, Fragment } from "react";
+import { useState, useMemo, Fragment } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Plus, Trash2, TrendingUp, TrendingDown, Wallet, Loader2, ChevronDown, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { CoinImage } from "@/components/OptimizedImage";
 import PortfolioHistoryChart from "@/components/PortfolioHistoryChart";
-
-interface Asset {
-  id: string;
-  coinId: string;
-  symbol: string;
-  name: string;
-  quantity: number;
-  buyPrice: number;
-  buyDate: string;
-}
+import PortfolioPieChart from "@/components/PortfolioPieChart";
+import { usePortfolioAssets, useAddAsset, useDeleteAsset } from "@/hooks/usePortfolio";
+import { useMarketData, useCryptoSearch } from "@/hooks/useMarketData";
 
 interface GroupedAsset {
   coinId: string;
@@ -28,13 +21,6 @@ interface GroupedAsset {
   ids: string[];
 }
 
-interface CoinData {
-  id: string;
-  current_price: number;
-  image: string;
-  price_change_percentage_24h: number;
-}
-
 interface CoinSearchResult {
   id: string;
   name: string;
@@ -43,21 +29,21 @@ interface CoinSearchResult {
 }
 
 export default function PortfolioPage() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const router = useRouter();
   
-  const [assets, setAssets] = useState<Asset[]>([]);
-  const [groupedAssets, setGroupedAssets] = useState<GroupedAsset[]>([]);
-  const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({});
+  if (status === "unauthenticated") {
+    router.push("/api/auth/signin");
+  }
 
-  const [marketData, setMarketData] = useState<Record<string, CoinData>>({});
-  const [loading, setLoading] = useState(true);
+  // Hook integrations
+  const { data: assets = [], isLoading: assetsLoading } = usePortfolioAssets();
+  const addAssetMutation = useAddAsset();
+  const deleteAssetMutation = useDeleteAsset();
+
+  const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   
-  // Tổng quan portfolio
-  const [totalBalance, setTotalBalance] = useState(0);
-  const [totalInvestment, setTotalInvestment] = useState(0);
-
   // Form state
   const [formData, setFormData] = useState({
     coinId: "",
@@ -68,90 +54,53 @@ export default function PortfolioPage() {
   });
 
   // Search state
-  const [searchResults, setSearchResults] = useState<CoinSearchResult[]>([]);
-  const [isSearching, setIsSearching] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const { data: searchResults = [], isLoading: isSearching } = useCryptoSearch(searchQuery);
 
-  // Redirect nếu chưa login
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/api/auth/signin");
-    }
-  }, [status, router]);
+  // Derive coin IDs for market data
+  const coinIds = useMemo(() => {
+    return Array.from(new Set(assets.map(a => a.coinId))).join(",");
+  }, [assets]);
 
-  const fetchMarketData = async (ids: string) => {
-    try {
-      const res = await fetch(`/api/coins/markets?ids=${ids}`);
-      const data = await res.json();
-      if (data.success && Array.isArray(data.data)) {
-        const marketMap: Record<string, CoinData> = {};
-        data.data.forEach((coin: CoinData) => {
-          marketMap[coin.id] = coin;
-        });
-        setMarketData(marketMap);
-      }
-    } catch (error) {
-      console.error("Failed to fetch market data", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { data: marketDataList = [] } = useMarketData(coinIds);
 
-  // Fetch Assets and Aggregate
-  const fetchAssets = useCallback(async () => {
-    try {
-      const res = await fetch("/api/portfolio/assets");
-      const data = await res.json();
-      if (Array.isArray(data)) {
-        setAssets(data);
-        
-        // Aggregate Assets
-        const groups: Record<string, GroupedAsset> = {};
-        data.forEach((asset: Asset) => {
-           if (!groups[asset.coinId]) {
-             groups[asset.coinId] = {
-               coinId: asset.coinId,
-               symbol: asset.symbol,
-               name: asset.name,
-               totalQuantity: 0,
-               totalInvestment: 0,
-               avgBuyPrice: 0,
-               ids: []
-             };
-           }
-           const group = groups[asset.coinId];
-           group.totalQuantity += asset.quantity;
-           group.totalInvestment += (asset.quantity * asset.buyPrice);
-           group.ids.push(asset.id);
-        });
+  const marketData = useMemo(() => {
+    const map: Record<string, { current_price: number; image: string }> = {};
+    marketDataList.forEach(coin => {
+      map[coin.id] = coin;
+    });
+    return map;
+  }, [marketDataList]);
 
-        const result = Object.values(groups).map(g => ({
-          ...g,
-          avgBuyPrice: g.totalQuantity > 0 ? g.totalInvestment / g.totalQuantity : 0
-        }));
+  // Aggregate Assets
+  const groupedAssets = useMemo(() => {
+    const groups: Record<string, GroupedAsset> = {};
+    assets.forEach((asset) => {
+       if (!groups[asset.coinId]) {
+         groups[asset.coinId] = {
+           coinId: asset.coinId,
+           symbol: asset.symbol,
+           name: asset.name,
+           totalQuantity: 0,
+           totalInvestment: 0,
+           avgBuyPrice: 0,
+           ids: []
+         };
+       }
+       const group = groups[asset.coinId];
+       group.totalQuantity += asset.quantity;
+       group.totalInvestment += (asset.quantity * asset.buyPrice);
+       group.ids.push(asset.id);
+    });
 
-        setGroupedAssets(result);
+    return Object.values(groups).map(g => ({
+      ...g,
+      avgBuyPrice: g.totalQuantity > 0 ? g.totalInvestment / g.totalQuantity : 0
+    }));
+  }, [assets]);
 
-        if (data.length > 0) {
-          const coinIds = Array.from(new Set(data.map((a: Asset) => a.coinId))).join(",");
-          fetchMarketData(coinIds);
-        } else {
-            setLoading(false);
-        }
-      }
-    } catch (error) {
-      console.error("Failed to fetch assets", error);
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (session?.user) {
-      fetchAssets();
-    }
-  }, [session, fetchAssets]);
-
-  // Tính toán tổng quan based on aggregated data
-  useEffect(() => {
+  // Calculate Totals
+  const { totalBalance, totalInvestment } = useMemo(() => {
     let balance = 0;
     let investment = 0;
 
@@ -163,30 +112,11 @@ export default function PortfolioPage() {
       investment += group.totalInvestment;
     });
 
-    setTotalBalance(balance);
-    setTotalInvestment(investment);
+    return { totalBalance: balance, totalInvestment: investment };
   }, [groupedAssets, marketData]);
 
-  const searchCoins = async (query: string) => {
-    if (query.length < 2) {
-      setSearchResults([]);
-      setIsSearching(false); // Ensure searching state is reset
-      return;
-    }
-    
-    setIsSearching(true);
-    try {
-      const res = await fetch(`/api/coins/search?query=${query}`);
-      const data = await res.json();
-      if (data.coins) {
-        setSearchResults(data.coins.slice(0, 5));
-      }
-    } catch (error) {
-      console.error("Search failed", error);
-    } finally {
-      setIsSearching(false);
-    }
-  };
+  const totalPnL = totalBalance - totalInvestment;
+  const totalPnLPercent = totalInvestment > 0 ? (totalPnL / totalInvestment) * 100 : 0;
 
   const selectCoin = (coin: CoinSearchResult) => {
     setFormData({
@@ -195,42 +125,28 @@ export default function PortfolioPage() {
       name: coin.name,
       symbol: coin.symbol
     });
-    setSearchResults([]);
+    setSearchQuery(""); // Clear search
   };
 
   const handleAddAsset = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     try {
-      const res = await fetch("/api/portfolio/assets", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+      await addAssetMutation.mutateAsync({
+        ...formData,
+        quantity: parseFloat(formData.quantity),
+        buyPrice: parseFloat(formData.buyPrice)
       });
-
-      if (res.ok) {
-        setIsModalOpen(false);
-        setFormData({ coinId: "", symbol: "", name: "", quantity: "", buyPrice: "" });
-        fetchAssets(); // Refresh list
-      }
+      setIsModalOpen(false);
+      setFormData({ coinId: "", symbol: "", name: "", quantity: "", buyPrice: "" });
     } catch (error) {
       console.error("Error adding asset", error);
-    } finally {
-      setLoading(false);
     }
   };
   
-    const handleDeleteAsset = async (id: string) => {
+  const handleDeleteAsset = async (id: string) => {
     if (!confirm("Are you sure you want to delete this asset?")) return;
-    
     try {
-      const res = await fetch(`/api/portfolio/assets/${id}`, {
-        method: "DELETE",
-      });
-      
-      if (res.ok) {
-        fetchAssets();
-      }
+      await deleteAssetMutation.mutateAsync(id);
     } catch (error) {
       console.error("Error deleting asset", error);
     }
@@ -243,16 +159,13 @@ export default function PortfolioPage() {
     }));
   };
 
-  if (status === "loading" || (loading && assets.length === 0)) {
+  if (status === "loading" || assetsLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Loader2 className="w-8 h-8 animate-spin text-primary" />
       </div>
     );
   }
-
-  const totalPnL = totalBalance - totalInvestment;
-  const totalPnLPercent = totalInvestment > 0 ? (totalPnL / totalInvestment) * 100 : 0;
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
@@ -312,7 +225,15 @@ export default function PortfolioPage() {
       </div>
 
       {groupedAssets.length > 0 && (
-        <PortfolioHistoryChart assets={groupedAssets} />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+             <PortfolioPieChart assets={groupedAssets.map(a => ({
+                name: a.name,
+                symbol: a.symbol,
+                totalQuantity: a.totalQuantity,
+                currentPrice: marketData[a.coinId]?.current_price || 0
+             }))} />
+             <PortfolioHistoryChart assets={groupedAssets} />
+        </div>
       )}
 
       {/* Assets Table */}
@@ -377,7 +298,7 @@ export default function PortfolioPage() {
                   </tr>
                   
                   {/* Expanded Rows */}
-                  {isExpanded && assets.filter(a => a.coinId === group.coinId).map((asset) => {
+                  {isExpanded && assets.filter((a) => a.coinId === group.coinId).map((asset) => {
                      const assetPnl = (asset.quantity * currentPrice) - (asset.quantity * asset.buyPrice);
                      const assetPnlPercent = asset.buyPrice > 0 ? (assetPnl / (asset.quantity * asset.buyPrice)) * 100 : 0;
                      
@@ -439,21 +360,25 @@ export default function PortfolioPage() {
                       type="text"
                       className="w-full bg-gray-800 border border-gray-700 rounded-xl p-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
                       placeholder="Type bitcoin, ethereum..."
-                      value={formData.name} // Use name for display
+                      value={formData.name || searchQuery} // Show formData.name if selected, else search query
                       onChange={(e) => {
-                        setFormData({ ...formData, name: e.target.value });
-                        searchCoins(e.target.value);
+                        const val = e.target.value;
+                        setSearchQuery(val);
+                        // If user clears input or types new, clear selection
+                        if (val !== formData.name) {
+                            setFormData(prev => ({ ...prev, name: "", coinId: "", symbol: "" }));
+                        }
                       }}
                     />
                     
                     {/* Search Results Dropdown */}
-                    {isSearching && (
+                    {isSearching && searchQuery.length >= 2 && (
                        <div className="absolute z-10 w-full mt-1 bg-gray-800 border border-gray-700 rounded-xl p-3 text-center text-gray-400 shadow-xl">
                           Searching...
                        </div>
                     )}
                     
-                    {!isSearching && searchResults.length > 0 && (
+                    {searchResults.length > 0 && searchQuery.length >= 2 && !formData.coinId && (
                       <div className="absolute z-10 w-full mt-1 bg-gray-800 border border-gray-700 rounded-xl max-h-60 overflow-y-auto shadow-xl">
                         {searchResults.map((coin) => (
                           <div
@@ -521,10 +446,10 @@ export default function PortfolioPage() {
                   </button>
                   <button
                     type="submit"
-                    disabled={loading}
+                    disabled={addAssetMutation.isPending}
                     className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-colors disabled:opacity-50"
                   >
-                    {loading ? "Adding..." : "Add Asset"}
+                    {addAssetMutation.isPending ? "Adding..." : "Add Asset"}
                   </button>
                 </div>
               </form>
