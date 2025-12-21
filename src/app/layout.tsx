@@ -5,6 +5,7 @@ import { NavbarProvider } from "@/contexts/NavbarContext";
 import Providers from "@/components/Providers";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ErrorBoundary } from '@/components/ErrorBoundary';
+import AIChatbot from "@/components/AIChatbot";
 
 export const metadata: Metadata = {
   title: "Crypto Tracker",
@@ -34,7 +35,7 @@ export default function RootLayout({
         <link rel="alternate icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/favicon.svg" />
       </head>
-      <body className="antialiased min-h-screen text-white">
+      <body className="antialiased min-h-screen text-white" suppressHydrationWarning>
         <Providers>
           <QueryProvider>
             <NavbarProvider>
@@ -42,6 +43,7 @@ export default function RootLayout({
                 <ConditionalLayout>
                   {children}
                 </ConditionalLayout>
+                <AIChatbot />
               </ErrorBoundary>
             </NavbarProvider>
           </QueryProvider>
