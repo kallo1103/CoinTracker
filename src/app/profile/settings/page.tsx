@@ -4,13 +4,11 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import LanguageSelector from "@/components/LanguageSelector";
 import { 
   ArrowLeft, 
   Settings, 
   Bell, 
   Shield, 
-  Palette, 
   Save,
   Check,
   X
@@ -163,28 +161,8 @@ export default function SettingsPage() {
           </div>
         )}
 
-        {/* Theme and Language Controls */}
-        <div className="bg-white dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 mb-8">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-gray-700/50 dark:bg-gray-600/50 rounded-xl">
-              <Palette className="w-6 h-6 text-gray-300 dark:text-white" />
-            </div>
-            <h2 className="text-2xl font-bold text-white">{t('settings.appearance')}</h2>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Language Control */}
-            <div>
-              <label className="block text-white font-medium mb-3">{t('settings.language')}</label>
-              <div className="flex items-center gap-3">
-                <LanguageSelector />
-                <span className="text-sm text-gray-600 dark:text-gray-300">
-                  Chọn ngôn ngữ hiển thị
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Theme and Language Controls - Removed */}
+        {/* You can add other appearance settings here if needed */}
 
         {/* Settings Sections */}
         <div className="space-y-8">
@@ -322,10 +300,10 @@ export default function SettingsPage() {
                   onChange={(e) => updateSetting('security', 'sessionTimeout', parseInt(e.target.value))}
                   className="w-full p-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
-                  <option value={15}>15 phút</option>
-                  <option value={30}>30 phút</option>
-                  <option value={60}>1 giờ</option>
-                  <option value={120}>2 giờ</option>
+                  <option value={15}>15 minutes</option>
+                  <option value={30}>30 minutes</option>
+                  <option value={60}>1 hour</option>
+                  <option value={120}>2 hours</option>
                 </select>
               </div>
             </div>

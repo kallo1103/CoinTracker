@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLanguage } from "@/contexts/LanguageContext";
 import AuthButton from "@/components/AuthButton";
-import LanguageSelector from "@/components/LanguageSelector";
 import {
   BarChart3,
   Search,
@@ -98,7 +97,6 @@ export default function Header() {
 
           {/* Right Actions */}
           <div className="hidden lg:flex items-center gap-4">
-            <LanguageSelector />
             <AuthButton />
           </div>
 
@@ -135,10 +133,6 @@ export default function Header() {
                 ))}
               </nav>
               <div className="border-t border-white/10 pt-4 flex flex-col gap-4">
-                <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-400">Language</span>
-                    <LanguageSelector />
-                </div>
                 <div className="flex justify-center">
                    <AuthButton />
                 </div>
