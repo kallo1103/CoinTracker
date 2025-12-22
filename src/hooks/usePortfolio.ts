@@ -9,6 +9,7 @@ interface Asset {
     quantity: number;
     buyPrice: number;
     buyDate: string;
+    tags: { id: string; name: string; color: string }[];
 }
 
 const fetchAssets = async (): Promise<Asset[]> => {
@@ -28,7 +29,7 @@ export function useAddAsset() {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: async (newAsset: Omit<Asset, "id" | "buyDate">) => {
+        mutationFn: async (newAsset: Omit<Asset, "id" | "buyDate" | "tags">) => {
             const res = await fetch("/api/portfolio/assets", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },

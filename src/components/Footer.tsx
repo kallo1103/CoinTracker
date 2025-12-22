@@ -1,6 +1,5 @@
 'use client';
 
-import { useNavbar } from '@/contexts/NavbarContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import Link from 'next/link';
 import { 
@@ -20,19 +19,13 @@ import {
   Linkedin
 } from "lucide-react";
 import { DESIGN_TOKENS } from '@/config/design-tokens';
-import { getContentMarginLeft } from '@/utils/responsive';
 
 export default function Footer() {
-  const { isCollapsed } = useNavbar();
   const { t } = useLanguage();
   
   return (
     <footer 
-      className="bg-black backdrop-blur-xl text-white mt-auto transition-all border-t border-white/10"
-      style={{
-        marginLeft: `${getContentMarginLeft(isCollapsed)}px`,
-        transitionDuration: DESIGN_TOKENS.transition.duration.slow
-      }}
+      className="bg-black/80 backdrop-blur-xl text-white mt-auto transition-all border-t border-white/10"
     >
       <div 
         className="container mx-auto"

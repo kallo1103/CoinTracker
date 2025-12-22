@@ -19,6 +19,7 @@ export async function GET() {
             where: { userId: session.user.id },
             include: {
                 assets: {
+                    include: { tags: true },
                     orderBy: { createdAt: "desc" }
                 }
             }

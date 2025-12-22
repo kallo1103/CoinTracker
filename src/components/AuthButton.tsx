@@ -2,11 +2,11 @@
 
 import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import MetaMaskButton from "./MetaMaskButton";
 import { useState, useEffect } from "react";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { LogIn, X } from "lucide-react";
+import UserAvatar from "./common/UserAvatar";
 import { RecaptchaVerifier, signInWithPhoneNumber, ConfirmationResult } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { createPortal } from "react-dom";
@@ -204,20 +204,12 @@ export default function AuthButton({ large, className = '' }: { large?: boolean;
         `}
         title={isCollapsed ? `Profile - ${session.user?.name}` : ''}
       >
-        {session.user?.image ? (
-          <Image
-            src={session.user.image}
-            alt={session.user.name || "User"}
-            width={32}
-            height={32}
-            className="rounded-full ring-2 ring-transparent group-hover:ring-blue-500/50 transition-all"
-            unoptimized
-          />
-        ) : (
-          <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-blue-500/20">
-            {session.user?.name?.charAt(0).toUpperCase() || "U"}
-          </div>
-        )}
+        <UserAvatar 
+          src={session.user?.image} 
+          name={session.user?.name} 
+          size={32} 
+          className="ring-2 ring-transparent group-hover:ring-blue-500/50 transition-all"
+        />
         
         {!isCollapsed && (
           <div className="flex flex-col items-start overflow-hidden">

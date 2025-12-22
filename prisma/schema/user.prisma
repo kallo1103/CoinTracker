@@ -1,19 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-generator client {
-  provider = "prisma-client-js"
-}
-
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
-// NextAuth.js Models
-// NOTE: Khi sử dụng postgresql, mysql hoặc sqlserver, 
-// hãy bỏ comment các trường @db.Text để tối ưu storage
-
 model Account {
   id                String  @id @default(cuid())
   userId            String  @map("user_id")
@@ -72,6 +56,12 @@ model User {
   portfolio     Portfolio?
   watchlist     Watchlist[]
   stats         UserStats?
+  posts         Post[]
+  comments      Comment[]
+  likes         Like[]
+  priceAlerts   PriceAlert[]
+  notes         Note[]
+  tags          Tag[]
   
   @@map("users")
 }
@@ -96,33 +86,6 @@ model UserStats {
   @@map("user_stats")
 }
 
-model Portfolio {
-  id        String   @id @default(cuid())
-  userId    String   @unique @map("user_id")
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  assets    Asset[]
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  @@map("portfolios")
-}
-
-model Asset {
-  id          String    @id @default(cuid())
-  portfolioId String    @map("portfolio_id")
-  portfolio   Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
-  coinId      String    @map("coin_id") // CoinGecko ID (e.g. "bitcoin", "ethereum")
-  symbol      String // e.g. "btc", "eth"
-  name        String // e.g. "Bitcoin"
-  quantity    Float
-  buyPrice    Float     @map("buy_price") // Price per coin at purchase
-  buyDate     DateTime  @default(now()) @map("buy_date")
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @updatedAt @map("updated_at")
-
-  @@map("assets")
-}
-
 model VerificationToken {
   identifier String
   token      String
@@ -130,17 +93,4 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map("verificationtokens")
-}
-
-model Watchlist {
-  id        String   @id @default(cuid())
-  userId    String   @map("user_id")
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  coinId    String   @map("coin_id") // CoinGecko ID
-  symbol    String
-  name      String
-  createdAt DateTime @default(now()) @map("created_at")
-
-  @@unique([userId, coinId])
-  @@map("watchlists")
 }

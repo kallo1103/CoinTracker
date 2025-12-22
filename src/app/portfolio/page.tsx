@@ -3,7 +3,7 @@
 import { useState, useMemo, Fragment } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Plus, Trash2, TrendingUp, TrendingDown, Wallet, Loader2, ChevronDown, ChevronRight } from "lucide-react";
+import { Plus, Trash2, TrendingUp, TrendingDown, Wallet, Loader2, ChevronDown, ChevronRight, BookOpen } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { CoinImage } from "@/components/OptimizedImage";
 import PortfolioHistoryChart from "@/components/PortfolioHistoryChart";
@@ -28,6 +28,9 @@ interface CoinSearchResult {
   thumb: string;
 }
 
+import TagManager from "@/components/tags/TagManager";
+import TagSelector from "@/components/tags/TagSelector";
+
 export default function PortfolioPage() {
   const { status } = useSession();
   const router = useRouter();
@@ -37,12 +40,13 @@ export default function PortfolioPage() {
   }
 
   // Hook integrations
-  const { data: assets = [], isLoading: assetsLoading } = usePortfolioAssets();
+  const { data: assets = [], isLoading: assetsLoading, refetch } = usePortfolioAssets();
   const addAssetMutation = useAddAsset();
   const deleteAssetMutation = useDeleteAsset();
 
   const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isTagManagerOpen, setIsTagManagerOpen] = useState(false);
   
   // Form state
   const [formData, setFormData] = useState({
@@ -169,20 +173,36 @@ export default function PortfolioPage() {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
           <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
             My Portfolio
           </h1>
           <p className="text-gray-400 mt-1">Track your crypto assets in real-time</p>
         </div>
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl transition-all shadow-lg shadow-blue-500/20"
-        >
-          <Plus size={20} />
-          Add Asset
-        </button>
+        <div className="flex flex-wrap gap-3 w-full md:w-auto">
+          <button
+             onClick={() => router.push("/portfolio/transactions")}
+             className="flex-1 md:flex-none justify-center items-center gap-2 bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-xl transition-all"
+          >
+             <BookOpen size={20} />
+             <span>Ledger</span>
+          </button>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="flex-1 md:flex-none justify-center items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl transition-all shadow-lg shadow-blue-500/20"
+          >
+            <Plus size={20} />
+            <span>Add Asset</span>
+          </button>
+          <button
+            onClick={() => setIsTagManagerOpen(true)}
+            className="flex-1 md:flex-none justify-center items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-xl transition-all shadow-lg shadow-purple-500/20"
+          >
+            <TrendingUp size={20} className="rotate-45" />
+            <span>Tags</span>
+          </button>
+        </div>
       </div>
 
       {/* Summary Cards */}
@@ -304,8 +324,12 @@ export default function PortfolioPage() {
                      
                      return (
                         <tr key={asset.id} className="bg-gray-900/30 border-t border-gray-800/50">
-                            <td className="p-4"></td>
-                            <td className="p-4 pl-12 text-sm text-gray-400">Lot {new Date(asset.buyDate).toLocaleDateString()}</td>
+                            <td className="p-4 flex justify-end">
+                                <TagSelector assetId={asset.id} selectedTags={asset.tags} onUpdate={refetch} />
+                            </td>
+                            <td className="p-4 pl-12 text-sm text-gray-400">
+                                <div>Lot {new Date(asset.buyDate).toLocaleDateString()}</div>
+                            </td>
                             <td className="p-4 text-right">-</td>
                             <td className="p-4 text-right text-gray-400">{asset.quantity}</td>
                             <td className="p-4 text-right text-gray-400">${(asset.quantity * currentPrice).toLocaleString()}</td>
@@ -457,6 +481,7 @@ export default function PortfolioPage() {
           </div>
         )}
       </AnimatePresence>
+      <TagManager isOpen={isTagManagerOpen} onClose={() => setIsTagManagerOpen(false)} />
     </div>
   );
 }

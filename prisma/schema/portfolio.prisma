@@ -1,0 +1,54 @@
+model Portfolio {
+  id        String   @id @default(cuid())
+  userId    String   @unique @map("user_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assets       Asset[]
+  transactions Transaction[]
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("portfolios")
+}
+
+model Asset {
+  id          String    @id @default(cuid())
+  portfolioId String    @map("portfolio_id")
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  coinId      String    @map("coin_id") // CoinGecko ID (e.g. "bitcoin", "ethereum")
+  symbol      String // e.g. "btc", "eth"
+  name        String // e.g. "Bitcoin"
+  quantity    Float
+  buyPrice    Float     @map("buy_price") // Price per coin at purchase
+  buyDate     DateTime  @default(now()) @map("buy_date")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  tags        Tag[]
+
+  @@map("assets")
+}
+
+model Transaction {
+  id           String          @id @default(cuid())
+  portfolioId  String          @map("portfolio_id")
+  portfolio    Portfolio       @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  type         TransactionType
+  coinId       String          @map("coin_id") // CoinGecko ID
+  symbol       String
+  amount       Float
+  pricePerCoin Float           @map("price_per_coin")
+  fee          Float?          @default(0)
+  date         DateTime        @default(now())
+  notes        String?
+  createdAt    DateTime        @default(now()) @map("created_at")
+  updatedAt    DateTime        @updatedAt @map("updated_at")
+
+  @@index([portfolioId])
+  @@map("transactions")
+}
+
+enum TransactionType {
+  BUY
+  SELL
+  TRANSFER_IN
+  TRANSFER_OUT
+}
