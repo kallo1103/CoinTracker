@@ -6,6 +6,7 @@ import { formatDistanceToNow } from "date-fns";
 import { Heart, MessageCircle } from "lucide-react";
 import toast from "react-hot-toast";
 import UserAvatar from "@/components/common/UserAvatar";
+import CommentModal from "@/components/community/CommentModal";
 
 interface User {
   id: string;
@@ -29,6 +30,7 @@ interface Post {
 export default function Feed() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
 
   const fetchPosts = async () => {
     try {
@@ -114,7 +116,10 @@ export default function Feed() {
                         {post._count.likes}
                     </button>
 
-                    <button className="flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-blue-500 dark:text-gray-400 dark:hover:text-blue-400 transition-colors">
+                    <button 
+                        onClick={() => setSelectedPostId(post.id)}
+                        className="flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-blue-500 dark:text-gray-400 dark:hover:text-blue-400 transition-colors"
+                    >
                         <MessageCircle size={18} />
                         {post._count.comments}
                     </button>
@@ -127,6 +132,19 @@ export default function Feed() {
           <div className="text-center py-10 text-gray-500">
               Be the first to post!
           </div>
+      )}
+      
+      {/* Comment Modal */}
+      {selectedPostId && (
+        <CommentModal
+          postId={selectedPostId}
+          isOpen={!!selectedPostId}
+          onClose={() => {
+            setSelectedPostId(null);
+            // Refresh posts to update comment count
+            fetchPosts();
+          }}
+        />
       )}
     </div>
   );

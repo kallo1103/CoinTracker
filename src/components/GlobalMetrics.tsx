@@ -120,7 +120,6 @@ export default function GlobalMetrics() {
           }}
         >
           <div 
-            className="flex items-center justify-between"
             style={{ marginBottom: `${DESIGN_TOKENS.spacing.scale[2]}px` }}
           >
             <h4 
@@ -129,8 +128,6 @@ export default function GlobalMetrics() {
             >
                {t('metrics.btcDominance')}
             </h4>
-            {/* Icon BTC */}
-            <span className="text-orange-500" style={{ fontSize: DESIGN_TOKENS.typography.fontSize['xl'] }}>₿</span>
           </div>
           <div 
             className="font-bold text-white relative"
@@ -155,7 +152,6 @@ export default function GlobalMetrics() {
           }}
         >
           <div 
-            className="flex items-center justify-between"
             style={{ marginBottom: `${DESIGN_TOKENS.spacing.scale[2]}px` }}
           >
             <h4 
@@ -164,8 +160,6 @@ export default function GlobalMetrics() {
             >
               {t('metrics.ethDominance')}
             </h4>
-            {/* Icon ETH */}
-            <span className="text-blue-400" style={{ fontSize: DESIGN_TOKENS.typography.fontSize['xl'] }}>♦</span>
           </div>
           <div 
             className="font-bold text-white relative"
@@ -190,7 +184,6 @@ export default function GlobalMetrics() {
           }}
         >
           <div 
-            className="flex items-center justify-between"
             style={{ marginBottom: `${DESIGN_TOKENS.spacing.scale[2]}px` }}
           >
             <h4 
@@ -199,7 +192,6 @@ export default function GlobalMetrics() {
             >
               {t('metrics.totalMarketCap')}
             </h4>
-            <span className="text-green-500" style={{ fontSize: DESIGN_TOKENS.typography.fontSize['xl'] }}>$</span>
           </div>
           <div 
             className="font-bold text-white"
@@ -227,7 +219,6 @@ export default function GlobalMetrics() {
           }}
         >
           <div 
-            className="flex items-center justify-between"
             style={{ marginBottom: `${DESIGN_TOKENS.spacing.scale[2]}px` }}
           >
             <h4 
@@ -236,7 +227,6 @@ export default function GlobalMetrics() {
             >
               {t('metrics.totalVolume24h')}
             </h4>
-            <span className="text-purple-400" style={{ fontSize: DESIGN_TOKENS.typography.fontSize['xl'] }}>📊</span>
           </div>
           <div 
             className="font-bold text-white relative"
