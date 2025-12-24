@@ -27,9 +27,46 @@ Real-time cryptocurrency price tracking platform built with **Next.js 15**, **Ne
 ### 🔐 **Authentication**
 - ✅ **Google OAuth** - Login with Google account
 - ✅ **MetaMask Wallet** - Authentication with wallet signature
+- ✅ **Firebase Auth** - Firebase authentication integration
 - ✅ **Protected Dashboard** - Personal page after login
 - ✅ **Session Management** - JWT-based with Prisma adapter
 - ✅ **User Profile Management** - Edit profile, settings, statistics
+
+### 💼 **Portfolio Management**
+- ✅ **Asset Tracking** - Track your cryptocurrency holdings
+- ✅ **Transaction History** - Record buy/sell transactions
+- ✅ **Portfolio Value** - Real-time portfolio valuation
+- ✅ **Performance Charts** - Historical portfolio performance
+- ✅ **Profit/Loss Tracking** - Track gains and losses
+- ✅ **Asset Tags** - Organize assets with custom tags
+
+### 📝 **Notes & Organization**
+- ✅ **Personal Notes** - Create notes for research and ideas
+- ✅ **Coin-Linked Notes** - Attach notes to specific cryptocurrencies
+- ✅ **Pin Important Notes** - Pin frequently accessed notes
+- ✅ **Rich Text Content** - Formatted note content
+- ✅ **Search & Filter** - Quick note discovery
+
+### ⭐ **Watchlist & Alerts**
+- ✅ **Custom Watchlist** - Track favorite cryptocurrencies
+- ✅ **Price Alerts** - Set price targets (above/below)
+- ✅ **Alert Notifications** - Get notified when targets are hit
+- ✅ **Quick Add/Remove** - Easy watchlist management
+- ✅ **Watchlist Dashboard** - Dedicated watchlist view
+
+### 👥 **Community Features**
+- ✅ **Social Feed** - Community posts and discussions
+- ✅ **Create Posts** - Share insights and analysis
+- ✅ **Comments** - Engage with community posts
+- ✅ **Like System** - React to posts and comments
+- ✅ **User Avatars** - Personalized profile pictures
+- ✅ **Community Page** - Dedicated social interaction space
+
+### 🤖 **AI Assistant**
+- ✅ **Gemini AI Integration** - Google's Gemini AI chatbot
+- ✅ **Crypto Insights** - AI-powered market analysis
+- ✅ **24/7 Support** - Instant answers to crypto questions
+- ✅ **Contextual Help** - Smart, context-aware responses
 
 ### 📰 **Crypto News**
 - ✅ **Real-time Crypto News** - Integration with CryptoPanic API
@@ -44,12 +81,13 @@ Real-time cryptocurrency price tracking platform built with **Next.js 15**, **Ne
 ### 🎨 **UI/UX**
 - ✅ Responsive design - Mobile, Tablet, Desktop
 - ✅ Dark theme with gradient backgrounds
-- ✅ Collapsible sidebar navigation
+- ✅ Modern header navigation
+- ✅ Footer with social links
 - ✅ Loading states & Error handling
 - ✅ Beautiful charts with Recharts
-- ✅ **Multi-language Support** - English and Vietnamese
+- ✅ **English Language** - Clean English interface
 - ✅ **Theme Toggle** - Dark/Light theme switching
-- ✅ **Language Selector** - Dynamic language switching
+- ✅ Toast notifications for user feedback
 
 ## 🛠️ Tech Stack
 
@@ -61,13 +99,17 @@ Real-time cryptocurrency price tracking platform built with **Next.js 15**, **Ne
 - **Animations:** Motion (Framer Motion)
 - **Charts:** Recharts 3.2.1
 - **Icons:** Lucide React 0.546.0
-- **Testing:** Vitest
+- **State Management:** React Query (TanStack Query) 5.90.12
+- **Forms:** React Hook Form 7.68.0 + Zod 4.2.1
+- **Notifications:** React Hot Toast 2.6.0
+- **Testing:** Vitest 4.0.15
 
 ### Backend
 - **API Routes:** Next.js API Routes
-- **Authentication:** NextAuth 4.24.11 + Prisma Adapter 2.10.0 / Firebase Auth
-- **Database:** Prisma 6.18.0 + SQLite (dev) / PostgreSQL (prod)
+- **Authentication:** NextAuth 4.24.11 + Prisma Adapter 2.10.0 / Firebase Auth 12.6.0
+- **Database:** Prisma 6.18.0 + PostgreSQL
 - **Wallet:** Ethers.js 6.15.0
+- **AI:** Google Gemini AI 0.24.1
 
 ### APIs
 - **CoinMarketCap** - Top coins, Global metrics
@@ -120,8 +162,19 @@ COINMARKETCAP_API_KEY=your-coinmarketcap-api-key
 # CryptoPanic API (optional - for news)
 CRYPTOPANIC_API_KEY=your-cryptopanic-api-key
 
-# Database
-DATABASE_URL="file:./dev.db"
+# Firebase Configuration
+NEXT_PUBLIC_FIREBASE_API_KEY=your-firebase-api-key
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-project-id
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your-sender-id
+NEXT_PUBLIC_FIREBASE_APP_ID=your-app-id
+
+# Google Gemini AI
+GEMINI_API_KEY=your-gemini-api-key
+
+# Database (PostgreSQL)
+DATABASE_URL="postgresql://user:password@host:5432/dbname"
 ```
 
 ### Setup Database
@@ -163,19 +216,31 @@ pnpm test
 - **Search Page** - Search cryptocurrencies and exchanges
 - **Exchange List** - Browse cryptocurrency exchanges
 - **Crypto News** - Latest cryptocurrency news
-- **Individual Coin Pages** - Detailed coin information
+- **Individual Coin Pages** - Detailed coin information with charts
+- **Portfolio** - Track and manage your crypto holdings
+- **Watchlist** - Monitor favorite cryptocurrencies
+- **Price Alerts** - Set and manage price notifications
+- **Notes** - Personal note-taking for crypto research
+- **Community Feed** - Social interaction and discussions
 - **User Profile** - Profile editing, settings, and statistics
 - **Documentation** - API and usage documentation
 
 ### 🔧 **Advanced Features**
 - **Real-time Data** - Live cryptocurrency prices and metrics
-- **Interactive Charts** - Candlestick, area, and line charts
-- **Responsive Design** - Works on all device sizes
+- **Interactive Charts** - Candlestick, area, line, and pie charts
+- **Portfolio Analytics** - Performance tracking with historical charts
+- **Transaction Management** - Record and track buy/sell transactions
+- **Asset Tagging** - Organize portfolio with custom tags
+- **Social Engagement** - Posts, comments, and likes
+- **AI Chat Assistant** - Gemini-powered crypto insights
+- **Responsive Design** - Works on all device sizes (mobile, tablet, desktop)
 - **Dark/Light Theme** - User preference theme switching
-- **Multi-language** - English and Vietnamese support
+- **English Interface** - Clean, professional English localization
 - **News Caching** - Optimized news loading with caching
 - **Search Functionality** - Advanced crypto and exchange search
 - **Global Metrics Dashboard** - Bitcoin/Ethereum dominance, market cap with 24h changes, trading volume
+- **User Authentication** - Multiple auth methods (Google, Firebase, MetaMask)
+- **Data Persistence** - PostgreSQL database with Prisma ORM
 
 ## 🔑 Getting API Keys
 
@@ -186,14 +251,24 @@ pnpm test
 
 **API Endpoints:**
 - `/api/crypto` - Top cryptocurrencies
-- `/api/global-metrics` - Bitcoin dominance, Ethereum dominance, total market cap, volume 24h, active cryptocurrencies
+- `/api/global-metrics` - Bitcoin dominance, Ethereum dominance, total market cap, volume 24h
 - `/api/coin/[id]` - Individual coin details
 - `/api/coins/markets` - Coin market data
 - `/api/exchange/list` - Exchange listings
 - `/api/fear-greed` - Fear & Greed Index
-- `/api/price-history` - Historical price data
-- `/api/crypto-news` - Crypto news
+- `/api/price-history` - Historical price data (OHLC)
+- `/api/crypto-news` - Crypto news feed
 - `/api/search` - Search functionality
+- `/api/portfolio` - Portfolio management (GET, POST, PUT, DELETE)
+- `/api/watchlist` - Watchlist management
+- `/api/notes` - Personal notes CRUD operations
+- `/api/alerts` - Price alerts management
+- `/api/community/posts` - Social posts (create, read, update, delete)
+- `/api/community/comments` - Comment system
+- `/api/community/likes` - Like/unlike posts
+- `/api/chatbot` - AI chatbot powered by Gemini
+- `/api/user/profile` - User profile management
+- `/api/user/settings` - User settings and preferences
 
 ### 2. Google OAuth Credentials
 1. Visit: https://console.cloud.google.com/
@@ -209,7 +284,21 @@ pnpm test
 
 Details: See `NEXTAUTH_SETUP.md` and `METAMASK_SETUP.md` files
 
-### 3. NextAuth Secret
+### 3. Firebase Configuration
+1. Visit: https://console.firebase.google.com/
+2. Create a new project or select existing
+3. Go to **Project Settings** → **General**
+4. Under **Your apps**, click **Web app** (</>) icon
+5. Register your app and copy the config values to `.env.local`
+6. Enable **Authentication** → **Sign-in method** → Enable desired providers
+
+### 4. Google Gemini AI API Key
+1. Visit: https://makersuite.google.com/app/apikey
+2. Create an API key
+3. Copy the key to `GEMINI_API_KEY` in `.env.local`
+4. Note: Gemini has a generous free tier for development
+
+### 5. NextAuth Secret
 Generate random secret:
 ```bash
 openssl rand -base64 32
@@ -237,65 +326,117 @@ Copy the result to `NEXTAUTH_SECRET` in `.env.local`
 - [x] Exchange listings
 - [x] NextAuth with Google OAuth
 - [x] MetaMask wallet authentication
+- [x] Firebase authentication integration
 - [x] Protected dashboard page
 - [x] Real crypto news API integration (CryptoPanic)
 - [x] User profile management (edit, settings, statistics)
 - [x] Crypto search functionality
 - [x] Individual coin detail pages
-- [x] Multi-language support (EN, VI)
-- [x] Theme toggle functionality
-- [x] Language selector
-- [x] Collapsible navigation
+- [x] English language interface
+- [x] Theme toggle functionality (Dark/Light)
+- [x] Modern header and footer navigation
 - [x] News caching system
+- [x] **Portfolio tracking and management**
+- [x] **Transaction history with buy/sell records**
+- [x] **Portfolio performance charts**
+- [x] **Watchlist functionality**
+- [x] **Price alerts system**
+- [x] **Personal notes with coin linking**
+- [x] **Community features (posts, comments, likes)**
+- [x] **AI chatbot integration (Google Gemini)**
+- [x] **Asset tagging and organization**
+- [x] **User avatars and profiles**
+- [x] **Toast notifications**
+- [x] **React Query for data management**
+- [x] **Form validation with Zod**
+- [x] **PostgreSQL database**
 
 ### 🚧 In Progress / TODO
-- [x] User portfolio tracking
-- [ ] Price alerts & notifications
-- [ ] More chart types (Bar, Scatter, etc.)
-- [ ] Performance optimization
-- [ ] Unit tests & E2E tests
-- [ ] PWA support
-- [ ] Docker deployment
+- [ ] **Real-time price alert notifications**
+- [ ] **Email notifications for alerts**
+- [ ] **Push notifications (PWA)**
+- [ ] **Advanced portfolio analytics**
+- [ ] **Export portfolio data (CSV, PDF)**
+- [ ] More chart types (Bar, Scatter, Heatmaps)
+- [ ] Performance optimization & caching strategies
+- [ ] Comprehensive unit tests & E2E tests
+- [ ] PWA support with offline mode
+- [ ] Docker deployment configuration
 - [ ] Advanced filtering for exchanges
 - [ ] User preferences persistence
-- [ ] Social features (sharing, comments)
+- [ ] **Follow/Unfollow users**
+- [ ] **Direct messaging between users**
+- [ ] **Portfolio sharing with privacy controls**
+- [ ] **News sentiment analysis**
+- [ ] **Automated trading signals**
+- [ ] **Multi-currency portfolio support**
 
 ## 📁 Project Structure
 
 ```
 CoinTracker/
 ├── prisma/
-│   ├── schema.prisma          # Prisma schema (User, Session, Account)
-│   └── dev.db                 # SQLite database (dev only)
+│   └── schema/                # Modular Prisma schemas
+│       ├── base.prisma        # Database configuration
+│       ├── user.prisma        # User, Account, Session models
+│       ├── portfolio.prisma   # Portfolio & Asset models
+│       ├── features.prisma    # Watchlist, Alerts, Notes, Tags
+│       └── social.prisma      # Posts, Comments, Likes
 ├── public/
 │   └── favicon.svg            # Favicon
 ├── src/
 │   ├── app/
 │   │   ├── api/               # API routes
 │   │   │   ├── auth/          # NextAuth routes
+│   │   │   ├── chatbot/       # AI chatbot endpoint
 │   │   │   ├── coin/          # Individual coin details
 │   │   │   ├── coins/         # Coin listings
 │   │   │   ├── content/       # Content API
 │   │   │   ├── crypto/        # Crypto data
 │   │   │   ├── crypto-news/   # Crypto news
-│   │   │   ├── exchange/       # Exchange listings
+│   │   │   ├── exchange/      # Exchange listings
 │   │   │   ├── fear-greed/    # Fear & Greed Index
 │   │   │   ├── global-metrics/# Global market metrics
 │   │   │   ├── price-history/ # OHLC historical data
-│   │   │   └── search/         # Search functionality
+│   │   │   ├── portfolio/     # Portfolio management API
+│   │   │   ├── watchlist/     # Watchlist API
+│   │   │   ├── notes/         # Notes CRUD API
+│   │   │   ├── alerts/        # Price alerts API
+│   │   │   ├── community/     # Social features API
+│   │   │   │   ├── posts/
+│   │   │   │   ├── comments/
+│   │   │   │   └── likes/
+│   │   │   ├── user/          # User profile & settings
+│   │   │   └── search/        # Search functionality
+│   │   ├── alerts/            # Price alerts page
 │   │   ├── coin/              # Individual coin pages
+│   │   ├── community/         # Community feed page
+│   │   ├── crypto-news/       # Crypto news page
 │   │   ├── dashboard/         # Protected dashboard page
 │   │   ├── docs/              # Documentation page
 │   │   ├── exchange/          # Exchange list page
-│   │   ├── crypto-news/       # Crypto news page
+│   │   ├── notes/             # Notes management page
+│   │   ├── portfolio/         # Portfolio pages
 │   │   ├── profile/           # User profile pages
 │   │   │   ├── edit/          # Profile editing
 │   │   │   ├── settings/      # User settings
-│   │   │   └── statistics/     # User statistics
+│   │   │   └── statistics/    # User statistics
 │   │   ├── search/            # Search page
+│   │   ├── watchlist/         # Watchlist page
 │   │   ├── layout.tsx         # Root layout
+│   │   ├── globals.css        # Global styles
 │   │   └── page.tsx           # Home page
 │   ├── components/            # React components
+│   │   ├── chatbot/           # AI chatbot components
+│   │   ├── community/         # Social components
+│   │   │   ├── Feed.tsx
+│   │   │   ├── PostCard.tsx
+│   │   │   └── CommentModal.tsx
+│   │   ├── notes/             # Notes components
+│   │   │   └── NoteModal.tsx
+│   │   ├── portfolio/         # Portfolio components
+│   │   │   ├── PortfolioPieChart.tsx
+│   │   │   └── PortfolioHistoryChart.tsx
 │   │   ├── AuthButton.tsx
 │   │   ├── CandlestickChart.tsx
 │   │   ├── CryptoList.tsx
@@ -306,26 +447,32 @@ CoinTracker/
 │   │   ├── FearGreedChart.tsx
 │   │   ├── FearGreedIndex.tsx
 │   │   ├── Footer.tsx
-│   │   ├── GlobalMetrics.tsx  # Global crypto metrics with Bitcoin/Ethereum dominance, market cap, volume
+│   │   ├── GlobalMetrics.tsx  # Global crypto metrics
 │   │   ├── Header.tsx
-│   │   ├── LanguageSelector.tsx
 │   │   ├── MainContent.tsx
 │   │   ├── MetaMaskButton.tsx
 │   │   ├── PopularCoins.tsx
 │   │   ├── PriceChart.tsx
+│   │   ├── QueryProvider.tsx  # React Query provider
 │   │   └── Providers.tsx
 │   ├── contexts/              # React contexts
 │   │   ├── LanguageContext.tsx
 │   │   └── NavbarContext.tsx
+│   ├── hooks/                 # Custom React hooks
+│   │   ├── usePortfolio.ts
+│   │   └── useWatchlist.ts
 │   └── lib/                   # Utilities
 │       ├── auth.ts            # NextAuth config
+│       ├── firebase.ts        # Firebase config
 │       ├── prisma.ts          # Prisma client
 │       └── getCryptoNews.ts   # News fetcher
+├── .env.local                 # Environment variables
 ├── .gitignore
 ├── env.example                # Environment variables template
 ├── next.config.ts             # Next.js config
 ├── tailwind.config.ts         # Tailwind config
 ├── tsconfig.json              # TypeScript config
+├── vitest.config.mts          # Vitest config
 └── README.md
 ```
 
@@ -334,34 +481,50 @@ CoinTracker/
 ### Vercel (Recommended)
 1. Push code to GitHub
 2. Import project to Vercel: https://vercel.com/new
-3. Add Environment Variables in Vercel dashboard
-4. Deploy!
+3. Add Environment Variables in Vercel dashboard (see `.env.example`)
+4. Configure PostgreSQL database (see Database setup below)
+5. Deploy!
 
 ### Database for Production
-Switch from SQLite to PostgreSQL or MySQL:
+The application uses **PostgreSQL** for production. You can use:
+- **Vercel Postgres** (recommended for Vercel deployments)
+- **Supabase** (free tier available)
+- **Railway** (generous free tier)
+- **Neon** (serverless Postgres)
 
-1. Update `DATABASE_URL` in Vercel Environment Variables:
+1. Set up your PostgreSQL database and get the connection string
+2. Update `DATABASE_URL` in environment variables:
 ```env
 DATABASE_URL="postgresql://user:password@host:5432/dbname"
 ```
 
-2. Update `prisma/schema.prisma`:
-```prisma
-datasource db {
-  provider = "postgresql"  // or "mysql"
-  url      = env("DATABASE_URL")
-}
-```
-
-3. Run migrations:
+3. Run Prisma migrations:
 ```bash
 npx prisma migrate deploy
+npx prisma generate
 ```
+
+### Important Environment Variables for Production
+Make sure to set all required environment variables in your deployment platform:
+- `NEXTAUTH_SECRET`
+- `NEXTAUTH_URL` (your production URL)
+- `GOOGLE_CLIENT_ID` & `GOOGLE_CLIENT_SECRET`
+- `COINMARKETCAP_API_KEY`
+- `DATABASE_URL`
+- `GEMINI_API_KEY`
+- All Firebase config variables (`NEXT_PUBLIC_FIREBASE_*`)
 
 ## 🐛 Troubleshooting
 
-### Error: "Historical API not available, generating mock data"
-✅ **FIXED** - Now using free CoinGecko API for historical data.
+### Database Connection Errors
+1. Verify `DATABASE_URL` is correctly set in `.env.local`
+2. Ensure PostgreSQL server is running
+3. Check database credentials and permissions
+4. Run Prisma generate and migrate:
+```bash
+npx prisma generate
+npx prisma migrate dev
+```
 
 ### Error: "Cannot find module '@prisma/client'"
 ```bash
@@ -379,21 +542,66 @@ Add to `.env.local`
 1. Check console log for API errors
 2. Verify API keys in `.env.local`
 3. Check network tab in DevTools
+4. Ensure React Query is properly configured
+5. Clear browser cache and reload
 
 ### MetaMask authentication not working
 1. Ensure MetaMask is installed and unlocked
 2. Check that you're on a supported network
 3. Verify the signature message is correct
+4. Clear browser cache and reconnect wallet
+
+### Firebase authentication issues
+1. Check Firebase config in `.env.local`
+2. Verify all `NEXT_PUBLIC_FIREBASE_*` variables are set correctly
+3. Ensure Firebase Authentication is enabled in Firebase Console
+4. Check browser console for specific Firebase errors
+5. Verify Firebase project settings match your configuration
+
+### Gemini AI chatbot not responding
+1. Verify `GEMINI_API_KEY` is set correctly in `.env.local`
+2. Check API quota/limits at https://makersuite.google.com/
+3. Review browser console for API errors
+4. Ensure network connectivity to Google AI services
+5. Verify the API key has proper permissions
+
+### Community features (posts/comments) not working
+1. Check database migrations: `npx prisma migrate dev`
+2. Verify user is authenticated (check session)
+3. Check browser console for API errors
+4. Ensure PostgreSQL database has proper schema
+5. Review API endpoint responses in Network tab
+
+### Portfolio/Watchlist data not saving
+1. Verify user is logged in with valid session
+2. Check database connection and migrations
+3. Review API endpoint responses in Network tab
+4. Ensure Prisma Client is generated: `npx prisma generate`
+5. Check for validation errors in request payload
 
 ### News not loading
 1. Check if CryptoPanic API is accessible
-2. Verify network connection
+2. Verify `CRYPTOPANIC_API_KEY` (if using authenticated API)
 3. Check browser console for errors
+4. Clear cache and reload page
+5. Verify API rate limits haven't been exceeded
 
-### Language/Theme not persisting
-1. Check browser localStorage
+### Theme not persisting
+1. Check browser localStorage for theme data
 2. Clear browser cache and try again
-3. Verify context providers are properly configured
+3. Verify theme provider is properly configured in layout
+4. Check for JavaScript errors in console
+5. Ensure next-themes is properly installed
+
+### Build errors
+1. Clear `.next` directory: `rm -rf .next`
+2. Delete `node_modules` and reinstall: `rm -rf node_modules && npm install`
+3. Run Prisma generate: `npx prisma generate`
+4. Check for TypeScript errors: `npx tsc --noEmit`
+5. Try building again: `npm run build`
+
+### Historical data showing "Not Available"
+✅ **FIXED** - Now using free CoinGecko API for historical OHLC data
 
 ## 📄 License
 
@@ -411,10 +619,12 @@ Contributions are welcome! Please follow these steps:
 
 ## 📧 Contact
 
-- **Email:** info@cryptotracker.com
-- **GitHub:** [Your GitHub Profile]
-- **Website:** [Your Website]
+For questions, feedback, or contributions, please open an issue on GitHub or submit a pull request.
 
 ---
 
-**Made with ❤️ using Next.js 15 and TypeScript**
+**Built with ❤️ using Next.js 15, TypeScript, PostgreSQL, and Google Gemini AI**
+
+**CoinTracker** - Your comprehensive cryptocurrency tracking and portfolio management platform.
+
+Features: Real-time market data • Portfolio tracking • Community feed • AI assistant • Price alerts • Notes • Watchlist • Charts & Analytics
