@@ -9,10 +9,10 @@ export default function ExchangePage() {
       {/* Header - responsive */}
       <div className="mb-6 md:mb-8">
         <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">
-          Sàn Giao Dịch Cryptocurrency
+          Cryptocurrency Exchange List
         </h1>
         <p className="text-sm md:text-base text-gray-400">
-          Danh sách các sàn giao dịch hàng đầu với volume và thống kê theo thời gian thực
+          List of top cryptocurrency exchanges with volume and statistics in real-time
         </p>
       </div>
 

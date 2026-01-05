@@ -35,7 +35,10 @@ export function useAddAsset() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(newAsset),
             });
-            if (!res.ok) throw new Error("Failed to add asset");
+            if (!res.ok) {
+                const errorData = await res.json();
+                throw new Error(errorData.error || "Failed to add asset");
+            }
             return res.json();
         },
         onSuccess: () => {

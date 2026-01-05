@@ -18,7 +18,7 @@ export default async function CryptoNewsPage() {
 
   return (
     <main className="p-5">
-      <h1 className="text-2xl font-bold text-white mb-4">Tin tức Crypto</h1>
+      <h1 className="text-2xl font-bold text-white mb-4">Crypto News</h1>
       <CryptoNewsList items={items} />
     </main>
   );

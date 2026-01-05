@@ -134,6 +134,10 @@ export default function PortfolioPage() {
 
   const handleAddAsset = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.coinId) {
+      alert("Please select a coin from the search results");
+      return;
+    }
     try {
       await addAssetMutation.mutateAsync({
         ...formData,
@@ -142,8 +146,9 @@ export default function PortfolioPage() {
       });
       setIsModalOpen(false);
       setFormData({ coinId: "", symbol: "", name: "", quantity: "", buyPrice: "" });
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error adding asset", error);
+      alert(error.message || "Failed to add asset");
     }
   };
   

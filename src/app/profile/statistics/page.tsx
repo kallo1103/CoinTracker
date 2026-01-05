@@ -41,11 +41,11 @@ interface Achievement {
 }
 
 const ALL_ACHIEVEMENTS: Achievement[] = [
-  { title: 'Người dùng mới', description: 'Đăng ký tài khoản', icon: '👋', earned: true }, // Always true if viewing profile
-  { title: 'Nhà đầu tư', description: 'Xem 100 coin', icon: '💰', earned: false },
-  { title: 'Nhà nghiên cứu', description: 'Tìm kiếm 50 lần', icon: '🔍', earned: false },
-  { title: 'Chuyên gia', description: 'Dành 10 giờ trên app', icon: '🎓', earned: false },
-  { title: 'Người sưu tập', description: 'Yêu thích 25 coin', icon: '⭐', earned: false }
+  { title: 'New User', description: 'Account registered', icon: '👋', earned: true }, // Always true if viewing profile
+  { title: 'Investor', description: 'Viewed 100 coins', icon: '💰', earned: false },
+  { title: 'Researcher', description: 'Searched 50 times', icon: '🔍', earned: false },
+  { title: 'Expert', description: 'Spent 10 hours on app', icon: '🎓', earned: false },
+  { title: 'Collector', description: 'Favorited 25 coins', icon: '⭐', earned: false }
 ];
 
 export default function StatisticsPage() {
@@ -95,7 +95,7 @@ export default function StatisticsPage() {
                 const isEarned = earnedAchievements.some((ea: any) => ea.title === ach.title);
                 return {
                     ...ach,
-                    earned: ach.title === 'Người dùng mới' ? true : isEarned
+                    earned: ach.title === 'New User' ? true : isEarned
                 };
             });
 
@@ -149,11 +149,11 @@ export default function StatisticsPage() {
 
   const getTimeRangeLabel = (range: string) => {
     switch (range) {
-      case '7d': return '7 ngày qua';
-      case '30d': return '30 ngày qua';
-      case '90d': return '90 ngày qua';
-      case '1y': return '1 năm qua';
-      default: return '7 ngày qua';
+      case '7d': return 'Last 7 days';
+      case '30d': return 'Last 30 days';
+      case '90d': return 'Last 90 days';
+      case '1y': return 'Last 1 year';
+      default: return 'Last 7 days';
     }
   };
 
@@ -171,9 +171,9 @@ export default function StatisticsPage() {
           <div>
             <h1 className="text-4xl font-bold text-white mb-2 flex items-center gap-3">
               <BarChart3 className="w-10 h-10" />
-              Thống kê
+              Statistics
             </h1>
-            <p className="text-gray-300">Theo dõi hoạt động và thành tích của bạn</p>
+            <p className="text-gray-300">Track your activities and achievements</p>
           </div>
         </div>
 
@@ -181,7 +181,7 @@ export default function StatisticsPage() {
         <div className="mb-8">
           <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-white">Khoảng thời gian</h2>
+              <h2 className="text-xl font-bold text-white">Time Range</h2>
               <span className="text-gray-300">{getTimeRangeLabel(timeRange)}</span>
             </div>
             <div className="flex gap-2">
@@ -195,9 +195,9 @@ export default function StatisticsPage() {
                       : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                   }`}
                 >
-                  {range === '7d' ? '7 ngày' : 
-                   range === '30d' ? '30 ngày' :
-                   range === '90d' ? '90 ngày' : '1 năm'}
+                  {range === '7d' ? '7 days' : 
+                   range === '30d' ? '30 days' :
+                   range === '90d' ? '90 days' : '1 year'}
                 </button>
               ))}
             </div>
@@ -209,7 +209,7 @@ export default function StatisticsPage() {
           <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl shadow-xl p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-300 text-sm font-medium">Tổng lượt xem</p>
+                <p className="text-gray-300 text-sm font-medium">Total Views</p>
                 <p className="text-3xl font-bold text-white">{stats.overview.totalViews.toLocaleString()}</p>
               </div>
               <Eye className="w-8 h-8 text-gray-400 dark:text-gray-300" />
@@ -219,7 +219,7 @@ export default function StatisticsPage() {
           <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-2xl shadow-xl p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-green-100 text-sm font-medium">Tìm kiếm</p>
+                <p className="text-green-100 text-sm font-medium">Searches</p>
                 <p className="text-3xl font-bold text-white">{stats.overview.searches}</p>
               </div>
               <Search className="w-8 h-8 text-green-200" />
@@ -229,7 +229,7 @@ export default function StatisticsPage() {
           <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl shadow-xl p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-purple-100 text-sm font-medium">Yêu thích</p>
+                <p className="text-purple-100 text-sm font-medium">Favorites</p>
                 <p className="text-3xl font-bold text-white">{stats.overview.favorites}</p>
               </div>
               <Star className="w-8 h-8 text-purple-200" />
@@ -239,7 +239,7 @@ export default function StatisticsPage() {
           <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl shadow-xl p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-orange-100 text-sm font-medium">Thời gian (giờ)</p>
+                <p className="text-orange-100 text-sm font-medium">Time (hours)</p>
                 <p className="text-3xl font-bold text-white">{stats.overview.timeSpent}</p>
               </div>
               <Clock className="w-8 h-8 text-orange-200" />
@@ -254,7 +254,7 @@ export default function StatisticsPage() {
               <div className="p-2 bg-gray-700/50 dark:bg-gray-600/50 rounded-xl">
                 <TrendingUp className="w-6 h-6 text-gray-300 dark:text-white" />
               </div>
-              <h2 className="text-2xl font-bold text-white">Coin được xem nhiều nhất</h2>
+              <h2 className="text-2xl font-bold text-white">Most Viewed Coins</h2>
             </div>
             
             <div className="space-y-4">
@@ -271,7 +271,7 @@ export default function StatisticsPage() {
                   </div>
                   <div className="text-right">
                     <p className="text-white font-bold">{coin.views}</p>
-                    <p className="text-gray-300 text-sm">lượt xem</p>
+                    <p className="text-gray-300 text-sm">views</p>
                   </div>
                 </div>
               ))}
@@ -284,7 +284,7 @@ export default function StatisticsPage() {
               <div className="p-2 bg-green-500/20 rounded-xl">
                 <Search className="w-6 h-6 text-green-400" />
               </div>
-              <h2 className="text-2xl font-bold text-white">Lịch sử tìm kiếm</h2>
+              <h2 className="text-2xl font-bold text-white">Search History</h2>
             </div>
             
             <div className="space-y-4">
@@ -296,12 +296,12 @@ export default function StatisticsPage() {
                     </div>
                     <div>
                       <h3 className="text-white font-medium">{search.query}</h3>
-                      <p className="text-gray-300 text-sm">Từ khóa tìm kiếm</p>
+                      <p className="text-gray-300 text-sm">Keyword</p>
                     </div>
                   </div>
                   <div className="text-right">
                     <p className="text-white font-bold">{search.count}</p>
-                    <p className="text-gray-300 text-sm">lần</p>
+                    <p className="text-gray-300 text-sm">times</p>
                   </div>
                 </div>
               ))}
@@ -315,7 +315,7 @@ export default function StatisticsPage() {
             <div className="p-2 bg-purple-500/20 rounded-xl">
               <Activity className="w-6 h-6 text-purple-400" />
             </div>
-            <h2 className="text-2xl font-bold text-white">Hoạt động hàng ngày</h2>
+            <h2 className="text-2xl font-bold text-white">Daily Activity</h2>
           </div>
           
           <div className="grid grid-cols-7 gap-2">
@@ -323,7 +323,7 @@ export default function StatisticsPage() {
               <div key={index} className="text-center">
                 <div className="bg-gray-700 rounded-lg p-3 mb-2">
                   <div className="text-white text-sm font-medium mb-1">
-                    {new Date(day.date).toLocaleDateString('vi-VN', { weekday: 'short' })}
+                    {new Date(day.date).toLocaleDateString('en-US', { weekday: 'short' })}
                   </div>
                   <div className="space-y-1">
                     <div className="h-2 bg-gray-700 dark:bg-white rounded" style={{ width: `${(day.views / 70) * 100}%` }}></div>
@@ -340,11 +340,11 @@ export default function StatisticsPage() {
           <div className="flex items-center justify-center gap-6 mt-4">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 bg-gray-700 dark:bg-white rounded"></div>
-              <span className="text-gray-300 text-sm">Lượt xem</span>
+              <span className="text-gray-300 text-sm">Views</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 bg-green-500 rounded"></div>
-              <span className="text-gray-300 text-sm">Tìm kiếm</span>
+              <span className="text-gray-300 text-sm">Searches</span>
             </div>
           </div>
         </div>
@@ -355,7 +355,7 @@ export default function StatisticsPage() {
             <div className="p-2 bg-yellow-500/20 rounded-xl">
               <Award className="w-6 h-6 text-yellow-400" />
             </div>
-            <h2 className="text-2xl font-bold text-white">Thành tích</h2>
+            <h2 className="text-2xl font-bold text-white">Achievements</h2>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -382,7 +382,7 @@ export default function StatisticsPage() {
                 {achievement.earned && (
                   <div className="flex items-center gap-2 text-yellow-300 text-sm">
                     <Target className="w-4 h-4" />
-                    <span>Đã đạt được</span>
+                    <span>Unlocked</span>
                   </div>
                 )}
               </div>

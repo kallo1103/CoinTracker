@@ -28,8 +28,8 @@ export default function ProfileEditPage() {
   const [profileData, setProfileData] = useState({
     name: session?.user?.name || '',
     email: session?.user?.email || '',
-    bio: 'Nhà đầu tư cryptocurrency với 3 năm kinh nghiệm',
-    location: 'Hồ Chí Minh, Việt Nam',
+    bio: 'Cryptocurrency investor with 3 years of experience',
+    location: 'Ho Chi Minh City, Vietnam',
     website: 'https://example.com',
     twitter: '@username',
     linkedin: 'linkedin.com/in/username',
@@ -222,9 +222,9 @@ export default function ProfileEditPage() {
           <div>
             <h1 className="text-4xl font-bold text-white mb-2 flex items-center gap-3">
               <User className="w-10 h-10" />
-              Chỉnh sửa hồ sơ
+              Edit Profile
             </h1>
-            <p className="text-gray-300">Cập nhật thông tin cá nhân của bạn</p>
+            <p className="text-gray-300">Update your personal information</p>
           </div>
         </div>
 
@@ -232,14 +232,14 @@ export default function ProfileEditPage() {
         {saveStatus === 'success' && (
           <div className="mb-6 p-4 bg-green-900/20 border border-green-500/30 rounded-xl flex items-center gap-3">
             <Check className="w-5 h-5 text-green-400" />
-            <span className="text-green-300">Đã cập nhật hồ sơ thành công!</span>
+            <span className="text-green-300">Profile updated successfully!</span>
           </div>
         )}
         
         {saveStatus === 'error' && (
           <div className="mb-6 p-4 bg-red-900/20 border border-red-500/30 rounded-xl flex items-center gap-3">
             <X className="w-5 h-5 text-red-400" />
-            <span className="text-red-300">Có lỗi xảy ra khi cập nhật hồ sơ!</span>
+            <span className="text-red-300">An error occurred while updating profile!</span>
           </div>
         )}
 
@@ -268,16 +268,16 @@ export default function ProfileEditPage() {
               )}
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-white mb-2">Ảnh đại diện</h2>
-              <p className="text-gray-300 mb-4">Cập nhật ảnh đại diện của bạn</p>
+              <h2 className="text-2xl font-bold text-white mb-2">Profile Picture</h2>
+              <p className="text-gray-300 mb-4">Update your profile picture</p>
               {isEditing && (
                 <div className="flex gap-3">
                   <button className="px-4 py-2 btn-primary rounded-xl transition-colors flex items-center gap-2">
                     <Upload className="w-4 h-4" />
-                    Tải lên
+                    Upload
                   </button>
                   <button className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-xl transition-colors">
-                    Xóa
+                    Remove
                   </button>
                 </div>
               )}
@@ -291,12 +291,12 @@ export default function ProfileEditPage() {
             <div className="p-2 bg-gray-700/50 dark:bg-gray-600/50 rounded-xl">
               <UserCheck className="w-6 h-6 text-gray-300 dark:text-white" />
             </div>
-            <h2 className="text-2xl font-bold text-white">Thông tin cơ bản</h2>
+            <h2 className="text-2xl font-bold text-white">Basic Information</h2>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-white font-medium mb-2">Họ và tên</label>
+              <label className="block text-white font-medium mb-2">Full Name</label>
               <input
                 type="text"
                 value={profileData.name}
@@ -318,7 +318,7 @@ export default function ProfileEditPage() {
             </div>
 
             <div>
-              <label className="block text-white font-medium mb-2">Số điện thoại</label>
+              <label className="block text-white font-medium mb-2">Phone Number</label>
               <input
                 type="tel"
                 value={profileData.phone}
@@ -329,7 +329,7 @@ export default function ProfileEditPage() {
             </div>
 
             <div>
-              <label className="block text-white font-medium mb-2">Ngày sinh</label>
+              <label className="block text-white font-medium mb-2">Date of Birth</label>
               <input
                 type="date"
                 value={profileData.birthDate}
@@ -340,7 +340,7 @@ export default function ProfileEditPage() {
             </div>
 
             <div className="md:col-span-2">
-              <label className="block text-white font-medium mb-2">Giới thiệu</label>
+              <label className="block text-white font-medium mb-2">Bio</label>
               <textarea
                 value={profileData.bio}
                 onChange={(e) => updateProfileData('bio', e.target.value)}
@@ -358,7 +358,7 @@ export default function ProfileEditPage() {
             <div className="p-2 bg-green-500/20 rounded-xl">
               <Mail className="w-6 h-6 text-green-400" />
             </div>
-            <h2 className="text-2xl font-bold text-white">Liên kết xã hội</h2>
+            <h2 className="text-2xl font-bold text-white">Social Links</h2>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -399,13 +399,13 @@ export default function ProfileEditPage() {
             </div>
 
             <div>
-              <label className="block text-white font-medium mb-2">Vị trí</label>
+              <label className="block text-white font-medium mb-2">Location</label>
               <input
                 type="text"
                 value={profileData.location}
                 onChange={(e) => updateProfileData('location', e.target.value)}
                 disabled={!isEditing}
-                placeholder="Thành phố, Quốc gia"
+                placeholder="City, Country"
                 className="w-full p-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:ring-2 focus:ring-gray-500 dark:focus:ring-white focus:border-transparent disabled:opacity-50"
               />
             </div>
@@ -418,7 +418,7 @@ export default function ProfileEditPage() {
             <div className="p-2 bg-purple-500/20 rounded-xl">
               <Shield className="w-6 h-6 text-purple-400" />
             </div>
-            <h2 className="text-2xl font-bold text-white">Sở thích</h2>
+            <h2 className="text-2xl font-bold text-white">Interests</h2>
           </div>
           
           <div className="flex flex-wrap gap-3">
@@ -444,7 +444,7 @@ export default function ProfileEditPage() {
             {isEditing && (
               <button className="flex items-center gap-2 bg-gray-600 hover:bg-gray-700 text-white rounded-xl px-4 py-2 transition-colors">
                 <Edit3 className="w-4 h-4" />
-                Thêm
+                Add
               </button>
             )}
           </div>
@@ -456,14 +456,14 @@ export default function ProfileEditPage() {
             <div className="p-2 bg-red-500/20 rounded-xl">
               <Bell className="w-6 h-6 text-red-400" />
             </div>
-            <h2 className="text-2xl font-bold text-white">Cài đặt quyền riêng tư</h2>
+            <h2 className="text-2xl font-bold text-white">Privacy Settings</h2>
           </div>
           
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-white font-medium">Hiển thị email</h3>
-                <p className="text-sm text-gray-300">Cho phép người khác xem email của bạn</p>
+                <h3 className="text-white font-medium">Show Email</h3>
+                <p className="text-sm text-gray-300">Allow others to view your email</p>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
@@ -479,8 +479,8 @@ export default function ProfileEditPage() {
 
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-white font-medium">Hiển thị số điện thoại</h3>
-                <p className="text-sm text-gray-300">Cho phép người khác xem số điện thoại của bạn</p>
+                <h3 className="text-white font-medium">Show Phone Number</h3>
+                <p className="text-sm text-gray-300">Allow others to view your phone number</p>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
@@ -496,8 +496,8 @@ export default function ProfileEditPage() {
 
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-white font-medium">Hiển thị vị trí</h3>
-                <p className="text-sm text-gray-300">Cho phép người khác xem vị trí của bạn</p>
+                <h3 className="text-white font-medium">Show Location</h3>
+                <p className="text-sm text-gray-300">Allow others to view your location</p>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
@@ -521,7 +521,7 @@ export default function ProfileEditPage() {
               className="px-8 py-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-2xl font-semibold hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-1 flex items-center gap-3"
             >
               <Edit3 className="w-5 h-5" />
-              Chỉnh sửa hồ sơ
+              Edit Profile
             </button>
           ) : (
             <>
@@ -533,12 +533,12 @@ export default function ProfileEditPage() {
                 {isSaving ? (
                   <>
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    Đang lưu...
+                    Saving...
                   </>
                 ) : (
                   <>
                     <Save className="w-5 h-5" />
-                    Lưu thay đổi
+                    Save Changes
                   </>
                 )}
               </button>
@@ -549,7 +549,7 @@ export default function ProfileEditPage() {
                 className="px-8 py-4 bg-gray-600 hover:bg-gray-700 text-white rounded-2xl font-semibold transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-3"
               >
                 <X className="w-5 h-5" />
-                Hủy
+                Cancel
               </button>
             </>
           )}

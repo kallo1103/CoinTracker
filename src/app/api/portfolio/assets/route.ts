@@ -68,6 +68,18 @@ export async function POST(request: Request) {
         });
 
         if (!portfolio) {
+            // Verify user exists before creating portfolio (handles stale sessions after DB reset)
+            const userExists = await prisma.user.findUnique({
+                where: { id: session.user.id }
+            });
+
+            if (!userExists) {
+                return NextResponse.json(
+                    { error: "User not found. Please logout and login again." },
+                    { status: 401 }
+                );
+            }
+
             portfolio = await prisma.portfolio.create({
                 data: {
                     userId: session.user.id
