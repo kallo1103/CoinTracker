@@ -65,8 +65,8 @@ export default function FearGreedChart() {
       }
 
       return (
-        <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
-          <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">{date}</p>
+        <div className="chart-tooltip">
+          <p className="text-sm text-gray-400 mb-2">{date}</p>
           <div className={`inline-block px-3 py-1 rounded ${bgColor} ${textColor} font-bold`}>
             {data.value} - {data.value_classification}
           </div>
@@ -78,10 +78,10 @@ export default function FearGreedChart() {
 
   if (loading) {
     return (
-      <div className="rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+      <div className="web3-card p-6">
         <div className="animate-pulse">
-          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/3 mb-4"></div>
-          <div className="h-64 bg-gray-200 dark:bg-gray-700 rounded"></div>
+          <div className="h-4 bg-white/10 rounded w-1/3 mb-4"></div>
+          <div className="h-64 bg-white/10 rounded"></div>
         </div>
       </div>
     );
@@ -100,7 +100,7 @@ export default function FearGreedChart() {
   const change = currentValue - previousValue;
 
   return (
-    <div className="rounded-lg shadow p-6 bg-slate-900">
+    <div className="web3-card p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
@@ -125,7 +125,7 @@ export default function FearGreedChart() {
               <stop offset="95%" stopColor="#ef4444" stopOpacity={0.3}/>
             </linearGradient>
           </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
           <XAxis 
             dataKey="timestamp" 
             stroke="#6b7280"
@@ -158,7 +158,7 @@ export default function FearGreedChart() {
       </ResponsiveContainer>
 
       {/* Legend */}
-      <div className="mt-4 flex justify-around text-xs text-gray-600">
+      <div className="mt-4 flex justify-around text-xs text-gray-400">
         <div className="flex items-center">
           <span className="inline-block w-3 h-3 bg-red-500 rounded mr-1"></span>
           <span>0-25: Extreme Fear</span>

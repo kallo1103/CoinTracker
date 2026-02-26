@@ -146,9 +146,9 @@ export default function PortfolioPage() {
       });
       setIsModalOpen(false);
       setFormData({ coinId: "", symbol: "", name: "", quantity: "", buyPrice: "" });
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error adding asset", error);
-      alert(error.message || "Failed to add asset");
+      alert(error instanceof Error ? error.message : "Failed to add asset");
     }
   };
   

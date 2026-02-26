@@ -64,12 +64,12 @@ export default function PriceChart({ symbol = 'BTC', days = DEFAULT_LIMITS.histo
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
-        <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
-          <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">{data.date}</p>
+        <div className="chart-tooltip">
+          <p className="text-sm text-gray-400 mb-2">{data.date}</p>
           <p className="text-lg font-bold text-white">
             ${data.close.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </p>
-          <div className="mt-2 space-y-1 text-xs text-gray-600 dark:text-gray-400">
+          <div className="mt-2 space-y-1 text-xs text-gray-400">
             <p>Open: ${data.open.toFixed(2)}</p>
             <p>High: ${data.high.toFixed(2)}</p>
             <p>Low: ${data.low.toFixed(2)}</p>
@@ -82,10 +82,10 @@ export default function PriceChart({ symbol = 'BTC', days = DEFAULT_LIMITS.histo
 
   if (loading) {
     return (
-      <div className="rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+      <div className="web3-card p-6">
         <div className="animate-pulse">
-          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/4 mb-4"></div>
-          <div className="h-64 bg-gray-200 dark:bg-gray-700 rounded"></div>
+          <div className="h-4 bg-white/10 rounded w-1/4 mb-4"></div>
+          <div className="h-64 bg-white/10 rounded"></div>
         </div>
       </div>
     );
@@ -111,8 +111,7 @@ export default function PriceChart({ symbol = 'BTC', days = DEFAULT_LIMITS.histo
 
   return (
     <div 
-      className="rounded-lg shadow p-6 bg-slate-900"
-      style={{ borderRadius: DESIGN_TOKENS.borderRadius.lg }}
+      className="web3-card p-6"
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-6">

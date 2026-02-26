@@ -3,13 +3,14 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { 
-  ArrowLeft, 
-  BarChart3, 
-  TrendingUp, 
-  Eye, 
-  Search, 
-  Clock, 
+import { motion } from "motion/react";
+import {
+  ArrowLeft,
+  BarChart3,
+  TrendingUp,
+  Eye,
+  Search,
+  Clock,
   Star,
   Activity,
   Target,
@@ -41,12 +42,17 @@ interface Achievement {
 }
 
 const ALL_ACHIEVEMENTS: Achievement[] = [
-  { title: 'New User', description: 'Account registered', icon: '👋', earned: true }, // Always true if viewing profile
+  { title: 'New User', description: 'Account registered', icon: '👋', earned: true },
   { title: 'Investor', description: 'Viewed 100 coins', icon: '💰', earned: false },
   { title: 'Researcher', description: 'Searched 50 times', icon: '🔍', earned: false },
   { title: 'Expert', description: 'Spent 10 hours on app', icon: '🎓', earned: false },
   { title: 'Collector', description: 'Favorited 25 coins', icon: '⭐', earned: false }
 ];
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 }
+};
 
 export default function StatisticsPage() {
   const { data: session, status } = useSession();
@@ -66,17 +72,8 @@ export default function StatisticsPage() {
     };
     achievements: Achievement[];
   }>({
-    overview: {
-      totalViews: 0,
-      searches: 0,
-      favorites: 0,
-      timeSpent: 0
-    },
-    activity: {
-      mostViewedCoins: [],
-      searchHistory: [],
-      dailyActivity: [],
-    },
+    overview: { totalViews: 0, searches: 0, favorites: 0, timeSpent: 0 },
+    activity: { mostViewedCoins: [], searchHistory: [], dailyActivity: [] },
     achievements: ALL_ACHIEVEMENTS
   });
 
@@ -87,16 +84,12 @@ export default function StatisticsPage() {
           const res = await fetch('/api/user/stats');
           if (res.ok) {
             const data = await res.json();
-            
-            // Process achievements
+
             const earnedAchievements = Array.isArray(data.achievements) ? data.achievements : [];
             const processedAchievements = ALL_ACHIEVEMENTS.map(ach => {
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                const isEarned = earnedAchievements.some((ea: any) => ea.title === ach.title);
-                return {
-                    ...ach,
-                    earned: ach.title === 'New User' ? true : isEarned
-                };
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              const isEarned = earnedAchievements.some((ea: any) => ea.title === ach.title);
+              return { ...ach, earned: ach.title === 'New User' ? true : isEarned };
             });
 
             setStats(prev => ({
@@ -123,272 +116,322 @@ export default function StatisticsPage() {
     fetchStats();
   }, [session]);
 
-  // Redirect to home if not authenticated
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/");
     }
   }, [status, router]);
 
-  // Show loading while checking session
   if (status === "loading") {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600 mb-4"></div>
-          <p className="text-gray-600 font-medium">Loading...</p>
+          <div className="w-12 h-12 rounded-full border-2 border-indigo-500/30 border-t-indigo-500 animate-spin mx-auto mb-4" />
+          <p className="text-gray-400 font-medium">Loading...</p>
         </div>
       </div>
     );
   }
 
-  // Do not render if not authenticated
-  if (!session) {
-    return null;
-  }
+  if (!session) return null;
 
-  const getTimeRangeLabel = (range: string) => {
-    switch (range) {
-      case '7d': return 'Last 7 days';
-      case '30d': return 'Last 30 days';
-      case '90d': return 'Last 90 days';
-      case '1y': return 'Last 1 year';
-      default: return 'Last 7 days';
-    }
+  const timeRangeLabels: Record<string, string> = {
+    '7d': 'Last 7 days',
+    '30d': 'Last 30 days',
+    '90d': 'Last 90 days',
+    '1y': 'Last 1 year',
   };
 
+  const overviewCards = [
+    {
+      label: 'Total Views',
+      value: stats.overview.totalViews.toLocaleString(),
+      icon: <Eye className="w-5 h-5" />,
+      gradient: 'from-indigo-500/20 to-blue-500/20',
+      iconBg: 'bg-indigo-500/15 text-indigo-400',
+      accentColor: 'text-indigo-400',
+    },
+    {
+      label: 'Searches',
+      value: stats.overview.searches.toString(),
+      icon: <Search className="w-5 h-5" />,
+      gradient: 'from-emerald-500/20 to-green-500/20',
+      iconBg: 'bg-emerald-500/15 text-emerald-400',
+      accentColor: 'text-emerald-400',
+    },
+    {
+      label: 'Favorites',
+      value: stats.overview.favorites.toString(),
+      icon: <Star className="w-5 h-5" />,
+      gradient: 'from-purple-500/20 to-fuchsia-500/20',
+      iconBg: 'bg-purple-500/15 text-purple-400',
+      accentColor: 'text-purple-400',
+    },
+    {
+      label: 'Time (hours)',
+      value: stats.overview.timeSpent.toString(),
+      icon: <Clock className="w-5 h-5" />,
+      gradient: 'from-amber-500/20 to-orange-500/20',
+      iconBg: 'bg-amber-500/15 text-amber-400',
+      accentColor: 'text-amber-400',
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen py-10 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto space-y-8">
         {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={fadeInUp}
+          className="flex items-center gap-4"
+        >
           <button
             onClick={() => router.push("/profile")}
-            className="p-2 bg-gray-800 rounded-xl hover:bg-gray-700 transition-colors"
+            className="p-2.5 web3-card hover:border-white/[0.12] transition-all"
           >
-            <ArrowLeft className="w-6 h-6 text-white" />
+            <ArrowLeft className="w-5 h-5 text-gray-300" />
           </button>
           <div>
-            <h1 className="text-4xl font-bold text-white mb-2 flex items-center gap-3">
-              <BarChart3 className="w-10 h-10" />
+            <h1 className="text-3xl sm:text-4xl font-bold text-white flex items-center gap-3">
+              <BarChart3 className="w-8 h-8 text-indigo-400" />
               Statistics
             </h1>
-            <p className="text-gray-300">Track your activities and achievements</p>
+            <p className="text-gray-400 mt-1">Track your activities and achievements</p>
           </div>
-        </div>
+        </motion.div>
 
         {/* Time Range Selector */}
-        <div className="mb-8">
-          <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-white">Time Range</h2>
-              <span className="text-gray-300">{getTimeRangeLabel(timeRange)}</span>
-            </div>
-            <div className="flex gap-2">
-              {['7d', '30d', '90d', '1y'].map((range) => (
-                <button
-                  key={range}
-                  onClick={() => setTimeRange(range)}
-                  className={`px-4 py-2 rounded-xl font-medium transition-all ${
-                    timeRange === range
-                      ? 'bg-gray-800 dark:bg-white text-white dark:text-gray-900'
-                      : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                  }`}
-                >
-                  {range === '7d' ? '7 days' : 
-                   range === '30d' ? '30 days' :
-                   range === '90d' ? '90 days' : '1 year'}
-                </button>
-              ))}
-            </div>
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={fadeInUp}
+          transition={{ delay: 0.1 }}
+          className="web3-card p-5"
+        >
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-white">Time Range</h2>
+            <span className="text-sm text-gray-400">{timeRangeLabels[timeRange]}</span>
           </div>
-        </div>
+          <div className="flex gap-2">
+            {Object.entries(timeRangeLabels).map(([key, label]) => (
+              <button
+                key={key}
+                onClick={() => setTimeRange(key)}
+                className={`px-4 py-2 rounded-xl font-medium text-sm transition-all duration-200 ${
+                  timeRange === key
+                    ? 'bg-indigo-500/15 text-indigo-400 border border-indigo-500/20'
+                    : 'bg-white/[0.03] text-gray-400 hover:bg-white/[0.06] hover:text-gray-300 border border-transparent'
+                }`}
+              >
+                {label.split(' ').pop()}
+              </button>
+            ))}
+          </div>
+        </motion.div>
 
         {/* Overview Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl shadow-xl p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-300 text-sm font-medium">Total Views</p>
-                <p className="text-3xl font-bold text-white">{stats.overview.totalViews.toLocaleString()}</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {overviewCards.map((card, index) => (
+            <motion.div
+              key={card.label}
+              initial="hidden"
+              animate="visible"
+              variants={fadeInUp}
+              transition={{ delay: 0.15 + index * 0.05 }}
+              className={`metric-card bg-gradient-to-br ${card.gradient}`}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-sm font-medium text-gray-400">{card.label}</span>
+                <div className={`p-2 rounded-xl ${card.iconBg}`}>
+                  {card.icon}
+                </div>
               </div>
-              <Eye className="w-8 h-8 text-gray-400 dark:text-gray-300" />
-            </div>
-          </div>
-
-          <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-2xl shadow-xl p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-green-100 text-sm font-medium">Searches</p>
-                <p className="text-3xl font-bold text-white">{stats.overview.searches}</p>
-              </div>
-              <Search className="w-8 h-8 text-green-200" />
-            </div>
-          </div>
-
-          <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl shadow-xl p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-purple-100 text-sm font-medium">Favorites</p>
-                <p className="text-3xl font-bold text-white">{stats.overview.favorites}</p>
-              </div>
-              <Star className="w-8 h-8 text-purple-200" />
-            </div>
-          </div>
-
-          <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl shadow-xl p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-orange-100 text-sm font-medium">Time (hours)</p>
-                <p className="text-3xl font-bold text-white">{stats.overview.timeSpent}</p>
-              </div>
-              <Clock className="w-8 h-8 text-orange-200" />
-            </div>
-          </div>
+              <p className="text-3xl font-bold text-white">{card.value}</p>
+            </motion.div>
+          ))}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        {/* Two-column: Most Viewed + Search History */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Most Viewed Coins */}
-          <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="web3-card p-6"
+          >
             <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 bg-gray-700/50 dark:bg-gray-600/50 rounded-xl">
-                <TrendingUp className="w-6 h-6 text-gray-300 dark:text-white" />
+              <div className="p-2.5 rounded-xl bg-amber-500/10 text-amber-400">
+                <TrendingUp className="w-5 h-5" />
               </div>
-              <h2 className="text-2xl font-bold text-white">Most Viewed Coins</h2>
+              <h2 className="text-xl font-bold text-white">Most Viewed Coins</h2>
             </div>
-            
-            <div className="space-y-4">
+
+            <div className="space-y-3">
+              {stats.activity.mostViewedCoins.length === 0 && (
+                <p className="text-gray-500 text-sm text-center py-4">No data yet</p>
+              )}
               {stats.activity.mostViewedCoins.map((coin, index) => (
-                <div key={coin.symbol} className="flex items-center justify-between p-4 bg-gray-700/50 rounded-xl">
+                <div key={coin.symbol} className="flex items-center justify-between p-3.5 bg-white/[0.03] rounded-xl border border-white/[0.04] hover:border-white/[0.08] transition-colors">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                    <div className="w-8 h-8 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-lg shadow-amber-500/20">
                       {index + 1}
                     </div>
                     <div>
-                      <h3 className="text-white font-medium">{coin.name}</h3>
-                      <p className="text-gray-300 text-sm">{coin.symbol}</p>
+                      <h3 className="text-white font-medium text-sm">{coin.name}</h3>
+                      <p className="text-gray-500 text-xs uppercase">{coin.symbol}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-white font-bold">{coin.views}</p>
-                    <p className="text-gray-300 text-sm">views</p>
+                    <p className="text-white font-bold text-sm">{coin.views}</p>
+                    <p className="text-gray-500 text-xs">views</p>
                   </div>
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* Search History */}
-          <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="web3-card p-6"
+          >
             <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 bg-green-500/20 rounded-xl">
-                <Search className="w-6 h-6 text-green-400" />
+              <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400">
+                <Search className="w-5 h-5" />
               </div>
-              <h2 className="text-2xl font-bold text-white">Search History</h2>
+              <h2 className="text-xl font-bold text-white">Search History</h2>
             </div>
-            
-            <div className="space-y-4">
+
+            <div className="space-y-3">
+              {stats.activity.searchHistory.length === 0 && (
+                <p className="text-gray-500 text-sm text-center py-4">No searches yet</p>
+              )}
               {stats.activity.searchHistory.map((search, index) => (
-                <div key={index} className="flex items-center justify-between p-4 bg-gray-700/50 rounded-xl">
+                <div key={index} className="flex items-center justify-between p-3.5 bg-white/[0.03] rounded-xl border border-white/[0.04] hover:border-white/[0.08] transition-colors">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-gradient-to-br from-indigo-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                    <div className="w-8 h-8 bg-gradient-to-br from-indigo-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-lg shadow-indigo-500/20">
                       {index + 1}
                     </div>
                     <div>
-                      <h3 className="text-white font-medium">{search.query}</h3>
-                      <p className="text-gray-300 text-sm">Keyword</p>
+                      <h3 className="text-white font-medium text-sm">{search.query}</h3>
+                      <p className="text-gray-500 text-xs">Keyword</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-white font-bold">{search.count}</p>
-                    <p className="text-gray-300 text-sm">times</p>
+                    <p className="text-white font-bold text-sm">{search.count}</p>
+                    <p className="text-gray-500 text-xs">times</p>
                   </div>
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Daily Activity Chart */}
-        <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 mb-8">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeInUp}
+          className="web3-card p-6"
+        >
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-purple-500/20 rounded-xl">
-              <Activity className="w-6 h-6 text-purple-400" />
+            <div className="p-2.5 rounded-xl bg-purple-500/10 text-purple-400">
+              <Activity className="w-5 h-5" />
             </div>
-            <h2 className="text-2xl font-bold text-white">Daily Activity</h2>
+            <h2 className="text-xl font-bold text-white">Daily Activity</h2>
           </div>
-          
-          <div className="grid grid-cols-7 gap-2">
-            {stats.activity.dailyActivity.map((day, index) => (
-              <div key={index} className="text-center">
-                <div className="bg-gray-700 rounded-lg p-3 mb-2">
-                  <div className="text-white text-sm font-medium mb-1">
-                    {new Date(day.date).toLocaleDateString('en-US', { weekday: 'short' })}
+
+          {stats.activity.dailyActivity.length === 0 ? (
+            <p className="text-gray-500 text-sm text-center py-8">No activity data yet</p>
+          ) : (
+            <>
+              <div className="grid grid-cols-7 gap-2">
+                {stats.activity.dailyActivity.map((day, index) => (
+                  <div key={index} className="text-center">
+                    <div className="bg-white/[0.03] rounded-xl p-3 border border-white/[0.04]">
+                      <div className="text-white text-xs font-medium mb-2">
+                        {new Date(day.date).toLocaleDateString('en-US', { weekday: 'short' })}
+                      </div>
+                      <div className="space-y-1">
+                        <div className="h-1.5 bg-indigo-500/80 rounded" style={{ width: `${Math.min((day.views / 70) * 100, 100)}%` }} />
+                        <div className="h-1.5 bg-emerald-500/80 rounded" style={{ width: `${Math.min((day.searches / 20) * 100, 100)}%` }} />
+                      </div>
+                      <div className="text-[10px] text-gray-500 mt-1.5">
+                        {day.views}v · {day.searches}s
+                      </div>
+                    </div>
                   </div>
-                  <div className="space-y-1">
-                    <div className="h-2 bg-gray-700 dark:bg-white rounded" style={{ width: `${(day.views / 70) * 100}%` }}></div>
-                    <div className="h-2 bg-green-500 rounded" style={{ width: `${(day.searches / 20) * 100}%` }}></div>
-                  </div>
-                  <div className="text-xs text-gray-300 mt-1">
-                    {day.views}v, {day.searches}s
-                  </div>
+                ))}
+              </div>
+
+              <div className="flex items-center justify-center gap-6 mt-5">
+                <div className="flex items-center gap-2">
+                  <div className="w-2.5 h-2.5 bg-indigo-500 rounded-sm" />
+                  <span className="text-gray-400 text-xs">Views</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2.5 h-2.5 bg-emerald-500 rounded-sm" />
+                  <span className="text-gray-400 text-xs">Searches</span>
                 </div>
               </div>
-            ))}
-          </div>
-          
-          <div className="flex items-center justify-center gap-6 mt-4">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-gray-700 dark:bg-white rounded"></div>
-              <span className="text-gray-300 text-sm">Views</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-green-500 rounded"></div>
-              <span className="text-gray-300 text-sm">Searches</span>
-            </div>
-          </div>
-        </div>
+            </>
+          )}
+        </motion.div>
 
         {/* Achievements */}
-        <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeInUp}
+          className="web3-card p-6"
+        >
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-yellow-500/20 rounded-xl">
-              <Award className="w-6 h-6 text-yellow-400" />
+            <div className="p-2.5 rounded-xl bg-amber-500/10 text-amber-400">
+              <Award className="w-5 h-5" />
             </div>
-            <h2 className="text-2xl font-bold text-white">Achievements</h2>
+            <h2 className="text-xl font-bold text-white">Achievements</h2>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {stats.achievements.map((achievement, index) => (
               <div
                 key={index}
-                className={`p-4 rounded-xl border-2 transition-all ${
+                className={`p-4 rounded-xl border transition-all duration-300 ${
                   achievement.earned
-                    ? 'bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border-yellow-500/50'
-                    : 'bg-gray-700/50 border-gray-600/50 opacity-60'
+                    ? 'bg-gradient-to-br from-amber-500/10 to-orange-500/10 border-amber-500/20 hover:border-amber-500/30'
+                    : 'bg-white/[0.02] border-white/[0.04] opacity-50'
                 }`}
               >
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="text-2xl">{achievement.icon}</div>
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="text-2xl">{achievement.icon}</span>
                   <div>
-                    <h3 className={`font-bold ${achievement.earned ? 'text-yellow-300' : 'text-gray-400'}`}>
+                    <h3 className={`font-bold text-sm ${achievement.earned ? 'text-amber-300' : 'text-gray-500'}`}>
                       {achievement.title}
                     </h3>
-                    <p className={`text-sm ${achievement.earned ? 'text-yellow-200' : 'text-gray-500'}`}>
+                    <p className={`text-xs ${achievement.earned ? 'text-amber-200/70' : 'text-gray-600'}`}>
                       {achievement.description}
                     </p>
                   </div>
                 </div>
                 {achievement.earned && (
-                  <div className="flex items-center gap-2 text-yellow-300 text-sm">
-                    <Target className="w-4 h-4" />
+                  <div className="flex items-center gap-1.5 text-amber-400/80 text-xs mt-1">
+                    <Target className="w-3 h-3" />
                     <span>Unlocked</span>
                   </div>
                 )}
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

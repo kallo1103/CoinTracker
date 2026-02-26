@@ -4,12 +4,10 @@ import { useEffect, useState } from 'react';
 import { AlertTriangle, X } from "lucide-react";
 import { useLanguage } from '@/contexts/LanguageContext';
 import { API_CONFIG } from '@/config/api';
-import { DESIGN_TOKENS } from '@/config/design-tokens';
 import { FEAR_GREED_THRESHOLDS } from '@/config/constants';
 import { getFearGreedBgClass, getFearGreedTextClass } from '@/utils/theme';
 import { formatDateTime } from '@/utils/formatters';
 
-// Interface cho dữ liệu Fear & Greed Index
 interface FearGreedData {
   value: number;
   value_classification: string;
@@ -21,19 +19,26 @@ interface FearGreedData {
   time_until_update: string;
 }
 
+const SENTIMENT_COLORS = [
+  { color: '#ef4444', label: 'extremeFear', range: `0-${FEAR_GREED_THRESHOLDS.extremeFear.max}` },
+  { color: '#f97316', label: 'fear', range: `${FEAR_GREED_THRESHOLDS.fear.min}-${FEAR_GREED_THRESHOLDS.fear.max}` },
+  { color: '#eab308', label: 'neutral', range: `${FEAR_GREED_THRESHOLDS.neutral.min}-${FEAR_GREED_THRESHOLDS.neutral.max}` },
+  { color: '#84cc16', label: 'greed', range: `${FEAR_GREED_THRESHOLDS.greed.min}-${FEAR_GREED_THRESHOLDS.greed.max}` },
+  { color: '#22c55e', label: 'extremeGreed', range: `${FEAR_GREED_THRESHOLDS.extremeGreed.min}-100` },
+];
+
 export default function FearGreedIndex() {
   const { t } = useLanguage();
   const [data, setData] = useState<FearGreedData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch dữ liệu Fear & Greed Index
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await fetch(`${API_CONFIG.endpoints.fearGreed}?limit=1`);
         const result = await response.json();
-        
+
         if (result.success && result.data.length > 0) {
           setData(result.data[0]);
         } else {
@@ -48,19 +53,17 @@ export default function FearGreedIndex() {
     }
 
     fetchData();
-    // Refresh từ config
     const interval = setInterval(fetchData, API_CONFIG.polling.hourly);
     return () => clearInterval(interval);
   }, []);
 
-  // Note: Sử dụng utils từ theme.ts thay vì hard-code
-
   if (loading) {
     return (
-      <div className="rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-        <div className="animate-pulse">
-          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2 mb-4"></div>
-          <div className="h-20 bg-gray-200 dark:bg-gray-700 rounded"></div>
+      <div className="web3-card p-6">
+        <div className="animate-pulse space-y-4">
+          <div className="h-4 bg-white/5 rounded w-1/2" />
+          <div className="h-8 bg-white/5 rounded-full" />
+          <div className="h-10 bg-white/5 rounded-xl w-1/3 mx-auto" />
         </div>
       </div>
     );
@@ -68,77 +71,43 @@ export default function FearGreedIndex() {
 
   if (error || !data) {
     return (
-      <div className="border border-red-200 dark:border-red-800 rounded-lg p-4 bg-red-50 dark:bg-red-900/20">
-        <p className="text-red-600 dark:text-red-400 flex items-center gap-2"><X className="w-4 h-4" /> {error || 'Không có dữ liệu'}</p>
+      <div className="web3-card border-red-500/20 p-5">
+        <p className="text-red-400 flex items-center gap-2">
+          <X className="w-4 h-4" /> {error || 'No data available'}
+        </p>
       </div>
     );
   }
 
   return (
-    <div 
-      className="rounded-lg shadow bg-slate-900"
-      style={{ 
-        borderRadius: DESIGN_TOKENS.borderRadius.lg,
-        padding: `${DESIGN_TOKENS.spacing.scale[6]}px`
-      }}
-    >
-      <h3 
-        className="font-semibold text-white flex items-center"
-        style={{ 
-          fontSize: DESIGN_TOKENS.typography.fontSize.lg,
-          marginBottom: `${DESIGN_TOKENS.spacing.scale[4]}px`,
-          gap: `${DESIGN_TOKENS.spacing.scale[2]}px`
-        }}
-      >
-        <AlertTriangle style={{ width: '20px', height: '20px' }} />
+    <div className="web3-card p-6">
+      <h3 className="font-semibold text-white flex items-center gap-2 text-lg mb-5">
+        <AlertTriangle className="w-5 h-5 text-amber-400" />
         {t('fearGreed.title')}
       </h3>
-      
-      {/* Gauge/Meter hiển thị */}
-      <div className="relative">
-        {/* Background bar - Fear & Greed gradient */}
-        <div 
-          className="w-full rounded-full relative overflow-hidden"
+
+      {/* Gauge Bar */}
+      <div className="relative mt-8">
+        <div
+          className="w-full h-3 rounded-full relative overflow-hidden"
           style={{
-            height: `${DESIGN_TOKENS.spacing.scale[8]}px`,
-            background: `linear-gradient(to right, ${DESIGN_TOKENS.colors.sentiment.extremeFear}, ${DESIGN_TOKENS.colors.sentiment.fear}, ${DESIGN_TOKENS.colors.sentiment.neutral}, ${DESIGN_TOKENS.colors.sentiment.greed}, ${DESIGN_TOKENS.colors.sentiment.extremeGreed})`,
-            borderRadius: DESIGN_TOKENS.borderRadius.full
+            background: `linear-gradient(to right, #ef4444, #f97316, #eab308, #84cc16, #22c55e)`,
           }}
         >
           {/* Indicator */}
-          <div 
-            className="absolute top-0 bottom-0 shadow-lg transition-all"
-            style={{ 
-              left: `${data.value}%`,
-              width: '4px',
-              backgroundColor: DESIGN_TOKENS.colors.brand.dark,
-              transitionDuration: DESIGN_TOKENS.transition.duration.slower
-            }}
+          <div
+            className="absolute top-0 bottom-0 w-1 bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)] transition-all duration-700 rounded-full"
+            style={{ left: `${data.value}%` }}
           >
-            <div 
-              className="absolute left-1/2 -translate-x-1/2 font-bold whitespace-nowrap"
-              style={{
-                top: '-32px',
-                backgroundColor: DESIGN_TOKENS.colors.brand.dark,
-                color: DESIGN_TOKENS.colors.brand.light,
-                padding: `${DESIGN_TOKENS.spacing.scale[1]}px ${DESIGN_TOKENS.spacing.scale[3]}px`,
-                borderRadius: DESIGN_TOKENS.borderRadius.md,
-                fontSize: DESIGN_TOKENS.typography.fontSize.sm
-              }}
-            >
+            <div className="absolute left-1/2 -translate-x-1/2 -top-8 bg-white text-gray-900 font-bold text-xs px-2.5 py-1 rounded-lg whitespace-nowrap shadow-lg">
               {data.value}
+              <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-white" />
             </div>
           </div>
         </div>
 
         {/* Scale labels */}
-        <div 
-          className="flex justify-between text-gray-500 dark:text-gray-400"
-          style={{ 
-            marginTop: `${DESIGN_TOKENS.spacing.scale[2]}px`,
-            fontSize: DESIGN_TOKENS.typography.fontSize.xs
-          }}
-        >
+        <div className="flex justify-between mt-2 text-[10px] text-gray-500">
           <span>0</span>
           <span>{FEAR_GREED_THRESHOLDS.extremeFear.max}</span>
           <span>{FEAR_GREED_THRESHOLDS.neutral.max}</span>
@@ -147,109 +116,34 @@ export default function FearGreedIndex() {
         </div>
       </div>
 
-      {/* Value display */}
-      <div className="text-center" style={{ marginTop: `${DESIGN_TOKENS.spacing.scale[6]}px` }}>
-        <div 
-          className={`inline-block font-bold ${getFearGreedBgClass(data.value)} ${getFearGreedTextClass(data.value)}`}
-          style={{
-            padding: `${DESIGN_TOKENS.spacing.scale[3]}px ${DESIGN_TOKENS.spacing.scale[6]}px`,
-            borderRadius: DESIGN_TOKENS.borderRadius.lg,
-            fontSize: DESIGN_TOKENS.typography.fontSize['2xl']
-          }}
+      {/* Classification Badge */}
+      <div className="text-center mt-6">
+        <div
+          className={`inline-block font-bold text-xl px-5 py-2.5 rounded-xl ${getFearGreedBgClass(data.value)} ${getFearGreedTextClass(data.value)}`}
         >
-          {data.value} - {data.value_classification}
+          {data.value} — {data.value_classification}
         </div>
       </div>
 
-      {/* Description */}
-      <div 
-        className="text-gray-600 dark:text-gray-400 text-center"
-        style={{ 
-          marginTop: `${DESIGN_TOKENS.spacing.scale[4]}px`,
-          fontSize: DESIGN_TOKENS.typography.fontSize.sm
-        }}
-      >
-        <p style={{ marginBottom: `${DESIGN_TOKENS.spacing.scale[2]}px` }}>
-          <strong>{t('fearGreed.meaning')}:</strong>
+      {/* Legend */}
+      <div className="mt-5">
+        <p className="text-xs text-gray-400 text-center mb-3 font-medium">
+          {t('fearGreed.meaning')}:
         </p>
-        <div 
-          className="flex justify-around"
-          style={{ fontSize: DESIGN_TOKENS.typography.fontSize.xs }}
-        >
-          <div>
-            <span 
-              className="inline-block rounded"
-              style={{
-                width: '12px',
-                height: '12px',
-                backgroundColor: DESIGN_TOKENS.colors.sentiment.extremeFear,
-                marginRight: `${DESIGN_TOKENS.spacing.scale[1]}px`
-              }}
-            ></span>
-            <span>{t('fearGreed.extremeFear')} (0-{FEAR_GREED_THRESHOLDS.extremeFear.max})</span>
-          </div>
-          <div>
-            <span 
-              className="inline-block rounded"
-              style={{
-                width: '12px',
-                height: '12px',
-                backgroundColor: DESIGN_TOKENS.colors.sentiment.fear,
-                marginRight: `${DESIGN_TOKENS.spacing.scale[1]}px`
-              }}
-            ></span>
-            <span>{t('fearGreed.fear')} ({FEAR_GREED_THRESHOLDS.fear.min}-{FEAR_GREED_THRESHOLDS.fear.max})</span>
-          </div>
-          <div>
-            <span 
-              className="inline-block rounded"
-              style={{
-                width: '12px',
-                height: '12px',
-                backgroundColor: DESIGN_TOKENS.colors.sentiment.neutral,
-                marginRight: `${DESIGN_TOKENS.spacing.scale[1]}px`
-              }}
-            ></span>
-            <span>{t('fearGreed.neutral')} ({FEAR_GREED_THRESHOLDS.neutral.min}-{FEAR_GREED_THRESHOLDS.neutral.max})</span>
-          </div>
-          <div>
-            <span 
-              className="inline-block rounded"
-              style={{
-                width: '12px',
-                height: '12px',
-                backgroundColor: DESIGN_TOKENS.colors.sentiment.greed,
-                marginRight: `${DESIGN_TOKENS.spacing.scale[1]}px`
-              }}
-            ></span>
-            <span>{t('fearGreed.greed')} ({FEAR_GREED_THRESHOLDS.greed.min}-{FEAR_GREED_THRESHOLDS.greed.max})</span>
-          </div>
-          <div>
-            <span 
-              className="inline-block rounded"
-              style={{
-                width: '12px',
-                height: '12px',
-                backgroundColor: DESIGN_TOKENS.colors.sentiment.extremeGreed,
-                marginRight: `${DESIGN_TOKENS.spacing.scale[1]}px`
-              }}
-            ></span>
-            <span>{t('fearGreed.extremeGreed')} ({FEAR_GREED_THRESHOLDS.extremeGreed.min}-100)</span>
-          </div>
+        <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-[11px] text-gray-400">
+          {SENTIMENT_COLORS.map(({ color, label, range }) => (
+            <div key={label} className="flex items-center gap-1.5">
+              <div className="w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: color }} />
+              <span>{t(`fearGreed.${label}`)} ({range})</span>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Update time */}
-      <div 
-        className="text-gray-400 dark:text-gray-500 text-center"
-        style={{ 
-          marginTop: `${DESIGN_TOKENS.spacing.scale[4]}px`,
-          fontSize: DESIGN_TOKENS.typography.fontSize.xs
-        }}
-      >
+      {/* Update Time */}
+      <p className="text-[11px] text-gray-600 text-center mt-4">
         {t('common.updated')}: {formatDateTime(parseInt(data.timestamp))}
-      </div>
+      </p>
     </div>
   );
 }
-

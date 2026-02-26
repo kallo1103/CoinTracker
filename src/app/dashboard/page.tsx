@@ -6,56 +6,90 @@ import { useEffect } from "react";
 import Image from "next/image";
 import CryptoSearch from "@/components/CryptoSearch";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { 
-  Check, 
-  Mail, 
-  Search, 
-  User, 
-  Settings, 
-  BarChart2, 
-  ChevronLeft, 
-  LogOut 
+import { motion } from "motion/react";
+import {
+  Check,
+  Mail,
+  Search,
+  User,
+  Settings,
+  BarChart2,
+  ChevronLeft,
+  LogOut
 } from "lucide-react";
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 }
+};
 
 export default function DashboardPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const { t } = useLanguage();
 
-  // Redirect to home if not authenticated
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/");
     }
   }, [status, router]);
 
-  
-  // Do not render if not authenticated (redirect will occur)
-  if (!session) {
-    return null;
-  }
+  if (!session) return null;
+
+  const quickActions = [
+    {
+      icon: <User className="w-5 h-5" />,
+      title: t('dashboard.profile'),
+      description: t('profile.manageInfo'),
+      iconBg: 'bg-indigo-500/15 text-indigo-400',
+      href: '/profile',
+    },
+    {
+      icon: <Settings className="w-5 h-5" />,
+      title: t('dashboard.settings'),
+      description: t('profile.customizeAccount'),
+      iconBg: 'bg-purple-500/15 text-purple-400',
+      href: '/profile/settings',
+    },
+    {
+      icon: <BarChart2 className="w-5 h-5" />,
+      title: t('profile.statistics'),
+      description: t('profile.viewActivity'),
+      iconBg: 'bg-emerald-500/15 text-emerald-400',
+      href: '/profile/statistics',
+    },
+  ];
 
   return (
-    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
-        {/* Header with welcome message */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-white mb-2">
+    <div className="min-h-screen py-10 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto space-y-8">
+        {/* Welcome */}
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={fadeInUp}
+          className="text-center"
+        >
+          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">
             🎉 {t('dashboard.welcome')}
           </h1>
-            <p className="text-gray-600 dark:text-gray-300">
-            {t('dashboard.loginSuccess')}
-          </p>
-        </div>
+          <p className="text-gray-400">{t('dashboard.loginSuccess')}</p>
+        </motion.div>
 
-        {/* User info card */}
-        <div className="bg-white dark:bg-gray-80 rounded-2xl shadow-xl overflow-hidden mb-8 border border-gray-200 dark:border-gray-700">
-          {/* Header card with gradient */}
-          <div className="bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-6">
-            <h2 className="text-2xl font-bold text-white">{t('dashboard.accountInfo')}</h2>
+        {/* User Card */}
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={fadeInUp}
+          transition={{ delay: 0.1 }}
+          className="web3-card overflow-hidden"
+        >
+          {/* Card header gradient */}
+          <div className="bg-gradient-to-r from-indigo-600/30 to-purple-600/30 px-8 py-5 border-b border-white/[0.06]">
+            <h2 className="text-xl font-bold text-white">{t('dashboard.accountInfo')}</h2>
           </div>
 
-          {/* Card content */}
+          {/* Card body */}
           <div className="p-8">
             <div className="flex flex-col sm:flex-row items-center gap-6">
               {/* Avatar */}
@@ -64,123 +98,117 @@ export default function DashboardPage() {
                   <Image
                     src={session.user.image}
                     alt={session.user.name || "User avatar"}
-                    width={120}
-                    height={120}
-                    className="rounded-full ring-4 ring-indigo-100"
+                    width={100}
+                    height={100}
+                    className="rounded-full ring-2 ring-indigo-500/30"
                     unoptimized
                   />
                 ) : (
-                  <div className="w-[120px] h-[120px] rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white text-4xl font-bold ring-4 ring-indigo-100">
+                  <div className="w-[100px] h-[100px] rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-3xl font-bold ring-2 ring-indigo-500/30">
                     {session.user?.name?.charAt(0).toUpperCase() || "U"}
                   </div>
                 )}
-                <div className="absolute -bottom-2 -right-2 bg-green-500 w-8 h-8 rounded-full border-4 border-white flex items-center justify-center">
-                  <Check className="w-4 h-4 text-white" />
+                <div className="absolute -bottom-1 -right-1 bg-emerald-500 w-7 h-7 rounded-full border-3 border-black flex items-center justify-center">
+                  <Check className="w-3.5 h-3.5 text-white" />
                 </div>
               </div>
 
-              {/* Detailed information */}
+              {/* User Info */}
               <div className="flex-1 text-center sm:text-left">
-                <h3 className="text-2xl font-bold text-white mb-2">
+                <h3 className="text-2xl font-bold text-white mb-1">
                   {session.user?.name || "User"}
                 </h3>
-                <p className="text-gray-700 dark:text-gray-300 mb-4 flex items-center justify-center sm:justify-start gap-2">
-                  <Mail className="w-5 h-5" />
+                <p className="text-gray-400 mb-4 flex items-center justify-center sm:justify-start gap-2 text-sm">
+                  <Mail className="w-4 h-4" />
                   {session.user?.email}
                 </p>
 
-                {/* Additional stats or info */}
-                <div className="flex gap-4 justify-center sm:justify-start">
-                  <div className="bg-indigo-100 dark:bg-indigo-900/50 px-4 py-2 rounded-lg">
-                    <p className="text-xs text-indigo-700 dark:text-indigo-300 font-medium">{t('profile.status')}</p>
-                    <p className="text-sm font-bold text-indigo-900 dark:text-indigo-100">{t('profile.active')}</p>
+                <div className="flex gap-3 justify-center sm:justify-start">
+                  <div className="bg-indigo-500/10 px-3.5 py-2 rounded-xl border border-indigo-500/10">
+                    <p className="text-[10px] text-indigo-400 font-medium uppercase tracking-wider">{t('profile.status')}</p>
+                    <p className="text-sm font-bold text-indigo-300">{t('profile.active')}</p>
                   </div>
-                  <div className="bg-purple-100 dark:bg-purple-900/50 px-4 py-2 rounded-lg">
-                    <p className="text-xs text-purple-700 dark:text-purple-300 font-medium">{t('dashboard.accountType')}</p>
-                    <p className="text-sm font-bold text-purple-900 dark:text-purple-100">{t('dashboard.premium')}</p>
+                  <div className="bg-purple-500/10 px-3.5 py-2 rounded-xl border border-purple-500/10">
+                    <p className="text-[10px] text-purple-400 font-medium uppercase tracking-wider">{t('dashboard.accountType')}</p>
+                    <p className="text-sm font-bold text-purple-300">{t('dashboard.premium')}</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Search Section */}
-        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl shadow-2xl p-8 mb-8 border border-gray-200 dark:border-gray-700/20 hover:shadow-3xl transition-all duration-300 relative z-50">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={fadeInUp}
+          transition={{ delay: 0.2 }}
+          className="web3-card p-8 relative z-50"
+        >
           <div className="text-center mb-6">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-gray-700 to-gray-900 dark:from-gray-200 dark:to-white rounded-2xl mb-4">
-              <Search className="h-8 w-8 text-white dark:text-gray-900" />
+            <div className="inline-flex items-center justify-center w-14 h-14 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-2xl mb-3 border border-indigo-500/10">
+              <Search className="h-6 w-6 text-indigo-400" />
             </div>
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2">
-               {t('profile.searchCrypto')}
+            <h2 className="text-2xl font-bold text-white mb-1">
+              {t('profile.searchCrypto')}
             </h2>
-            <p className="text-gray-600 dark:text-gray-300 text-lg">{t('profile.searchCryptoDesc')}</p>
+            <p className="text-gray-400 text-sm">{t('profile.searchCryptoDesc')}</p>
           </div>
           <div className="flex justify-center">
             <CryptoSearch />
           </div>
+        </motion.div>
+
+        {/* Quick Actions */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {quickActions.map((action, index) => (
+            <motion.button
+              key={action.title}
+              initial="hidden"
+              animate="visible"
+              variants={fadeInUp}
+              transition={{ delay: 0.3 + index * 0.05 }}
+              onClick={() => router.push(action.href)}
+              className="metric-card text-left group cursor-pointer"
+            >
+              <div className={`inline-flex p-2.5 rounded-xl ${action.iconBg} mb-4 group-hover:scale-110 transition-transform duration-200`}>
+                {action.icon}
+              </div>
+              <h3 className="font-bold text-white mb-1 text-sm">{action.title}</h3>
+              <p className="text-xs text-gray-500">{action.description}</p>
+            </motion.button>
+          ))}
         </div>
 
-
-        {/* Quick actions */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-all duration-300 cursor-pointer border border-gray-200 dark:border-gray-700/20 hover:border-gray-400 dark:hover:border-gray-500 hover:-translate-y-1">
-            <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-gray-700 to-gray-900 dark:from-gray-200 dark:to-white rounded-xl mb-4 group-hover:scale-110 transition-transform duration-200">
-              <User className="w-6 h-6 text-white dark:text-gray-900" />
-            </div>
-            <h3 className="font-bold text-white mb-2 transition-colors">{t('dashboard.profile')}</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-300">{t('profile.manageInfo')}</p>
-          </div>
-
-          <div className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-all duration-300 cursor-pointer border border-gray-200 dark:border-gray-700/20 hover:border-gray-400 dark:hover:border-gray-500 hover:-translate-y-1">
-            <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-600 dark:from-purple-400 dark:to-pink-400 rounded-xl mb-4 group-hover:scale-110 transition-transform duration-200">
-              <Settings className="w-6 h-6 text-white dark:text-gray-900" />
-            </div>
-            <h3 className="font-bold text-white mb-2 transition-colors">{t('dashboard.settings')}</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-300">{t('profile.customizeAccount')}</p>
-          </div>
-
-          <div className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-all duration-300 cursor-pointer border border-gray-200 dark:border-gray-700/20 hover:border-gray-400 dark:hover:border-gray-500 hover:-translate-y-1">
-            <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 dark:from-green-400 dark:to-emerald-400 rounded-xl mb-4 group-hover:scale-110 transition-transform duration-200">
-              <BarChart2 className="w-6 h-6 text-white dark:text-gray-900" />
-            </div>
-            <h3 className="font-bold text-white mb-2 transition-colors">{t('profile.statistics')}</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-300">{t('profile.viewActivity')}</p>
-          </div>
-        </div>
-
-        {/* Action buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        {/* Action Buttons */}
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={fadeInUp}
+          transition={{ delay: 0.5 }}
+          className="flex flex-col sm:flex-row gap-3 justify-center"
+        >
           <button
             onClick={() => router.push("/app")}
-            className="group px-8 py-4 bg-gray-200 dark:bg-gray-800/80 backdrop-blur-sm text-gray-900 dark:text-indigo-300 rounded-2xl font-semibold hover:bg-gray-300 dark:hover:bg-gray-700 transition-all duration-300 shadow-xl hover:shadow-2xl border-2 border-gray-400 dark:border-indigo-500 hover:border-gray-500 dark:hover:border-indigo-400 hover:-translate-y-1"
+            className="group px-6 py-3 web3-card hover:border-indigo-500/20 font-medium text-indigo-400 transition-all duration-200"
           >
-            <span className="flex items-center">
-              <ChevronLeft className="h-5 w-5 mr-2 group-hover:-translate-x-1 transition-transform duration-200" />
+            <span className="flex items-center justify-center gap-2">
+              <ChevronLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
               {t('dashboard.backToDashboard')}
             </span>
           </button>
-          
+
           <button
             onClick={() => signOut({ callbackUrl: "/" })}
-            className="group px-8 py-4 bg-gradient-to-r from-red-500 to-pink-500 text-white rounded-2xl font-semibold hover:from-red-600 hover:to-pink-600 transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-1"
+            className="group px-6 py-3 bg-red-500/10 border border-red-500/20 rounded-2xl font-medium text-red-400 hover:bg-red-500/15 hover:border-red-500/30 transition-all duration-200"
           >
-            <span className="flex items-center">
+            <span className="flex items-center justify-center gap-2">
               {t('auth.signout')}
-              <LogOut className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
+              <LogOut className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </span>
           </button>
-        </div>
-
-       
-        {/* {process.env.NODE_ENV === 'development' && (
-          <div className="mt-8 bg-gray-900 rounded-xl p-6 text-white">
-            <h3 className="text-sm font-bold mb-2 text-gray-400">DEBUG - Session Data:</h3>
-            <pre className="text-xs overflow-auto">
-              {JSON.stringify(session, null, 2)}
-            </pre>
-          </div>
-        )} */}
+        </motion.div>
       </div>
     </div>
   );

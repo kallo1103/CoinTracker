@@ -145,7 +145,7 @@ export default function PortfolioHistoryChart({ assets }: PortfolioHistoryChartP
 
   if (loading) {
     return (
-       <div className="h-[300px] w-full flex items-center justify-center bg-gray-900/50 backdrop-blur-xl border border-gray-800 rounded-xl">
+       <div className="h-[300px] w-full flex items-center justify-center web3-card">
           <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
        </div>
     );
@@ -156,7 +156,7 @@ export default function PortfolioHistoryChart({ assets }: PortfolioHistoryChartP
   }
 
   return (
-    <div className="w-full bg-gray-900/50 backdrop-blur-xl border border-gray-800 p-6 rounded-2xl mb-8">
+    <div className="w-full web3-card p-6 mb-8">
        <h3 className="text-xl font-bold text-white mb-4">Portfolio Performance (30D)</h3>
        <div className="h-[300px] w-full">
          <ResponsiveContainer width="100%" height="100%">

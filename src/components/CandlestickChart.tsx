@@ -137,8 +137,8 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
       const isGreen = data.isGreen;
 
       return (
-        <div className="bg-white p-4 rounded-lg shadow-lg border border-gray-300">
-          <p className="text-sm text-gray-600 mb-2 font-medium">{data.date}</p>
+        <div className="chart-tooltip">
+          <p className="text-sm text-gray-400 mb-2 font-medium">{data.date}</p>
           
           <div className="space-y-1 text-sm">
             <div className="flex justify-between gap-4">
@@ -159,7 +159,7 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
             </div>
           </div>
 
-          <div className={`mt-3 pt-2 border-t ${isGreen ? 'border-green-200' : 'border-red-200'}`}>
+          <div className={`mt-3 pt-2 border-t ${isGreen ? 'border-emerald-500/20' : 'border-red-500/20'}`}>
             <div className="flex justify-between items-center">
               <span className="text-gray-500 text-sm">Change:</span>
               <div className="text-right">
@@ -170,7 +170,7 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
             </div>
           </div>
 
-          <div className="mt-2 pt-2 border-t border-gray-100">
+          <div className="mt-2 pt-2 border-t border-white/10">
             <div className="flex justify-between gap-4">
               <span className="text-gray-500 text-xs">{t('chart.volume')}:</span>
               <span className="font-medium text-xs">
@@ -186,10 +186,10 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
 
   if (loading) {
     return (
-      <div className="rounded-lg shadow p-6 border border-gray-200bg-slate-900">
+      <div className="web3-card p-6">
         <div className="animate-pulse">
-          <div className="h-4 bg-gray-200 rounded w-1/4 mb-4"></div>
-          <div className="h-96 bg-gray-200 rounded"></div>
+          <div className="h-4 bg-white/10 rounded w-1/4 mb-4"></div>
+          <div className="h-96 bg-white/10 rounded"></div>
         </div>
       </div>
     );
@@ -197,7 +197,7 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
 
   if (error || data.length === 0) {
     return (
-      <div className="border border-gray-900 rounded-lg p-4 bg-slate-900">
+      <div className="web3-card p-4">
         <p className="text-red-600">❌ {error || 'Không có dữ liệu'}</p>
       </div>
     );
@@ -215,7 +215,7 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
   const redCandles = candleData.length - greenCandles;
 
   return (
-    <div className="rounded-lg shadow p-6 bg-slate-900">
+    <div className="web3-card p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
@@ -233,7 +233,7 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
       </div>
 
       {/* Stats Bar */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 p-4 rounded-lg bg-gray-900 border border-gray-800">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 p-4 rounded-lg bg-white/[0.03] border border-white/[0.06]">
         <div className="text-center">
           <p className="text-xs text-white mb-1">{t('chart.open')}</p>
           <p className="font-semibold text-white text-sm">${firstPrice.toFixed(2)}</p>
@@ -259,7 +259,7 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
       {/* Candlestick Chart */}
       <ResponsiveContainer width="100%" height={500}>
         <ComposedChart data={candleData} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
           <XAxis 
             dataKey="date" 
             stroke="#FFFFFF"
@@ -303,11 +303,11 @@ export default function CandlestickChart({ symbol = 'BTC', days = 30 }: Candlest
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-green-500 rounded"></div>
-            <span className="text-gray-600">{t('chart.priceIncrease')} ({greenCandles} {t('chart.candles')})</span>
+            <span className="text-gray-400">{t('chart.priceIncrease')} ({greenCandles} {t('chart.candles')})</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-red-500 rounded"></div>
-            <span className="text-gray-600">{t('chart.priceDecrease')} ({redCandles} {t('chart.candles')})</span>
+            <span className="text-gray-400">{t('chart.priceDecrease')} ({redCandles} {t('chart.candles')})</span>
           </div>
         </div>
         <p className="text-xs text-gray-400">

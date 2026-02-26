@@ -8,8 +8,6 @@ import { apiClient } from '@/lib/apiClient';
 import { API_CONFIG, buildEndpoint } from '@/config/api';
 import { logger } from '@/utils/logger';
 
-
-// Interface cho dữ liệu coin từ CoinGecko
 interface CoinData {
   id: string;
   name: string;
@@ -29,20 +27,19 @@ export default function PopularCoins({ limit = 8 }: PopularCoinsProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch dữ liệu popular coins từ API route
   useEffect(() => {
     async function fetchPopularCoins() {
       try {
         const url = buildEndpoint(API_CONFIG.endpoints.coins.markets, { limit });
         const response = await apiClient.get<CoinData[]>(url);
-        
+
         if (response.success && response.data) {
           setCoins(response.data);
         } else {
-          setError(response.error || 'Không thể tải dữ liệu coin');
+          setError(response.error || 'Failed to load coins');
         }
       } catch (err) {
-        setError('Không thể kết nối đến server');
+        setError('Connection error');
         logger.error('Error fetching popular coins:', err);
       } finally {
         setLoading(false);
@@ -52,39 +49,21 @@ export default function PopularCoins({ limit = 8 }: PopularCoinsProps) {
     fetchPopularCoins();
   }, [limit]);
 
-  // Format giá
   const formatPrice = (price: number) => {
-    if (price < 0.01) {
-      return `$${price.toFixed(6)}`;
-    } else if (price < 1) {
-      return `$${price.toFixed(4)}`;
-    } else {
-      return `$${price.toFixed(2)}`;
-    }
-  };
-
-  // Format phần trăm thay đổi
-  const formatPercent = (percent: number) => {
-    const isPositive = percent >= 0;
-    return (
-      <span className={`text-xs font-medium ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
-        {isPositive ? '▲' : '▼'} {Math.abs(percent).toFixed(2)}%
-      </span>
-    );
+    if (price < 0.01) return `$${price.toFixed(6)}`;
+    if (price < 1) return `$${price.toFixed(4)}`;
+    return `$${price.toFixed(2)}`;
   };
 
   if (loading) {
     return (
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {Array.from({ length: limit }).map((_, index) => (
-          <div
-            key={index}
-            className="p-6 bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl animate-pulse"
-          >
+          <div key={index} className="web3-card p-6 animate-pulse">
             <div className="text-center">
-              <div className="w-12 h-12 bg-gray-600 rounded-full mx-auto mb-3"></div>
-              <div className="h-4 bg-gray-600 rounded mb-2"></div>
-              <div className="h-3 bg-gray-600 rounded w-2/3 mx-auto"></div>
+              <div className="w-12 h-12 bg-white/5 rounded-full mx-auto mb-3" />
+              <div className="h-4 bg-white/5 rounded mb-2" />
+              <div className="h-3 bg-white/5 rounded w-2/3 mx-auto" />
             </div>
           </div>
         ))}
@@ -94,52 +73,58 @@ export default function PopularCoins({ limit = 8 }: PopularCoinsProps) {
 
   if (error) {
     return (
-      <div className="text-center py-8">
-        <div className="text-red-600 mb-4">
-          <AlertCircle className="h-12 w-12 mx-auto mb-2" />
-          <p className="text-sm">{error}</p>
-        </div>
+      <div className="web3-card text-center p-8 border-red-500/20">
+        <AlertCircle className="h-10 w-10 mx-auto mb-3 text-red-400" />
+        <p className="text-red-400 text-sm">{error}</p>
       </div>
     );
   }
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-      {coins.map((coin) => (
-        <Link
-          key={coin.id}
-          href={`/coin/${coin.id}`}
-          className="group block p-6 bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl hover:from-gray-700/50 hover:to-gray-800/50 hover:border-gray-500 dark:hover:border-white transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
-        >
-          <div className="text-center">
-            <div className="relative mb-3">
-              <CoinImage 
-                src={coin.image} 
+      {coins.map((coin) => {
+        const isPositive = coin.price_change_percentage_24h >= 0;
+
+        return (
+          <Link
+            key={coin.id}
+            href={`/coin/${coin.id}`}
+            className="group metric-card p-5 text-center"
+          >
+            <div className="relative mb-3 inline-block">
+              <CoinImage
+                src={coin.image}
                 symbol={coin.symbol}
-                size={48}
-                className="rounded-full mx-auto transition-all duration-200"
+                size={44}
+                className="rounded-full transition-transform duration-200 group-hover:scale-110"
               />
               {coin.market_cap_rank <= 3 && (
-                <div className="absolute -top-1 -right-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-lg">
+                <div className="absolute -top-1 -right-1 bg-gradient-to-r from-amber-400 to-orange-500 text-white text-[10px] font-bold rounded-full h-4.5 w-4.5 flex items-center justify-center shadow-lg shadow-amber-500/30">
                   {coin.market_cap_rank}
                 </div>
               )}
             </div>
-            <h3 className="font-semibold text-white transition-colors text-sm mb-1">
+            <h3 className="font-semibold text-white text-sm mb-0.5 group-hover:text-indigo-300 transition-colors">
               {coin.name}
             </h3>
-            <p className="text-xs text-gray-400 uppercase font-medium mb-2">
+            <p className="text-[10px] text-gray-500 uppercase font-medium tracking-wider mb-2">
               {coin.symbol}
             </p>
             <div className="space-y-1">
-              <p className="text-xs font-medium text-gray-200">
+              <p className="text-sm font-medium text-gray-200">
                 {formatPrice(coin.current_price)}
               </p>
-              {formatPercent(coin.price_change_percentage_24h)}
+              <span className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full ${
+                isPositive
+                  ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                  : 'bg-red-500/10 text-red-400 border border-red-500/20'
+              }`}>
+                {isPositive ? '▲' : '▼'} {Math.abs(coin.price_change_percentage_24h).toFixed(2)}%
+              </span>
             </div>
-          </div>
-        </Link>
-      ))}
+          </Link>
+        );
+      })}
     </div>
   );
 }

@@ -29,7 +29,7 @@ export default function PortfolioPieChart({ assets }: PortfolioPieChartProps) {
     if (active && payload && payload.length) {
       const item = payload[0].payload;
       return (
-        <div className="bg-gray-800 border border-gray-700 p-2 rounded shadow-lg text-white">
+        <div className="chart-tooltip">
           <p className="font-bold">{item.name}</p>
           <p>${item.value.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
           <p className="text-sm text-gray-400">
@@ -44,7 +44,7 @@ export default function PortfolioPieChart({ assets }: PortfolioPieChartProps) {
   if (data.length === 0) return null;
 
   return (
-    <div className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 p-6 rounded-2xl mb-8">
+    <div className="web3-card p-6 mb-8">
       <h3 className="text-xl font-bold text-white mb-4">Asset Allocation</h3>
       <div className="h-[300px] w-full">
         <ResponsiveContainer width="100%" height="100%">

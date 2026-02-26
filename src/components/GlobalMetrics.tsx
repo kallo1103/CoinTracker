@@ -3,13 +3,12 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { API_CONFIG } from '@/config/api';
-import { DESIGN_TOKENS } from '@/config/design-tokens';
 import { formatCurrency, formatPercent } from '@/utils/formatters';
 import { getPriceChangeColor } from '@/utils/theme';
 import { apiClient } from '@/lib/apiClient';
 import { logger } from '@/utils/logger';
+import { TrendingUp, TrendingDown, Bitcoin, Layers, DollarSign, BarChart3 } from 'lucide-react';
 
-// Interface cho Global Metrics data
 interface GlobalMetricsData {
   btc_dominance: number;
   eth_dominance: number;
@@ -31,7 +30,7 @@ export default function GlobalMetrics() {
       const response = await apiClient.get<GlobalMetricsData>(
         API_CONFIG.endpoints.globalMetrics
       );
-      
+
       if (response.success && response.data) {
         setData(response.data);
         setError(null);
@@ -47,45 +46,35 @@ export default function GlobalMetrics() {
     }
   }, []);
 
-  // Fetch dữ liệu Global Metrics
   useEffect(() => {
     fetchData();
-    
-    // Refresh interval từ config
     const interval = setInterval(fetchData, API_CONFIG.polling.frequent);
     return () => clearInterval(interval);
   }, [fetchData]);
 
-  // Format phần trăm với màu
-  const renderPercentChange = (percent: number) => {
-    const { color, isPositive } = getPriceChangeColor(percent);
-    return (
-      <span style={{ color }}>
-        {isPositive ? '▲' : '▼'} {formatPercent(percent)}
-      </span>
-    );
-  };
-
   if (loading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="rounded-lg shadow p-6 animate-pulse border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-            <div className="h-4 bg-gray-700 rounded w-1/2 mb-4"></div>
-            <div className="h-8 bg-gray-700 rounded"></div>
-          </div>
-        ))}
+      <div className="space-y-6">
+        <div className="h-8 w-48 bg-white/5 rounded-lg animate-pulse" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="web3-card p-6 animate-pulse">
+              <div className="h-4 bg-white/5 rounded w-2/3 mb-4" />
+              <div className="h-8 bg-white/5 rounded w-1/2" />
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
 
   if (error || !data) {
     return (
-      <div className="border border-red-200 dark:border-red-800 rounded-lg p-4 bg-red-50 dark:bg-red-900/20">
-        <p className="text-red-600 dark:text-red-400">❌ {error || t('common.noData')}</p>
-        <button 
+      <div className="web3-card border-red-500/20 p-5">
+        <p className="text-red-400">❌ {error || t('common.noData')}</p>
+        <button
           onClick={fetchData}
-          className="mt-2 text-sm text-blue-500 hover:text-blue-600 underline"
+          className="mt-2 text-sm text-indigo-400 hover:text-indigo-300 underline underline-offset-4 transition-colors"
         >
           {t('common.tryAgain')}
         </button>
@@ -93,159 +82,79 @@ export default function GlobalMetrics() {
     );
   }
 
-  return (
-    <div style={{ marginBottom: `${DESIGN_TOKENS.spacing.scale[6]}px` }}>
-      {/* Tiêu đề */}
-      <h3 
-        className="text-2xl font-semibold text-white mb-6"
-        style={{ 
-          fontSize: DESIGN_TOKENS.typography.fontSize['2xl'],
-          marginBottom: `${DESIGN_TOKENS.spacing.scale[6]}px`
-        }}
-      >
-         {t('metrics.title')}
-      </h3>
+  const { isPositive } = getPriceChangeColor(data.total_market_cap_yesterday_percentage_change);
 
-      {/* Grid metrics */}
-      <div 
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
-        style={{ gap: `${DESIGN_TOKENS.spacing.scale[4]}px` }}
-      >
+  return (
+    <div className="space-y-6">
+      <h3 className="section-title">{t('metrics.title')}</h3>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Bitcoin Dominance */}
-        <div 
-          className="rounded-lg bg-slate-900 text-white"
-          style={{ 
-            borderRadius: DESIGN_TOKENS.borderRadius.lg,
-            padding: `${DESIGN_TOKENS.spacing.scale[6]}px`
-          }}
-        >
-          <div 
-            style={{ marginBottom: `${DESIGN_TOKENS.spacing.scale[2]}px` }}
-          >
-            <h4 
-              className="font-medium opacity-90 text-white"
-              style={{ fontSize: DESIGN_TOKENS.typography.fontSize.sm }}
-            >
-               {t('metrics.btcDominance')}
-            </h4>
-          </div>
-          <div 
-            className="font-bold text-white relative"
-            style={{ fontSize: DESIGN_TOKENS.typography.fontSize['3xl'] }}
-          >
-            {data.btc_dominance.toFixed(2)}%
-            <div className="w-full bg-gray-800 h-1.5 mt-3 rounded-full overflow-hidden">
-              <div 
-                className="bg-orange-500 h-full rounded-full transition-all duration-1000" 
-                style={{ width: `${Math.min(data.btc_dominance, 100)}%` }}
-              ></div>
+        <div className="metric-card group">
+          <div className="flex items-center justify-between mb-4">
+            <span className="text-sm font-medium text-gray-400">{t('metrics.btcDominance')}</span>
+            <div className="p-2 rounded-xl bg-orange-500/10 text-orange-400 group-hover:bg-orange-500/20 transition-colors">
+              <Bitcoin className="w-4 h-4" />
             </div>
+          </div>
+          <p className="text-3xl font-bold text-white mb-3">{data.btc_dominance.toFixed(2)}%</p>
+          <div className="w-full bg-white/[0.06] h-1.5 rounded-full overflow-hidden">
+            <div
+              className="bg-gradient-to-r from-orange-500 to-amber-400 h-full rounded-full transition-all duration-1000"
+              style={{ width: `${Math.min(data.btc_dominance, 100)}%` }}
+            />
           </div>
         </div>
 
         {/* Ethereum Dominance */}
-        <div 
-          className="rounded-lg bg-slate-900 text-white"
-          style={{ 
-            borderRadius: DESIGN_TOKENS.borderRadius.lg,
-            padding: `${DESIGN_TOKENS.spacing.scale[6]}px`
-          }}
-        >
-          <div 
-            style={{ marginBottom: `${DESIGN_TOKENS.spacing.scale[2]}px` }}
-          >
-            <h4 
-              className="font-medium opacity-90 text-white"
-              style={{ fontSize: DESIGN_TOKENS.typography.fontSize.sm }}
-            >
-              {t('metrics.ethDominance')}
-            </h4>
-          </div>
-          <div 
-            className="font-bold text-white relative"
-            style={{ fontSize: DESIGN_TOKENS.typography.fontSize['3xl'] }}
-          >
-            {data.eth_dominance.toFixed(2)}%
-            <div className="w-full bg-gray-800 h-1.5 mt-3 rounded-full overflow-hidden">
-              <div 
-                className="bg-blue-500 h-full rounded-full transition-all duration-1000" 
-                style={{ width: `${Math.min(data.eth_dominance, 100)}%` }}
-              ></div>
+        <div className="metric-card group">
+          <div className="flex items-center justify-between mb-4">
+            <span className="text-sm font-medium text-gray-400">{t('metrics.ethDominance')}</span>
+            <div className="p-2 rounded-xl bg-indigo-500/10 text-indigo-400 group-hover:bg-indigo-500/20 transition-colors">
+              <Layers className="w-4 h-4" />
             </div>
+          </div>
+          <p className="text-3xl font-bold text-white mb-3">{data.eth_dominance.toFixed(2)}%</p>
+          <div className="w-full bg-white/[0.06] h-1.5 rounded-full overflow-hidden">
+            <div
+              className="bg-gradient-to-r from-indigo-500 to-blue-400 h-full rounded-full transition-all duration-1000"
+              style={{ width: `${Math.min(data.eth_dominance, 100)}%` }}
+            />
           </div>
         </div>
 
         {/* Total Market Cap */}
-        <div 
-          className="rounded-lg bg-slate-900 text-white"
-          style={{ 
-            borderRadius: DESIGN_TOKENS.borderRadius.lg,
-            padding: `${DESIGN_TOKENS.spacing.scale[6]}px`
-          }}
-        >
-          <div 
-            style={{ marginBottom: `${DESIGN_TOKENS.spacing.scale[2]}px` }}
-          >
-            <h4 
-              className="font-medium opacity-90 text-white"
-              style={{ fontSize: DESIGN_TOKENS.typography.fontSize.sm }}
-            >
-              {t('metrics.totalMarketCap')}
-            </h4>
+        <div className="metric-card group">
+          <div className="flex items-center justify-between mb-4">
+            <span className="text-sm font-medium text-gray-400">{t('metrics.totalMarketCap')}</span>
+            <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-400 group-hover:bg-emerald-500/20 transition-colors">
+              <DollarSign className="w-4 h-4" />
+            </div>
           </div>
-          <div 
-            className="font-bold text-white"
-            style={{ fontSize: DESIGN_TOKENS.typography.fontSize['3xl'] }}
-          >
-            {formatCurrency(data.total_market_cap)}
-          </div>
-          <div 
-            className="opacity-75 text-white"
-            style={{ 
-              marginTop: `${DESIGN_TOKENS.spacing.scale[2]}px`,
-              fontSize: DESIGN_TOKENS.typography.fontSize.xs
-            }}
-          >
-            {t('common.change24h')}: {renderPercentChange(data.total_market_cap_yesterday_percentage_change)}
+          <p className="text-3xl font-bold text-white mb-2">{formatCurrency(data.total_market_cap)}</p>
+          <div className="flex items-center gap-1.5 text-xs">
+            <span className="text-gray-500">{t('common.change24h')}:</span>
+            <span className={`flex items-center gap-1 font-medium ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
+              {isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+              {formatPercent(data.total_market_cap_yesterday_percentage_change)}
+            </span>
           </div>
         </div>
 
         {/* Total Volume 24h */}
-        <div 
-          className="rounded-lg bg-slate-900 text-white"
-          style={{ 
-            borderRadius: DESIGN_TOKENS.borderRadius.lg,
-            padding: `${DESIGN_TOKENS.spacing.scale[6]}px`
-          }}
-        >
-          <div 
-            style={{ marginBottom: `${DESIGN_TOKENS.spacing.scale[2]}px` }}
-          >
-            <h4 
-              className="font-medium opacity-90 text-white"
-              style={{ fontSize: DESIGN_TOKENS.typography.fontSize.sm }}
-            >
-              {t('metrics.totalVolume24h')}
-            </h4>
+        <div className="metric-card group">
+          <div className="flex items-center justify-between mb-4">
+            <span className="text-sm font-medium text-gray-400">{t('metrics.totalVolume24h')}</span>
+            <div className="p-2 rounded-xl bg-purple-500/10 text-purple-400 group-hover:bg-purple-500/20 transition-colors">
+              <BarChart3 className="w-4 h-4" />
+            </div>
           </div>
-          <div 
-            className="font-bold text-white relative"
-            style={{ fontSize: DESIGN_TOKENS.typography.fontSize['3xl'] }}
-          >
-            {formatCurrency(data.total_volume_24h)}
-          </div>
-          <div 
-            className="opacity-75 text-white"
-            style={{ 
-              marginTop: `${DESIGN_TOKENS.spacing.scale[2]}px`,
-              fontSize: DESIGN_TOKENS.typography.fontSize.xs
-            }}
-          >
+          <p className="text-3xl font-bold text-white mb-2">{formatCurrency(data.total_volume_24h)}</p>
+          <p className="text-xs text-gray-500">
             {data.active_cryptocurrencies.toLocaleString()} {t('common.cryptocurrencies')}
-          </div>
+          </p>
         </div>
       </div>
     </div>
   );
 }
-

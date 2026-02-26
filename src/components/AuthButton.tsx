@@ -200,7 +200,7 @@ export default function AuthButton({ large, className = '' }: { large?: boolean;
         className={`
           flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-500/30 
           rounded-xl transition-all duration-300 group
-          ${isCollapsed ? 'p-2 justify-center' : 'w-full px-4 py-3'}
+          ${isCollapsed ? 'p-2 justify-center' : 'px-4 py-3'}
         `}
         title={isCollapsed ? `Profile - ${session.user?.name}` : ''}
       >
@@ -230,10 +230,10 @@ export default function AuthButton({ large, className = '' }: { large?: boolean;
         className={`
           flex items-center justify-center transition-all duration-300
           ${isCollapsed 
-            ? 'w-12 h-12 p-0 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white shadow-lg shadow-blue-900/20 hover:shadow-blue-500/30' 
+            ? 'w-10 h-10 p-0 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white shadow-lg shadow-blue-900/20 hover:shadow-blue-500/30' 
             : large
-              ? 'group relative px-8 py-4 bg-primary text-primary-foreground rounded-xl font-bold text-lg hover:shadow-[0_0_40px_-10px_var(--primary)] overflow-hidden'
-              : 'w-full px-6 py-3 gap-2 font-medium rounded-xl hover:-translate-y-0.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white shadow-lg shadow-blue-900/20 hover:shadow-blue-500/30'
+              ? 'group relative px-6 py-3 border border-indigo-500/40 bg-white/[0.04] text-white rounded-2xl font-bold text-base hover:bg-indigo-500/10 hover:border-indigo-400/60 hover:shadow-[0_0_40px_-10px_rgba(99,102,241,0.35)] overflow-hidden backdrop-blur-sm transition-all duration-300'
+              : 'px-4 py-2 gap-2 text-sm font-medium rounded-xl hover:-translate-y-0.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white shadow-md shadow-blue-900/20 hover:shadow-blue-500/30'
           } ${className}
         `}
         title={isCollapsed ? "Sign in" : ''}
@@ -241,14 +241,14 @@ export default function AuthButton({ large, className = '' }: { large?: boolean;
         {large ? (
           <>
             <span className="relative z-10 flex items-center justify-center gap-2">
-              <LogIn size={20} />
+              <LogIn size={18} />
               Sign In
             </span>
-            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+            <div className="absolute inset-0 bg-indigo-500/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
           </>
         ) : (
           <>
-            <LogIn size={20} />
+            <LogIn size={16} />
             {!isCollapsed && "Sign In"}
           </>
         )}

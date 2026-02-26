@@ -62,7 +62,7 @@ export class ErrorBoundary extends Component<Props, State> {
       // Default fallback UI
       return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 to-black p-4">
-          <div className="max-w-md w-full bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-red-500/20">
+          <div className="max-w-md w-full web3-card p-8 border-red-500/20">
             <div className="text-center">
               {/* Error Icon */}
               <div className="mb-6">

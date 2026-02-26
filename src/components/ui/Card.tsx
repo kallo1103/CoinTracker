@@ -11,13 +11,12 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       <div
         ref={ref}
         className={`
-          glass-card
-          p-6
-          transition-all duration-300 ease-out
-          ${hoverEffect ? 'hover:translate-y-[-4px] hover:bg-white/10 dark:hover:bg-white/5 hover:border-white/20' : ''}
-          ${glowing ? 'border-blue-500/30 shadow-[0_0_30px_-10px_rgba(59,130,246,0.3)]' : ''}
+          web3-card p-6
+          ${hoverEffect ? 'hover:translate-y-[-4px] hover:border-white/[0.12]' : ''}
+          ${glowing ? 'border-indigo-500/20 shadow-[0_0_30px_-10px_rgba(99,102,241,0.3)]' : ''}
           ${className}
         `}
+        style={{ transition: 'all 0.3s ease' }}
         {...props}
       >
         {children}
@@ -28,4 +27,3 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
 Card.displayName = "Card"
 
 export { Card }
-

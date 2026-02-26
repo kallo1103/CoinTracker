@@ -39,10 +39,10 @@ export default function DominancePieChart() {
 
   if (loading) {
     return (
-      <div className="rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+      <div className="web3-card p-6">
         <div className="animate-pulse">
-          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2 mb-4"></div>
-          <div className="h-64 bg-gray-200 dark:bg-gray-700 rounded"></div>
+          <div className="h-4 bg-white/10 rounded w-1/2 mb-4"></div>
+          <div className="h-64 bg-white/10 rounded"></div>
         </div>
       </div>
     );
@@ -68,7 +68,7 @@ export default function DominancePieChart() {
     if (active && payload && payload.length) {
       const data = payload[0];
       return (
-        <div className="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
+        <div className="chart-tooltip">
           <p className="font-medium text-white">{data.name}</p>
           <p className="text-lg font-bold" style={{ color: data.payload.color }}>
             {data.value.toFixed(2)}%
@@ -80,7 +80,7 @@ export default function DominancePieChart() {
   };
 
   return (
-    <div className="rounded-lg shadow p-6 bg-slate-900">
+    <div className="web3-card p-6">
       {/* Header */}
       <h3 className="text-xl font-bold text-white mb-6"> Market Dominance</h3>
 
@@ -108,15 +108,15 @@ export default function DominancePieChart() {
       {/* Stats */}
       <div className="mt-6 grid grid-cols-3 gap-4">
         <div className="text-center">
-          <div className="text-sm text-gray-600 dark:text-gray-400">Bitcoin</div>
+          <div className="text-sm text-gray-400">Bitcoin</div>
           <div className="text-xl font-bold text-orange-600 dark:text-orange-400">{data.btc_dominance.toFixed(2)}%</div>
         </div>
         <div className="text-center">
-          <div className="text-sm text-gray-600 dark:text-gray-400">Ethereum</div>
+          <div className="text-sm text-gray-400">Ethereum</div>
           <div className="text-xl font-bold text-purple-600 dark:text-purple-400">{data.eth_dominance.toFixed(2)}%</div>
         </div>
         <div className="text-center">
-          <div className="text-sm text-gray-600 dark:text-gray-400">Others</div>
+          <div className="text-sm text-gray-400">Others</div>
           <div className="text-xl font-bold text-white">
             {(100 - data.btc_dominance - data.eth_dominance).toFixed(2)}%
           </div>

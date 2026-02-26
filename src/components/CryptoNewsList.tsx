@@ -39,7 +39,7 @@ export default function CryptoNewsList({ items }: { items: NewsItem[] }) {
         return (
           <li 
             key={item.id} 
-            className="bg-gray-800 p-4 rounded-lg hover:bg-gray-750 transition-colors duration-200"
+            className="bg-white/[0.03] border border-white/[0.06] p-4 rounded-xl hover:bg-white/[0.06] hover:border-white/[0.1] transition-all duration-300"
           >
             {/* Tiêu đề tin tức */}
             {hasValidUrl ? (

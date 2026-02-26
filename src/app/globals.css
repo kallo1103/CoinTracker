@@ -3,60 +3,35 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* CSS Variables for Web3 Theme */
+/* =========================================
+   Web3 Dark Theme — OKLCH Color System
+   ========================================= */
 :root {
-  /*
-     OKLCH Color Palette - Web3 Dark Theme
-     Deep Blues, Neon Purples, Electric Cyans
-  */
-
-  /* Backgrounds */
   --background: oklch(1 0 0);
-  /* Light fallback */
   --foreground: oklch(0.13 0.02 260);
-  /* Deep Navy Text */
-
   --card: oklch(0.98 0 0);
   --card-foreground: oklch(0.13 0.02 260);
-
   --popover: oklch(0.98 0 0);
   --popover-foreground: oklch(0.13 0.02 260);
-
-  /* Primary: Electric Blue */
   --primary: oklch(0.55 0.22 260);
   --primary-foreground: oklch(0.99 0 0);
-
-  /* Secondary: Neon Purple */
   --secondary: oklch(0.60 0.20 290);
   --secondary-foreground: oklch(0.99 0 0);
-
-  /* Muted / Neutral */
   --muted: oklch(0.95 0.01 240);
   --muted-foreground: oklch(0.45 0.05 240);
-
-  /* Accent: Cyan/Teal */
   --accent: oklch(0.70 0.15 200);
   --accent-foreground: oklch(0.15 0.05 260);
-
-  /* Destructive */
   --destructive: oklch(0.6 0.18 25);
   --destructive-foreground: oklch(0.98 0 0);
-
-  /* Borders & Inputs */
   --border: oklch(0.90 0.02 240);
   --input: oklch(0.90 0.02 240);
   --ring: oklch(0.55 0.22 260);
-
-  /* Radius */
   --radius: 0.75rem;
-
-  /* Charts - kept generally similar but adjusted for vibrancy */
   --chart-1: oklch(0.60 0.20 260);
   --chart-2: oklch(0.65 0.18 290);
   --chart-3: oklch(0.70 0.15 200);
   --chart-4: oklch(0.75 0.18 150);
   --chart-5: oklch(0.80 0.15 80);
-
   --sidebar: oklch(0.98 0 0);
   --sidebar-foreground: oklch(0.13 0.02 260);
   --sidebar-primary: oklch(0.55 0.22 260);
@@ -67,48 +42,31 @@
   --sidebar-ring: oklch(0.55 0.22 260);
 }
 
-/* Dark Theme (Default/Preferred) */
 .dark {
-  /* Deep Space / Midnight Backgrounds */
   --background: oklch(0.12 0.04 265);
-  /* Dark Blue/Black */
   --foreground: oklch(0.98 0 0);
-
   --card: oklch(0.16 0.04 265);
-  /* Slightly lighter card */
   --card-foreground: oklch(0.98 0 0);
-
   --popover: oklch(0.16 0.04 265);
   --popover-foreground: oklch(0.98 0 0);
-
-  /* Primary: Bright Electric Blue */
   --primary: oklch(0.65 0.22 255);
   --primary-foreground: oklch(0.10 0.05 260);
-
-  /* Secondary: Vivid Neon Purple */
   --secondary: oklch(0.70 0.18 300);
   --secondary-foreground: oklch(0.10 0.05 260);
-
-  /* Accent: Cyan */
   --accent: oklch(0.75 0.15 190);
   --accent-foreground: oklch(0.10 0.05 260);
-
   --muted: oklch(0.20 0.04 265);
   --muted-foreground: oklch(0.70 0.05 260);
-
   --destructive: oklch(0.55 0.20 25);
   --destructive-foreground: oklch(0.98 0 0);
-
   --border: oklch(0.25 0.04 265);
   --input: oklch(0.25 0.04 265);
   --ring: oklch(0.55 0.22 255);
-
   --chart-1: oklch(0.65 0.22 255);
   --chart-2: oklch(0.70 0.18 300);
   --chart-3: oklch(0.75 0.15 190);
   --chart-4: oklch(0.60 0.20 150);
   --chart-5: oklch(0.65 0.18 40);
-
   --sidebar: oklch(0.14 0.04 265);
   --sidebar-foreground: oklch(0.98 0 0);
   --sidebar-primary: oklch(0.65 0.22 255);
@@ -119,7 +77,9 @@
   --sidebar-ring: oklch(0.55 0.22 255);
 }
 
-/* Animations */
+/* =========================================
+   Keyframe Animations
+   ========================================= */
 @keyframes float {
   0% {
     transform: translateY(0px);
@@ -134,28 +94,77 @@
   }
 }
 
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
 @keyframes pulse-glow {
 
   0%,
   100% {
     opacity: 1;
-    box-shadow: 0 0 15px hsl(var(--primary) / 0.5);
+    box-shadow: 0 0 20px oklch(0.65 0.22 255 / 0.4);
   }
 
   50% {
     opacity: 0.7;
-    box-shadow: 0 0 5px hsl(var(--primary) / 0.2);
+    box-shadow: 0 0 5px oklch(0.65 0.22 255 / 0.15);
   }
 }
 
-.animate-pulse-glow {
-  animation: pulse-glow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
 }
 
+@keyframes grain {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  10% {
+    transform: translate(-5%, -10%);
+  }
+
+  20% {
+    transform: translate(-15%, 5%);
+  }
+
+  30% {
+    transform: translate(7%, -25%);
+  }
+
+  40% {
+    transform: translate(-5%, 25%);
+  }
+
+  50% {
+    transform: translate(-15%, 10%);
+  }
+
+  60% {
+    transform: translate(15%, 0%);
+  }
+
+  70% {
+    transform: translate(0%, 15%);
+  }
+
+  80% {
+    transform: translate(3%, 35%);
+  }
+
+  90% {
+    transform: translate(-10%, 10%);
+  }
+}
+
+/* =========================================
+   Theme Mapping
+   ========================================= */
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -195,6 +204,9 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* =========================================
+   Base Layer
+   ========================================= */
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -205,21 +217,152 @@
   }
 }
 
-@layer components {
+/* =========================================
+   Simple Tailwind Utilities
+   ========================================= */
 
-  /* Glassmorphism Card */
-  .glass-card {
-    @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl shadow-lg;
-  }
+@utility neon-line {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.5), rgba(168, 85, 247, 0.5), transparent);
+}
 
-  .dark .glass-card {
-    @apply bg-black/40 backdrop-blur-xl border border-white/10;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.36);
-  }
+@utility text-glow {
+  text-shadow: 0 0 20px currentColor, 0 0 40px currentColor;
+}
 
-  /* Neon Text Utility */
-  .text-glow {
-    text-shadow: 0 0 10px currentColor;
-    /* uses the text color for the glow */
-  }
+@utility text-glow-sm {
+  text-shadow: 0 0 10px currentColor;
+}
+
+@utility section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.025em;
+}
+
+/* =========================================
+   Compound Component Classes
+   (Plain CSS so they work with className)
+   ========================================= */
+
+/* --- Glassmorphism Card --- */
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  box-shadow:
+    0 8px 32px 0 rgba(0, 0, 0, 0.37),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+}
+
+/* --- Web3 Card --- */
+.web3-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 8px 40px -12px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.04);
+}
+
+/* --- Chart Tooltip --- */
+.chart-tooltip {
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  padding: 0.75rem 1rem;
+  color: white;
+}
+
+/* --- Metric Card (extends web3-card) --- */
+.metric-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 8px 40px -12px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.04);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.metric-card:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 12px 48px -12px rgba(0, 0, 0, 0.6),
+    0 0 24px -8px rgba(99, 102, 241, 0.15),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+}
+
+/* --- Gradient Border --- */
+.gradient-border {
+  position: relative;
+  border-radius: 1rem;
+  background: linear-gradient(var(--background), var(--background)) padding-box,
+    linear-gradient(135deg, #6366f1, #a855f7, #06b6d4, #6366f1) border-box;
+  border: 1px solid transparent;
+}
+
+/* --- Animation Helpers --- */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+/* --- Film Grain Overlay --- */
+.grain-overlay::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.012;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  animation: grain 8s steps(10) infinite;
+}
+
+/* --- Custom Scrollbar --- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.15);
 }

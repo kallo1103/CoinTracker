@@ -1,4 +1,3 @@
-// Trang chủ - Home Page
 'use client';
 
 import CryptoList from '@/components/CryptoList';
@@ -12,51 +11,45 @@ import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function AppPage() {
   const { t } = useLanguage();
-  
+
   return (
-    <div className="container bg-black mx-auto px-4 py-12 min-h-screen">
-      {/* <h1 className="text-4xl font-bold mb-8 text-white">{t('home.title')}</h1> */}
-      
-      {/* Global Metrics - Bitcoin Dominance, Market Cap, etc */}
-      <div className="mb-12">
+    <div className="container mx-auto px-4 py-10 min-h-screen">
+      {/* Global Metrics */}
+      <section className="mb-12">
         <GlobalMetrics />
-      </div>
+      </section>
+
+      {/* Separator */}
+      <div className="neon-line opacity-30 mb-12" />
 
       {/* Candlestick Charts */}
-      <div className="grid grid-cols-1 gap-6 mb-12">
-        {/* Bitcoin Candlestick Chart */}
+      <section className="mb-12">
         <CandlestickChart symbol="BTC" days={30} />
-      </div>
+      </section>
 
       {/* Area Charts Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
-        {/* Bitcoin Price Chart */}
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
         <PriceChart symbol="BTC" days={30} type="area" />
-        
-        {/* Ethereum Price Chart */}
         <PriceChart symbol="ETH" days={30} type="area" />
-      </div>
+      </section>
 
-      {/* Fear & Greed Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
-        {/* Fear & Greed Current */}
+      {/* Fear & Greed + Dominance */}
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
         <FearGreedIndex />
-        
-        {/* Dominance Pie Chart */}
         <DominancePieChart />
-      </div>
+      </section>
 
-      {/* Fear & Greed History Chart */}
-      <div className="mb-12">
+      {/* Fear & Greed History */}
+      <section className="mb-12">
         <FearGreedChart />
-      </div>
+      </section>
 
-      {/* Top Cryptocurrencies List */}
-      <div className="mb-12">
-        <h2 className="text-2xl font-semibold mb-4  text-white">{t('home.topCryptos')}</h2>
+      {/* Top Cryptocurrencies */}
+      <section className="mb-12">
+        <div className="neon-line opacity-30 mb-8" />
+        <h2 className="section-title mb-6">{t('home.topCryptos')}</h2>
         <CryptoList limit={10} />
-      </div>
+      </section>
     </div>
   );
 }
-
