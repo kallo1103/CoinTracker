@@ -238,7 +238,6 @@ export default function LandingPage() {
               className="absolute inset-0"
               style={{ background: 'radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.12) 0%, transparent 70%)' }}
             />
-            <div className="absolute inset-0 web3-card backdrop-blur-3xl -z-10" />
 
             <div className="relative z-10">
               <h2 className="text-4xl sm:text-5xl font-black mb-8 text-white text-glow-sm">
